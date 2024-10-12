@@ -78,6 +78,16 @@ class Agreement extends Contract {
     }
   }
 
+  async UpdatePrescription(ctx, prescriptionData) {
+    try {
+      let updatedprescription = JSON.parse(prescriptionData);
+      await ctx.stub.putState(updatedprescription.id, prescriptionData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
   async getAssetById(ctx, id) {
     try {
       const assetJSON = await ctx.stub.getState(id);
