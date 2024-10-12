@@ -18,12 +18,15 @@ const createPrescription = catchAsync(async (req, res) => {
 });
 
 const updatePrescription = catchAsync(async (req, res) => {
+
+  const { id } = req.params;
   let { user } = req.loggerInfo;
+  // let fileMetadata = req.body.fileMetadata;
   let prescriptionData = req.body;
   if (user.department !== 'patient') {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update this prescription');
   }
-  const result = await prescriptionService.updatePrescription(prescriptionData, user);
+  const result = await prescriptionService.updatePrescription(id, prescriptionData, user);
   res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Prescription updated successfully', result));
 });
 
@@ -48,6 +51,19 @@ const createPersonalInfo = catchAsync(async (req, res) => {
     .send(getSuccessResponse(httpStatus.CREATED, 'Personal Info form submitted successfully', result));
 });
 
+
+const updatePersonalInfo = catchAsync(async (req, res) => {
+
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  let personalInfoData = req.body;
+  if (user.department !== 'patient') {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update personal info');
+  }
+  const result = await prescriptionService.updatePersonalInfo(personalInfoData,id,user);
+  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Personal Info updated successfully', result));
+});
+
 // const createDiagnosis = catchAsync(async (req, res) => {
 //   let { user } = req.loggerInfo;
 //   let diagnosisData = req.body;
@@ -63,9 +79,9 @@ const createDiagnosis = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let diagnosisData = req.body;
   let prescriptionId = req.params.id;
-  if (user.department !== 'doctor') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit diagnosis form');
-  }
+  // if (user.department !== 'doctor') {
+  //   throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit diagnosis form');
+  // }
   const result = await prescriptionService.createDiagnosis(diagnosisData, prescriptionId, user);
   res
     .status(httpStatus.CREATED)
@@ -287,6 +303,7 @@ module.exports = {
   createPrescription,
   updatePrescription,
   createPersonalInfo,
+  updatePersonalInfo,
   createDiagnosis,
   createMedication,
   createMedCount,

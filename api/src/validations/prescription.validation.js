@@ -9,7 +9,7 @@ const createPrescription = Joi.object().keys({
 });
 
 const updatePrescription = Joi.object().keys({
-  id: Joi.string().required(),
+  // id: Joi.string().required(),
   firstParty: Joi.string().required(),
   secondParty: Joi.string().required(),
   comment: Joi.string().required(),
@@ -23,6 +23,13 @@ const createPersonalInfo = {
     address: Joi.string().required(),
     phone: Joi.string().required(),
   }),
+};
+
+const updatePersonalInfo = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+
 };
 
 const createDiagnosis = {
@@ -84,6 +91,7 @@ const getPrescriptionMedCounts = {
 module.exports = {
   createPrescription,
   createPersonalInfo,
+  updatePersonalInfo,
   createDiagnosis,
   createMedication,
   createMedCount,

@@ -87,6 +87,27 @@ class Agreement extends Contract {
       throw new Error(error.stack);
     }
   }
+  async UpdatePersonalInfo(ctx, personalInfoData) {
+    try {
+      let updatedPersonalInfo = JSON.parse(personalInfoData);
+      await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+
+
+
+  async DeletePrescription(ctx, prescriptionId) {
+    try {
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
 
   async getAssetById(ctx, id) {
     try {

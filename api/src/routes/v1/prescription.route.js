@@ -12,7 +12,7 @@ const router = express.Router();
 router
   .route('/:id')
   .get(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.getPrescriptionById)
-  .put(auth, validate(prescriptionValidation.updatePrescription), prescriptionController.updatePrescription);
+  .put(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.updatePrescription);
 
 router
   .route('/')
@@ -20,6 +20,9 @@ router
   .get(auth, prescriptionController.getPrescriptions);
 
 router.route('/documents/:id').get(auth, validate(prescriptionValidation.getSignedURL), prescriptionController.getSignedURL);
+
+
+
 
 // Personal info routes
 router
@@ -31,11 +34,21 @@ router
     prescriptionController.getPersonalInfosByPrescriptionId
   );
 
+router
+  .route('/personalinfos/:id')
+  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updatePersonalInfo);
+
+
+
+
 // Diagnosis routes
 router
   .route('/diagnosis/:id')
   .post(auth, validate(prescriptionValidation.createDiagnosis), prescriptionController.createDiagnosis)
   .get(auth, validate(prescriptionValidation.getPrescriptionDiagnoses), prescriptionController.getDiagnosesByPrescriptionId);
+
+
+
 
 // Medication routes
 router
@@ -46,6 +59,7 @@ router
     validate(prescriptionValidation.getPrescriptionMedications),
     prescriptionController.getMedicationsByPrescriptionId
   );
+
 
 // Medcount routes
 router

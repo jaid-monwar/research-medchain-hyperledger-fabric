@@ -70,7 +70,7 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
  * @param {Object} user
  * @returns {Promise<Object>}
  */
-const updatePrescription = async (prescriptionData, user) => {
+const updatePrescription = async (prescriptionId, prescriptionData, user) => {
   let gateway;
   let client;
   try {
@@ -79,7 +79,7 @@ const updatePrescription = async (prescriptionData, user) => {
     prescriptionData = {
       fcn: 'UpdatePrescription',
       data: {
-        id: prescriptionData.id,
+        id:   prescriptionId,
         owner: prescriptionData.owner,
         orgId: parseInt(user.orgId),
         department: prescriptionData.department,
@@ -197,6 +197,64 @@ const createPersonalInfo = async (personalinfoData, prescriptionId, user) => {
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
+        name: personalinfoData.name,
+        age: personalinfoData.age,
+        gender: personalinfoData.gender,
+        address: personalinfoData.address,
+        phone: personalinfoData.phone,
+        docType: BLOCKCHAIN_DOC_TYPE.PERSONALINFO,
+        createBy: user.email,
+        updatedBy: user.email,
+        createAt: dateTime,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(personalinfoData.fcn, JSON.stringify(personalinfoData.data));
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.PERSONALINFO) {
+    //   prescription.status = PRESCRIPTION_STATUS.DIAGNOSIS;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+const updatePersonalInfo = async (personalinfoData, personalInfoId, user) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    personalinfoData = {
+      fcn: 'UpdatePersonalInfo',
+      data: {
+        id: personalInfoId,
         name: personalinfoData.name,
         age: personalinfoData.age,
         gender: personalinfoData.gender,
@@ -785,6 +843,7 @@ module.exports = {
   updatePrescription,
   queryPrescriptions,
   createPersonalInfo,
+  updatePersonalInfo,
   createDiagnosis,
   createMedication,
   createMedCount,
