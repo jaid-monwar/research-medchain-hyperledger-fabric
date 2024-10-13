@@ -144,16 +144,6 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
   }
 };
 
-
-
-
-
-
-
-
-
-
-
 /**
  * Create a user
  * @param {Object} userBody
@@ -399,7 +389,7 @@ const deletePersonalInfo = async (personalInfoId, user) => {
     );
     let result = await contract.submitTransaction(
       personalinfoData.fcn,
-      JSON.stringify(personalinfoData.data)
+      personalinfoData.data
     );
 
     result = { txid: utf8Decoder.decode(result) };
@@ -415,10 +405,7 @@ const deletePersonalInfo = async (personalInfoId, user) => {
       client.close();
     }
   }
-}
-
-
-
+};
 
 /**
  * Create a user
@@ -582,7 +569,7 @@ const deleteDiagnosis = async (diagnosisId, user) => {
     );
     let result = await contract.submitTransaction(
       diagnosisData.fcn,
-      JSON.stringify(diagnosisData.data)
+      diagnosisData.data
     );
 
     result = { txid: utf8Decoder.decode(result) };
@@ -598,10 +585,7 @@ const deleteDiagnosis = async (diagnosisId, user) => {
       client.close();
     }
   }
-}
-
-
-
+};
 
 /**
  * Create a user
@@ -775,7 +759,7 @@ const deleteMedication = async (medicationId, user) => {
     );
     let result = await contract.submitTransaction(
       medicationData.fcn,
-      JSON.stringify(medicationData.data)
+      medicationData.data
     );
 
     result = { txid: utf8Decoder.decode(result) };
@@ -791,10 +775,7 @@ const deleteMedication = async (medicationId, user) => {
       client.close();
     }
   }
-}
-
-
-
+};
 
 /**
  * Create a user
@@ -957,7 +938,7 @@ const deleteMedCount = async (medcountId, user) => {
     );
     let result = await contract.submitTransaction(
       medcountData.fcn,
-      JSON.stringify(medcountData.data)
+      medcountData.data
     );
 
     result = { txid: utf8Decoder.decode(result) };
@@ -973,11 +954,7 @@ const deleteMedCount = async (medcountId, user) => {
       client.close();
     }
   }
-}
-
-
-
-
+};
 
 /**
  * Query for users
@@ -1408,7 +1385,6 @@ module.exports = {
   deleteDiagnosis,
   deleteMedication,
   deleteMedCount,
-
 
   queryPrescriptionById,
   querySubAssetById,
