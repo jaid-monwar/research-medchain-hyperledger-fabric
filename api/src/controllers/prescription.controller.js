@@ -137,6 +137,27 @@ const updatePersonalInfo = catchAsync(async (req, res) => {
     );
 });
 
+const deletePersonalInfo = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to delete personal info"
+    );
+  }
+  const result = await prescriptionService.deletePersonalInfo(id, user);
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Personal Info deleted successfully",
+        result
+      )
+    );
+});
+
 // const createDiagnosis = catchAsync(async (req, res) => {
 //   let { user } = req.loggerInfo;
 //   let diagnosisData = req.body;
@@ -200,6 +221,24 @@ const updateDiagnosis = catchAsync(async (req, res) => {
       )
     );
 });
+const deleteDiagnosis = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  if (user.department !== "doctor") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to delete diagnosis"
+    );
+  }
+  const result = await prescriptionService.deleteDiagnosis(id, user);
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Diagnosis deleted successfully", result)
+    );
+});
+
+
 
 const createMedication = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -257,6 +296,26 @@ const updateMedication = catchAsync(async (req, res) => {
       )
     );
 });
+
+const deleteMedication = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  if (user.department !== "doctor") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to delete medication"
+    );
+  }
+  const result = await prescriptionService.deleteMedication(id, user);
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Medication deleted successfully", result)
+    );
+});
+
+
+
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let medcountData = req.body;
@@ -303,6 +362,22 @@ const updateMedCount = catchAsync(async (req, res) => {
     .status(httpStatus.OK)
     .send(
       getSuccessResponse(httpStatus.OK, "Medcount updated successfully", result)
+    );
+});
+const deleteMedCount = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  if (user.department !== "pharmacist") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to delete medcount"
+    );
+  }
+  const result = await prescriptionService.deleteMedCount(id, user);
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Medcount deleted successfully", result)
     );
 });
 
@@ -548,14 +623,23 @@ const deleteUser = catchAsync(async (req, res) => {
 module.exports = {
   createPrescription,
   updatePrescription,
+
   createPersonalInfo,
   updatePersonalInfo,
+  deletePersonalInfo,
+
   createDiagnosis,
   updateDiagnosis,
+  deleteDiagnosis,
+
   createMedication,
   updateMedication,
+  deleteMedication,
+
   createMedCount,
   updateMedCount,
+  deleteMedCount,
+
   getPrescriptions,
   getUser,
   updateUser,

@@ -55,6 +55,11 @@ router
     auth,
     validate(prescriptionValidation.updatePersonalInfo),
     prescriptionController.updatePersonalInfo
+  )
+  .delete(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.deletePersonalInfo
   );
 
 // Diagnosis routes
@@ -77,6 +82,11 @@ router
     auth,
     validate(prescriptionValidation.updatePersonalInfo),
     prescriptionController.updateDiagnosis
+  )
+  .delete(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.deleteDiagnosis
   );
 
 // Medication routes
@@ -99,6 +109,11 @@ router
     auth,
     validate(prescriptionValidation.updatePersonalInfo),
     prescriptionController.updateMedication
+  )
+  .delete(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.deleteMedication
   );
 
 // Medcount routes
@@ -121,6 +136,11 @@ router
     auth,
     validate(prescriptionValidation.updatePersonalInfo),
     prescriptionController.updateMedCount
+  )
+  .delete(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.deleteMedCount
   );
 
 // router
