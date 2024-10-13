@@ -2,6 +2,7 @@
 
 const { Contract, Transaction } = require("fabric-contract-api");
 const ClientIdentity = require("fabric-shim").ClientIdentity;
+const Access=require('./accesschaincode.js')
 
 class Agreement extends Contract {
   async CreateContract(ctx, agreementData) {
@@ -27,12 +28,9 @@ class Agreement extends Contract {
 
   async CreatePersonalInfo(ctx, personalData) {
     try {
-      let cid = new ClientIdentity(ctx.stub);
-      if (!cid.assertAttributeValue("department", "patient")) {
-        throw new Error(
-          "You are not authorized to perform this operation, Only patient can do this operation"
-        );
-      }
+      const access= new Access();
+      access.CreatePersonalInfoAccess(ctx);
+
       let personal = JSON.parse(personalData);
       await ctx.stub.putState(personal.id, personalData);
       return ctx.stub.getTxID();
@@ -43,12 +41,9 @@ class Agreement extends Contract {
 
   async CreateDiagnosis(ctx, diagnosisData) {
     try {
-      let cid = new ClientIdentity(ctx.stub);
-      if (!cid.assertAttributeValue("department", "doctor")) {
-        throw new Error(
-          "You are not authorized to perform this operation, Only doctor can do this operation"
-        );
-      }
+      const access= new Access();
+      access.CreateDiagnosisAccess(ctx);
+
       let diagnosis = JSON.parse(diagnosisData);
       await ctx.stub.putState(diagnosis.id, diagnosisData);
       return ctx.stub.getTxID();
@@ -59,12 +54,9 @@ class Agreement extends Contract {
 
   async CreateMedication(ctx, medicationData) {
     try {
-      let cid = new ClientIdentity(ctx.stub);
-      if (!cid.assertAttributeValue("department", "doctor")) {
-        throw new Error(
-          "You are not authorized to perform this operation, Only doctor can do this operation"
-        );
-      }
+      const access= new Access();
+      access.CreateMedicationAccess(ctx);
+
       let medication = JSON.parse(medicationData);
       await ctx.stub.putState(medication.id, medicationData);
       return ctx.stub.getTxID();
@@ -75,12 +67,9 @@ class Agreement extends Contract {
 
   async CreateMedCount(ctx, countData) {
     try {
-      let cid = new ClientIdentity(ctx.stub);
-      if (!cid.assertAttributeValue("department", "pharmacist")) {
-        throw new Error(
-          "You are not authorized to perform this operation, Only pharmacist can do this operation"
-        );
-      }
+      const access= new Access();
+      access.CreateMedCountAccess(ctx);
+
       let count = JSON.parse(countData);
       await ctx.stub.putState(count.id, countData);
       return ctx.stub.getTxID();
@@ -89,7 +78,36 @@ class Agreement extends Contract {
     }
   }
 
-  async UpdatePrescription(ctx, prescriptionData) {}
+  async UpdatePrescription(ctx, prescriptionData) {
+    try {
+      let updatedprescription = JSON.parse(prescriptionData);
+      await ctx.stub.putState(updatedprescription.id, prescriptionData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+  async UpdatePersonalInfo(ctx, personalInfoData) {
+    try {
+      let updatedPersonalInfo = JSON.parse(personalInfoData);
+      await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+
+
+
+  async DeletePrescription(ctx, prescriptionId) {
+    try {
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
 
   async getAssetById(ctx, id) {
     try {
