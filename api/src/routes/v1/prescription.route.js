@@ -12,7 +12,7 @@ const router = express.Router();
 router
   .route('/:id')
   .get(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.getPrescriptionById)
-  .put(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.updatePrescription);
+  .put(auth, uploadFileToS3, prescriptionController.updatePrescription);
 
 router
   .route('/')
