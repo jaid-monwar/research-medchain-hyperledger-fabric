@@ -254,6 +254,9 @@ const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personal
 
     // if some fields are not updated, then use the old data
 
+    if (!personalinfoData.prescriptionId) {
+      personalinfoData.prescriptionId = oldPersonalInfoData.prescriptionId;
+    }
     if (!personalinfoData.name) {
       personalinfoData.name = oldPersonalInfoData.name;
     }
@@ -275,6 +278,7 @@ const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personal
       fcn: 'UpdatePersonalInfo',
       data: {
         id: personalInfoId,
+        prescriptionId: personalinfoData.prescriptionId,
         name: personalinfoData.name,
         age: personalinfoData.age,
         gender: personalinfoData.gender,
@@ -383,6 +387,76 @@ const createDiagnosis = async (diagnosisData, prescriptionId, user) => {
   }
 };
 
+const updateDiagnosis = async (diagnosisData, oldDiagnosisData, diagnosisId, user) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+
+    // if some fields are not updated, then use the old data
+
+    if (!diagnosisData.prescriptionId) {
+      diagnosisData.prescriptionId = oldDiagnosisData.prescriptionId;
+    }
+
+    if (!diagnosisData.description) {
+      diagnosisData.description = oldDiagnosisData.description;
+    }
+    if (!diagnosisData.comment) {
+      diagnosisData.comment = oldDiagnosisData.comment;
+    }
+    diagnosisData = {
+      fcn: 'UpdateDiagnosis',
+      data: {
+        id: diagnosisId,
+        prescriptionId: diagnosisData.prescriptionId,
+        description: diagnosisData.description,
+        comment: diagnosisData.comment,
+        docType: BLOCKCHAIN_DOC_TYPE.DIAGNOSIS,
+        createBy: user.email,
+        updatedBy: user.email,
+        createAt: dateTime,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(diagnosisData.fcn, JSON.stringify(diagnosisData.data));
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.DIAGNOSIS) {
+    //   prescription.status = PRESCRIPTION_STATUS.MEDICATION;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+
 /**
  * Create a user
  * @param {Object} userBody
@@ -446,6 +520,87 @@ const createMedication = async (medicationData, prescriptionId, user) => {
   }
 };
 
+
+const updateMedication = async (medicationData, oldMedicationData,medicationId, user) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+
+    // if some fields are not updated, then use the old data
+
+    if (!medicationData.prescriptionId) {
+      medicationData.prescriptionId = oldMedicationData.prescriptionId;
+    }
+    if (!medicationData.medname) {
+      medicationData.medname = oldMedicationData.medname;
+    }
+    if (!medicationData.meddose) {
+      medicationData.meddose = oldMedicationData.meddose;
+    }
+    if (!medicationData.medcount) {
+      medicationData.medcount = oldMedicationData.medcount;
+    }
+    if (!medicationData.comment) {
+      medicationData.comment = oldMedicationData.comment;
+    }
+
+
+
+    medicationData = {
+      fcn: 'UpdateMedication',
+      data: {
+        id: medicationId,
+        prescriptionId: medicationData.prescriptionId,
+        medname: medicationData.medname,
+        meddose: medicationData.meddose,
+        medcount: medicationData.medcount,
+        comment: medicationData.comment,
+        docType: BLOCKCHAIN_DOC_TYPE.MEDICATION,
+        createBy: user.email,
+        updatedBy: user.email,
+        createAt: dateTime,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(medicationData.fcn, JSON.stringify(medicationData.data));
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.MEDICATION) {
+    //   prescription.status = PRESCRIPTION_STATUS.MEDCOUNT;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+
 /**
  * Create a user
  * @param {Object} userBody
@@ -507,6 +662,73 @@ const createMedCount = async (medcountData, prescriptionId, user) => {
   }
 };
 
+const updateMedCount = async (medcountData, oldMedcountData,medcountId, user) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+
+    // if some fields are not updated, then use the old data
+    if (!medcountData.prescriptionId) {
+      medcountData.prescriptionId = oldMedcountData.prescriptionId;
+    }
+    if (!medcountData.description) {
+      medcountData.description = oldMedcountData.description;
+    }
+    if (!medcountData.medbought) {
+      medcountData.medbought = oldMedcountData.medbought;
+    }
+
+    medcountData = {
+      fcn: 'UpdateMedCount',
+      data: {
+        id: medcountId ,
+        prescriptionId: medcountData.prescriptionId,
+        medname: medcountData.description,
+        medbought: medcountData.medbought,
+        docType: BLOCKCHAIN_DOC_TYPE.MEDCOUNT,
+        createBy: user.email,
+        updatedBy: user.email,
+        createAt: dateTime,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(medcountData.fcn, JSON.stringify(medcountData.data));
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.MEDCOUNT) {
+    //   prescription.status = PRESCRIPTION_STATUS.PURCHASED;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -863,8 +1085,6 @@ const querySubAssetById = async (id, user) => {
 };
 
 
-
-
 const getDocSignedURL = async (docId, user) => {
   let orgName = `org${user.orgId}`;
   return getSignedUrl(docId, orgName);
@@ -918,6 +1138,9 @@ module.exports = {
   queryPrescriptions,
   createPersonalInfo,
   updatePersonalInfo,
+  updateDiagnosis,
+  updateMedication,
+  updateMedCount,
   createDiagnosis,
   createMedication,
   createMedCount,

@@ -47,7 +47,9 @@ router
   .post(auth, validate(prescriptionValidation.createDiagnosis), prescriptionController.createDiagnosis)
   .get(auth, validate(prescriptionValidation.getPrescriptionDiagnoses), prescriptionController.getDiagnosesByPrescriptionId);
 
-
+router
+  .route('/diagnososes/:id')
+  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateDiagnosis);
 
 
 // Medication routes
@@ -60,12 +62,24 @@ router
     prescriptionController.getMedicationsByPrescriptionId
   );
 
+router
+  .route('/medications/:id')
+  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateMedication);
+
+
 
 // Medcount routes
 router
   .route('/medcount/:id')
   .post(auth, validate(prescriptionValidation.createMedCount), prescriptionController.createMedCount)
   .get(auth, validate(prescriptionValidation.getPrescriptionMedCounts), prescriptionController.getMedCountsByPrescriptionId);
+
+router
+  .route('/medcounts/:id')
+  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateMedCount); 
+
+
+
 
 // router
 //   .route('/history/:id')

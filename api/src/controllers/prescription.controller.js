@@ -87,6 +87,18 @@ const createDiagnosis = catchAsync(async (req, res) => {
     .status(httpStatus.CREATED)
     .send(getSuccessResponse(httpStatus.CREATED, 'Medication form submitted successfully', result));
 });
+const updateDiagnosis = catchAsync(async (req, res) => {
+
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  let diagnosisData = req.body;
+  if (user.department !== 'doctor') {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update diagnosis');
+  }
+  const oldDiagnosisData = await prescriptionService.querySubAssetById(id);
+  const result = await prescriptionService.updateDiagnosis(diagnosisData,oldDiagnosisData,id,user);
+  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Diagnosis updated successfully', result));
+});
 
 const createMedication = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -101,6 +113,18 @@ const createMedication = catchAsync(async (req, res) => {
     .send(getSuccessResponse(httpStatus.CREATED, 'Medication form submitted successfully', result));
 });
 
+const updateMedication = catchAsync(async (req, res) => {
+
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  let medicationData = req.body;
+  if (user.department !== 'doctor') {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update medication');
+  }
+  const oldMedicationData = await prescriptionService.querySubAssetById(id);
+  const result = await prescriptionService.updateMedication(medicationData,oldMedicationData,id,user);
+  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'medication updated successfully', result));
+});
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let medcountData = req.body;
@@ -112,6 +136,18 @@ const createMedCount = catchAsync(async (req, res) => {
   res
     .status(httpStatus.CREATED)
     .send(getSuccessResponse(httpStatus.CREATED, 'Medcount form submitted successfully', result));
+});
+const updateMedCount = catchAsync(async (req, res) => {
+
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  let medcountData = req.body;
+  if (user.department !== 'pharmacist') {
+    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update medcount');
+  }
+  const oldMedCountData = await prescriptionService.querySubAssetById(id);
+  const result = await prescriptionService.updateMedCount(medcountData,oldMedCountData,id,user);
+  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Medcount updated successfully', result));
 });
 
 const getSignedURL = catchAsync(async (req, res) => {
@@ -314,8 +350,11 @@ module.exports = {
   createPersonalInfo,
   updatePersonalInfo,
   createDiagnosis,
+  updateDiagnosis,
   createMedication,
+  updateMedication,
   createMedCount,
+  updateMedCount,
   getPrescriptions,
   getUser,
   updateUser,
