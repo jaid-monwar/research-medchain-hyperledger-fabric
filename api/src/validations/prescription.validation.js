@@ -3,6 +3,9 @@ const {
   USER_DEPARTMENT,
   APPROVAL_STATUS,
   GENDER,
+  ACCESS_STATUS,
+  PERMISSION_TYPE,
+  ASSET_TYPE,
 } = require("../utils/Constants");
 const { password } = require("./custom.validation");
 
@@ -59,6 +62,19 @@ const createMedCount = {
   }),
 };
 
+const createAccessReq = {
+  body: Joi.object().keys({
+    // asset type can be personal info, diagnosis, medication, medcount
+    assetType: Joi.string()
+      .required()
+      .valid(ASSET_TYPE.PERSONALINFO, ASSET_TYPE.DIAGNOSIS, ASSET_TYPE.MEDICATION, ASSET_TYPE.MEDCOUNT),
+    // permission type can be read, update, delete
+    permissionType: Joi.string()
+      .required()
+      .valid(PERMISSION_TYPE.READ, PERMISSION_TYPE.UPDATE, PERMISSION_TYPE.DELETE),
+  }),
+};
+
 const getPrescriptionById = {
   params: Joi.object().keys({
     id: Joi.string().required(),
@@ -92,19 +108,31 @@ const getPrescriptionMedCounts = {
     id: Joi.string().required(),
   }),
 };
+const getPrescriptionAccessReqs = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
 
 module.exports = {
   createPrescription,
+
   createPersonalInfo,
   updatePersonalInfo,
+
   createDiagnosis,
   createMedication,
   createMedCount,
+  createAccessReq,
+
   updatePrescription,
   getPrescriptionById,
+
   getPrescriptionPersonalInfos,
   getPrescriptionDiagnoses,
   getPrescriptionMedications,
   getPrescriptionMedCounts,
+  getPrescriptionAccessReqs,
+
   getSignedURL,
 };
