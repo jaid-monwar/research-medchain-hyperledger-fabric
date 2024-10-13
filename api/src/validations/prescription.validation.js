@@ -5,7 +5,7 @@ const {
   GENDER,
   ACCESS_STATUS,
   PERMISSION_TYPE,
-  ASSET_TYPE,
+  BLOCKCHAIN_DOC_TYPE,
 } = require("../utils/Constants");
 const { password } = require("./custom.validation");
 
@@ -67,7 +67,7 @@ const createAccessReq = {
     // asset type can be personal info, diagnosis, medication, medcount
     assetType: Joi.string()
       .required()
-      .valid(ASSET_TYPE.PERSONALINFO, ASSET_TYPE.DIAGNOSIS, ASSET_TYPE.MEDICATION, ASSET_TYPE.MEDCOUNT),
+      .valid(BLOCKCHAIN_DOC_TYPE.PERSONALINFO, BLOCKCHAIN_DOC_TYPE.DIAGNOSIS, BLOCKCHAIN_DOC_TYPE.MEDICATION, BLOCKCHAIN_DOC_TYPE.MEDCOUNT),
     // permission type can be read, update, delete
     permissionType: Joi.string()
       .required()
