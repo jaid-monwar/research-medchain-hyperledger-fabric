@@ -144,6 +144,16 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
   }
 };
 
+
+
+
+
+
+
+
+
+
+
 /**
  * Create a user
  * @param {Object} userBody
@@ -368,6 +378,48 @@ const updatePersonalInfo = async (
   }
 };
 
+const deletePersonalInfo = async (personalInfoId, user) => {
+  let gateway;
+  let client;
+  try {
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    let personalinfoData = {
+      fcn: "DeletePersonalInfo",
+      data: personalInfoId,
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      personalinfoData.fcn,
+      JSON.stringify(personalinfoData.data)
+    );
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+}
+
+
+
+
 /**
  * Create a user
  * @param {Object} userBody
@@ -508,6 +560,48 @@ const updateDiagnosis = async (
     }
   }
 };
+
+const deleteDiagnosis = async (diagnosisId, user) => {
+  let gateway;
+  let client;
+  try {
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    let diagnosisData = {
+      fcn: "DeleteDiagnosis",
+      data: diagnosisId,
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      diagnosisData.fcn,
+      JSON.stringify(diagnosisData.data)
+    );
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+}
+
+
+
 
 /**
  * Create a user
@@ -660,6 +754,48 @@ const updateMedication = async (
   }
 };
 
+const deleteMedication = async (medicationId, user) => {
+  let gateway;
+  let client;
+  try {
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    let medicationData = {
+      fcn: "DeleteMedication",
+      data: medicationId,
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      medicationData.fcn,
+      JSON.stringify(medicationData.data)
+    );
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+}
+
+
+
+
 /**
  * Create a user
  * @param {Object} userBody
@@ -799,6 +935,50 @@ const updateMedCount = async (
     }
   }
 };
+
+const deleteMedCount = async (medcountId, user) => {
+  let gateway;
+  let client;
+  try {
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    let medcountData = {
+      fcn: "DeleteMedCount",
+      data: medcountId,
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      medcountData.fcn,
+      JSON.stringify(medcountData.data)
+    );
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+}
+
+
+
+
+
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -1213,14 +1393,23 @@ module.exports = {
   createPrescription,
   updatePrescription,
   queryPrescriptions,
-  createPersonalInfo,
+
   updatePersonalInfo,
   updateDiagnosis,
   updateMedication,
   updateMedCount,
+
+  createPersonalInfo,
   createDiagnosis,
   createMedication,
   createMedCount,
+
+  deletePersonalInfo,
+  deleteDiagnosis,
+  deleteMedication,
+  deleteMedCount,
+
+
   queryPrescriptionById,
   querySubAssetById,
   getUserByEmail,
