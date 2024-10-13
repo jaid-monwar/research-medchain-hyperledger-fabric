@@ -1,33 +1,48 @@
-const express = require('express');
-const { auth, adminAuth } = require('../../middlewares/auth');
-const validate = require('../../middlewares/validate');
-const userValidation = require('../../validations/user.validation');
-const prescriptionValidation = require('../../validations/prescription.validation');
-const prescriptionController = require('../../controllers/prescription.controller');
-const { uploadFileToS3 } = require('../../utils/fileUpload');
+const express = require("express");
+const { auth, adminAuth } = require("../../middlewares/auth");
+const validate = require("../../middlewares/validate");
+const userValidation = require("../../validations/user.validation");
+const prescriptionValidation = require("../../validations/prescription.validation");
+const prescriptionController = require("../../controllers/prescription.controller");
+const { uploadFileToS3 } = require("../../utils/fileUpload");
 
 const router = express.Router();
 
 // Prescription routes
 router
-  .route('/:id')
-  .get(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.getPrescriptionById)
-  .put(auth, validate(prescriptionValidation.getPrescriptionById), prescriptionController.updatePrescription);
+  .route("/:id")
+  .get(
+    auth,
+    validate(prescriptionValidation.getPrescriptionById),
+    prescriptionController.getPrescriptionById
+  )
+  .put(
+    auth,
+    validate(prescriptionValidation.getPrescriptionById),
+    prescriptionController.updatePrescription
+  );
 
 router
-  .route('/')
+  .route("/")
   .post(auth, uploadFileToS3, prescriptionController.createPrescription)
   .get(auth, prescriptionController.getPrescriptions);
 
-router.route('/documents/:id').get(auth, validate(prescriptionValidation.getSignedURL), prescriptionController.getSignedURL);
-
-
-
+router
+  .route("/documents/:id")
+  .get(
+    auth,
+    validate(prescriptionValidation.getSignedURL),
+    prescriptionController.getSignedURL
+  );
 
 // Personal info routes
 router
-  .route('/personalinfo/:id')
-  .post(auth, validate(prescriptionValidation.createPersonalInfo), prescriptionController.createPersonalInfo)
+  .route("/personalinfo/:id")
+  .post(
+    auth,
+    validate(prescriptionValidation.createPersonalInfo),
+    prescriptionController.createPersonalInfo
+  )
   .get(
     auth,
     validate(prescriptionValidation.getPrescriptionPersonalInfos),
@@ -35,27 +50,43 @@ router
   );
 
 router
-  .route('/personalinfos/:id')
-  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updatePersonalInfo);
-
-
-
+  .route("/personalinfos/:id")
+  .put(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.updatePersonalInfo
+  );
 
 // Diagnosis routes
 router
-  .route('/diagnosis/:id')
-  .post(auth, validate(prescriptionValidation.createDiagnosis), prescriptionController.createDiagnosis)
-  .get(auth, validate(prescriptionValidation.getPrescriptionDiagnoses), prescriptionController.getDiagnosesByPrescriptionId);
+  .route("/diagnosis/:id")
+  .post(
+    auth,
+    validate(prescriptionValidation.createDiagnosis),
+    prescriptionController.createDiagnosis
+  )
+  .get(
+    auth,
+    validate(prescriptionValidation.getPrescriptionDiagnoses),
+    prescriptionController.getDiagnosesByPrescriptionId
+  );
 
 router
-  .route('/diagnososes/:id')
-  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateDiagnosis);
-
+  .route("/diagnososes/:id")
+  .put(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.updateDiagnosis
+  );
 
 // Medication routes
 router
-  .route('/medication/:id')
-  .post(auth, validate(prescriptionValidation.createMedication), prescriptionController.createMedication)
+  .route("/medication/:id")
+  .post(
+    auth,
+    validate(prescriptionValidation.createMedication),
+    prescriptionController.createMedication
+  )
   .get(
     auth,
     validate(prescriptionValidation.getPrescriptionMedications),
@@ -63,23 +94,34 @@ router
   );
 
 router
-  .route('/medications/:id')
-  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateMedication);
-
-
+  .route("/medications/:id")
+  .put(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.updateMedication
+  );
 
 // Medcount routes
 router
-  .route('/medcount/:id')
-  .post(auth, validate(prescriptionValidation.createMedCount), prescriptionController.createMedCount)
-  .get(auth, validate(prescriptionValidation.getPrescriptionMedCounts), prescriptionController.getMedCountsByPrescriptionId);
+  .route("/medcount/:id")
+  .post(
+    auth,
+    validate(prescriptionValidation.createMedCount),
+    prescriptionController.createMedCount
+  )
+  .get(
+    auth,
+    validate(prescriptionValidation.getPrescriptionMedCounts),
+    prescriptionController.getMedCountsByPrescriptionId
+  );
 
 router
-  .route('/medcounts/:id')
-  .put(auth, validate(prescriptionValidation.updatePersonalInfo), prescriptionController.updateMedCount); 
-
-
-
+  .route("/medcounts/:id")
+  .put(
+    auth,
+    validate(prescriptionValidation.updatePersonalInfo),
+    prescriptionController.updateMedCount
+  );
 
 // router
 //   .route('/history/:id')

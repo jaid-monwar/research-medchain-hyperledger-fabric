@@ -1,67 +1,140 @@
-const httpStatus = require('http-status');
-const pick = require('../utils/pick');
-const ApiError = require('../utils/ApiError');
-const catchAsync = require('../utils/catchAsync');
-const { userService, prescriptionService } = require('../services');
-const { getPagination } = require('../utils/pagination');
-const { getSuccessResponse } = require('../utils/Response');
+const httpStatus = require("http-status");
+const pick = require("../utils/pick");
+const ApiError = require("../utils/ApiError");
+const catchAsync = require("../utils/catchAsync");
+const { userService, prescriptionService } = require("../services");
+const { getPagination } = require("../utils/pagination");
+const { getSuccessResponse } = require("../utils/Response");
 
 const createPrescription = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let fileMetadata = req.body.fileMetadata;
-  console.log('============user========', user);
-  if (user.department !== 'patient') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit diagnosis form');
+  console.log("============user========", user);
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to submit diagnosis form"
+    );
   }
-  const result = await prescriptionService.createPrescription(req.body, fileMetadata, user);
-  res.status(httpStatus.CREATED).send(getSuccessResponse(httpStatus.CREATED, 'Prescription created successfully', result));
+  const result = await prescriptionService.createPrescription(
+    req.body,
+    fileMetadata,
+    user
+  );
+  res
+    .status(httpStatus.CREATED)
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Prescription created successfully",
+        result
+      )
+    );
 });
 
 const updatePrescription = catchAsync(async (req, res) => {
-
   const { id } = req.params;
   let { user } = req.loggerInfo;
   // let fileMetadata = req.body.fileMetadata;
   let prescriptionData = req.body;
-  if (user.department !== 'patient') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update this prescription');
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update this prescription"
+    );
   }
-  const result = await prescriptionService.updatePrescription(id, prescriptionData, user);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Prescription updated successfully', result));
+  const result = await prescriptionService.updatePrescription(
+    id,
+    prescriptionData,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Prescription updated successfully",
+        result
+      )
+    );
 });
 
 const approveAgreement = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let approvalData = req.body;
   let agreementId = req.params.id;
-  const result = await agreementService.approveAgreement(approvalData, agreementId, user);
-  res.status(httpStatus.CREATED).send(getSuccessResponse(httpStatus.CREATED, 'approval submitted successfully', result));
+  const result = await agreementService.approveAgreement(
+    approvalData,
+    agreementId,
+    user
+  );
+  res
+    .status(httpStatus.CREATED)
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "approval submitted successfully",
+        result
+      )
+    );
 });
 
 const createPersonalInfo = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let personalinfoData = req.body;
   let prescriptionId = req.params.id;
-  if (user.department !== 'patient') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit personal info form');
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to submit personal info form"
+    );
   }
-  const result = await prescriptionService.createPersonalInfo(personalinfoData, prescriptionId, user);
+  const result = await prescriptionService.createPersonalInfo(
+    personalinfoData,
+    prescriptionId,
+    user
+  );
   res
     .status(httpStatus.CREATED)
-    .send(getSuccessResponse(httpStatus.CREATED, 'Personal Info form submitted successfully', result));
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Personal Info form submitted successfully",
+        result
+      )
+    );
 });
 
 const updatePersonalInfo = catchAsync(async (req, res) => {
-
   const { id } = req.params;
   let { user } = req.loggerInfo;
   let personalInfoData = req.body;
-  if (user.department !== 'patient') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update personal info');
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update personal info"
+    );
   }
-  const oldPersonalInfoData = await prescriptionService.querySubAssetById(id);
-  const result = await prescriptionService.updatePersonalInfo(personalInfoData,oldPersonalInfoData,id,user);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Personal Info updated successfully', result));
+  const oldPersonalInfoData = await prescriptionService.querySubAssetById(
+    id,
+    user
+  );
+  // console.log("oldPersonalInfoData", oldPersonalInfoData);
+  const result = await prescriptionService.updatePersonalInfo(
+    personalInfoData,
+    oldPersonalInfoData,
+    id,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Personal Info updated successfully",
+        result
+      )
+    );
 });
 
 // const createDiagnosis = catchAsync(async (req, res) => {
@@ -82,81 +155,167 @@ const createDiagnosis = catchAsync(async (req, res) => {
   // if (user.department !== 'doctor') {
   //   throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit diagnosis form');
   // }
-  const result = await prescriptionService.createDiagnosis(diagnosisData, prescriptionId, user);
+  const result = await prescriptionService.createDiagnosis(
+    diagnosisData,
+    prescriptionId,
+    user
+  );
   res
     .status(httpStatus.CREATED)
-    .send(getSuccessResponse(httpStatus.CREATED, 'Medication form submitted successfully', result));
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Medication form submitted successfully",
+        result
+      )
+    );
 });
 const updateDiagnosis = catchAsync(async (req, res) => {
-
   const { id } = req.params;
   let { user } = req.loggerInfo;
   let diagnosisData = req.body;
-  if (user.department !== 'doctor') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update diagnosis');
+  if (user.department !== "doctor") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update diagnosis"
+    );
   }
-  const oldDiagnosisData = await prescriptionService.querySubAssetById(id);
-  const result = await prescriptionService.updateDiagnosis(diagnosisData,oldDiagnosisData,id,user);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Diagnosis updated successfully', result));
+  const oldDiagnosisData = await prescriptionService.querySubAssetById(
+    id,
+    user
+  );
+  const result = await prescriptionService.updateDiagnosis(
+    diagnosisData,
+    oldDiagnosisData,
+    id,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Diagnosis updated successfully",
+        result
+      )
+    );
 });
 
 const createMedication = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let medicationData = req.body;
   let prescriptionId = req.params.id;
-  if (user.department !== 'doctor') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit medication form');
+  if (user.department !== "doctor") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to submit medication form"
+    );
   }
-  const result = await prescriptionService.createMedication(medicationData, prescriptionId, user);
+  const result = await prescriptionService.createMedication(
+    medicationData,
+    prescriptionId,
+    user
+  );
   res
     .status(httpStatus.CREATED)
-    .send(getSuccessResponse(httpStatus.CREATED, 'Medication form submitted successfully', result));
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Medication form submitted successfully",
+        result
+      )
+    );
 });
 
 const updateMedication = catchAsync(async (req, res) => {
-
   const { id } = req.params;
   let { user } = req.loggerInfo;
   let medicationData = req.body;
-  if (user.department !== 'doctor') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update medication');
+  if (user.department !== "doctor") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update medication"
+    );
   }
-  const oldMedicationData = await prescriptionService.querySubAssetById(id);
-  const result = await prescriptionService.updateMedication(medicationData,oldMedicationData,id,user);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'medication updated successfully', result));
+  const oldMedicationData = await prescriptionService.querySubAssetById(
+    id,
+    user
+  );
+  const result = await prescriptionService.updateMedication(
+    medicationData,
+    oldMedicationData,
+    id,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "medication updated successfully",
+        result
+      )
+    );
 });
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let medcountData = req.body;
   let prescriptionId = req.params.id;
-  if (user.department !== 'pharmacist') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit medcount form');
+  if (user.department !== "pharmacist") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to submit medcount form"
+    );
   }
-  const result = await prescriptionService.createMedCount(medcountData, prescriptionId, user);
+  const result = await prescriptionService.createMedCount(
+    medcountData,
+    prescriptionId,
+    user
+  );
   res
     .status(httpStatus.CREATED)
-    .send(getSuccessResponse(httpStatus.CREATED, 'Medcount form submitted successfully', result));
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Medcount form submitted successfully",
+        result
+      )
+    );
 });
 const updateMedCount = catchAsync(async (req, res) => {
-
   const { id } = req.params;
   let { user } = req.loggerInfo;
   let medcountData = req.body;
-  if (user.department !== 'pharmacist') {
-    throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update medcount');
+  if (user.department !== "pharmacist") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update medcount"
+    );
   }
-  const oldMedCountData = await prescriptionService.querySubAssetById(id);
-  const result = await prescriptionService.updateMedCount(medcountData,oldMedCountData,id,user);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Medcount updated successfully', result));
+  const oldMedCountData = await prescriptionService.querySubAssetById(id, user);
+  const result = await prescriptionService.updateMedCount(
+    medcountData,
+    oldMedCountData,
+    id,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Medcount updated successfully", result)
+    );
 });
 
 const getSignedURL = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let docId = req.params.id;
   let url = await prescriptionService.getDocSignedURL(docId, user);
-  res
-    .status(httpStatus.OK)
-    .send(getSuccessResponse(httpStatus.OK, 'Signed URL fetched successfully', { signedURL: url, docId }));
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Signed URL fetched successfully", {
+      signedURL: url,
+      docId,
+    })
+  );
 });
 
 const getPrescriptions = catchAsync(async (req, res) => {
@@ -168,7 +327,7 @@ const getPrescriptions = catchAsync(async (req, res) => {
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
     pageSize: pageSize || 10,
-    bookmark: bookmark || '',
+    bookmark: bookmark || "",
     orgName,
     email,
     filterType,
@@ -181,7 +340,11 @@ const getPrescriptions = catchAsync(async (req, res) => {
     data.data = data.data.map((elm) => elm.Record);
   }
 
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Users fetched successfully', data));
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Users fetched successfully", data)
+    );
 });
 
 const getHistoryById = catchAsync(async (req, res) => {
@@ -190,7 +353,11 @@ const getHistoryById = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let data = await agreementService.queryHistoryById(id, user);
 
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Agreement fetched successfully', data));
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Agreement fetched successfully", data)
+    );
 });
 
 const getApprovalsByAgreementId = catchAsync(async (req, res) => {
@@ -201,8 +368,8 @@ const getApprovalsByAgreementId = catchAsync(async (req, res) => {
 
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
-    pageSize: pageSize || '10',
-    bookmark: bookmark || '',
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
     orgName,
     email,
     agreementId,
@@ -210,7 +377,11 @@ const getApprovalsByAgreementId = catchAsync(async (req, res) => {
 
   let data = await agreementService.queryApprovalsByAgreementId(filter);
   data = data.data.map((elm) => elm.Record);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Users fetched successfully', { approvals: data }));
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Users fetched successfully", {
+      approvals: data,
+    })
+  );
 });
 
 const getPersonalInfosByPrescriptionId = catchAsync(async (req, res) => {
@@ -221,18 +392,22 @@ const getPersonalInfosByPrescriptionId = catchAsync(async (req, res) => {
 
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
-    pageSize: pageSize || '10',
-    bookmark: bookmark || '',
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
     orgName,
     email,
     prescriptionId,
   };
 
-  let data = await prescriptionService.queryPersonalInfosByPrescriptionId(filter);
+  let data = await prescriptionService.queryPersonalInfosByPrescriptionId(
+    filter
+  );
   data = data.data.map((elm) => elm.Record);
-  res
-    .status(httpStatus.OK)
-    .send(getSuccessResponse(httpStatus.OK, 'Personal Info fetched successfully', { personalinfos: data }));
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Personal Info fetched successfully", {
+      personalinfos: data,
+    })
+  );
 });
 
 const getDiagnosesByPrescriptionId = catchAsync(async (req, res) => {
@@ -243,8 +418,8 @@ const getDiagnosesByPrescriptionId = catchAsync(async (req, res) => {
 
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
-    pageSize: pageSize || '10',
-    bookmark: bookmark || '',
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
     orgName,
     email,
     prescriptionId,
@@ -255,7 +430,11 @@ const getDiagnosesByPrescriptionId = catchAsync(async (req, res) => {
 
   let data = await prescriptionService.queryDiagnosesByPrescriptionId(filter);
   data = data.data.map((elm) => elm.Record);
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Diagnosis fetched successfully', { diagnoses: data }));
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Diagnosis fetched successfully", {
+      diagnoses: data,
+    })
+  );
 });
 
 const getMedicationsByPrescriptionId = catchAsync(async (req, res) => {
@@ -266,8 +445,8 @@ const getMedicationsByPrescriptionId = catchAsync(async (req, res) => {
 
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
-    pageSize: pageSize || '10',
-    bookmark: bookmark || '',
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
     orgName,
     email,
     prescriptionId,
@@ -278,9 +457,11 @@ const getMedicationsByPrescriptionId = catchAsync(async (req, res) => {
 
   let data = await prescriptionService.queryMedicationsByPrescriptionId(filter);
   data = data.data.map((elm) => elm.Record);
-  res
-    .status(httpStatus.OK)
-    .send(getSuccessResponse(httpStatus.OK, 'Medications fetched successfully', { medications: data }));
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Medications fetched successfully", {
+      medications: data,
+    })
+  );
 });
 
 const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
@@ -291,8 +472,8 @@ const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
 
   let filter = {
     orgId: parseInt(req.loggerInfo.user.orgId),
-    pageSize: pageSize || '10',
-    bookmark: bookmark || '',
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
     orgName,
     email,
     prescriptionId,
@@ -305,7 +486,13 @@ const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
   data = data.data.map((elm) => elm.Record);
   res
     .status(httpStatus.OK)
-    .send(getSuccessResponse(httpStatus.OK, 'Medication Counts fetched successfully', { medcounts: data }));
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Medication Counts fetched successfully",
+        { medcounts: data }
+      )
+    );
 });
 
 const getPrescriptionById = catchAsync(async (req, res) => {
@@ -314,7 +501,15 @@ const getPrescriptionById = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let data = await prescriptionService.queryPrescriptionById(id, user);
 
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Prescription fetched successfully', data));
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Prescription fetched successfully",
+        data
+      )
+    );
 });
 
 const getSubAssetById = catchAsync(async (req, res) => {
@@ -323,15 +518,21 @@ const getSubAssetById = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let data = await prescriptionService.querySubAssetById(id, user);
 
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Sub asset fetched successfully', data));
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Sub asset fetched successfully", data)
+    );
 });
 
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
-  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'User fetched successfully', user));
+  res
+    .status(httpStatus.OK)
+    .send(getSuccessResponse(httpStatus.OK, "User fetched successfully", user));
 });
 
 const updateUser = catchAsync(async (req, res) => {

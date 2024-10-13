@@ -1,6 +1,10 @@
-const Joi = require('joi');
-const { USER_DEPARTMENT, APPROVAL_STATUS, GENDER } = require('../utils/Constants');
-const { password } = require('./custom.validation');
+const Joi = require("joi");
+const {
+  USER_DEPARTMENT,
+  APPROVAL_STATUS,
+  GENDER,
+} = require("../utils/Constants");
+const { password } = require("./custom.validation");
 
 const createPrescription = Joi.object().keys({
   firstParty: Joi.string().required(),
@@ -19,7 +23,9 @@ const createPersonalInfo = {
   body: Joi.object().keys({
     name: Joi.string().required(),
     age: Joi.string().required(),
-    gender: Joi.string().required().valid(GENDER.MALE, GENDER.FEMALE, GENDER.OTHER),
+    gender: Joi.string()
+      .required()
+      .valid(GENDER.MALE, GENDER.FEMALE, GENDER.OTHER),
     address: Joi.string().required(),
     phone: Joi.string().required(),
   }),
@@ -29,7 +35,6 @@ const updatePersonalInfo = {
   params: Joi.object().keys({
     id: Joi.string().required(),
   }),
-
 };
 
 const createDiagnosis = {
