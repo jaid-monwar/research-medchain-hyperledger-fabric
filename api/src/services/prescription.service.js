@@ -244,13 +244,33 @@ const createPersonalInfo = async (personalinfoData, prescriptionId, user) => {
   }
 };
 
-const updatePersonalInfo = async (personalinfoData, personalInfoId, user) => {
+const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personalInfoId, user) => {
   let gateway;
   let client;
   try {
     // let isLastApproval =  await validateApprovals(agreementId, user)
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
+
+    // if some fields are not updated, then use the old data
+
+    if (!personalinfoData.name) {
+      personalinfoData.name = oldPersonalInfoData.name;
+    }
+    if (!personalinfoData.age) {
+      personalinfoData.age = oldPersonalInfoData.age;
+    }
+    if (!personalinfoData.gender) {
+      personalinfoData.gender = oldPersonalInfoData.gender;
+    }
+    if (!personalinfoData.address) {
+      personalinfoData.address = oldPersonalInfoData.address;
+    }
+    if (!personalinfoData.phone) {
+      personalinfoData.phone = oldPersonalInfoData.phone;
+    }
+
+
     personalinfoData = {
       fcn: 'UpdatePersonalInfo',
       data: {
@@ -791,6 +811,60 @@ const queryPrescriptionById = async (id, user) => {
   }
 };
 
+
+const querySubAssetById = async (id, user) => {
+  let gateway;
+  let client;
+  try {
+    let orgName = `org${user.orgId}`;
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction('getAssetById', id);
+    console.timeEnd('Test');
+
+
+    // result = JSON.parse(utf8Decoder.decode(result));
+    // if (result) {
+    //   result.document.url = await getSignedUrl(result?.document?.id, orgName);
+    // }
+    // let filter = {
+    //   pageSize: DEFAULT_MAX_RECORDS,
+    //   bookmark: '',
+    //   orgName,
+    //   email: user.email,
+    //   prescriptionId: id,
+    // };
+
+    // let personalinfos = await queryPersonalInfosByPrescriptionId(filter);
+    // result.personalinfos = personalinfos?.data?.map((elm) => elm.Record) || [];
+    // let diagnoses = await queryDiagnosesByPrescriptionId(filter);
+    // result.diagnoses = diagnoses?.data?.map((elm) => elm.Record) || [];
+    // let medications = await queryMedicationsByPrescriptionId(filter);
+    // result.medications = medications?.data?.map((elm) => elm.Record) || [];
+    // let medcounts = await queryMedCountsByPrescriptionId(filter);
+    // result.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
+    return result;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+
+
+
 const getDocSignedURL = async (docId, user) => {
   let orgName = `org${user.orgId}`;
   return getSignedUrl(docId, orgName);
@@ -848,6 +922,7 @@ module.exports = {
   createMedication,
   createMedCount,
   queryPrescriptionById,
+  querySubAssetById,
   getUserByEmail,
   updateUserById,
   deleteUserById,

@@ -51,7 +51,6 @@ const createPersonalInfo = catchAsync(async (req, res) => {
     .send(getSuccessResponse(httpStatus.CREATED, 'Personal Info form submitted successfully', result));
 });
 
-
 const updatePersonalInfo = catchAsync(async (req, res) => {
 
   const { id } = req.params;
@@ -60,7 +59,8 @@ const updatePersonalInfo = catchAsync(async (req, res) => {
   if (user.department !== 'patient') {
     throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to update personal info');
   }
-  const result = await prescriptionService.updatePersonalInfo(personalInfoData,id,user);
+  const oldPersonalInfoData = await prescriptionService.querySubAssetById(id);
+  const result = await prescriptionService.updatePersonalInfo(personalInfoData,oldPersonalInfoData,id,user);
   res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Personal Info updated successfully', result));
 });
 
@@ -281,6 +281,15 @@ const getPrescriptionById = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Prescription fetched successfully', data));
 });
 
+const getSubAssetById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  let { user } = req.loggerInfo;
+  let data = await prescriptionService.querySubAssetById(id, user);
+
+  res.status(httpStatus.OK).send(getSuccessResponse(httpStatus.OK, 'Sub asset fetched successfully', data));
+});
+
 const getUser = catchAsync(async (req, res) => {
   const user = await userService.getUserById(req.params.userId);
   if (!user) {
@@ -312,6 +321,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getPrescriptionById,
+  getSubAssetById,
   approveAgreement,
   getPersonalInfosByPrescriptionId,
   getDiagnosesByPrescriptionId,
