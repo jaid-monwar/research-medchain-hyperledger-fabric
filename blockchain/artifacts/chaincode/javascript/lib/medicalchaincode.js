@@ -2,7 +2,7 @@
 
 const { Contract, Transaction } = require("fabric-contract-api");
 const ClientIdentity = require("fabric-shim").ClientIdentity;
-const Access=require('./accesschaincode.js')
+const Access = require("./accesschaincode.js");
 
 class Agreement extends Contract {
   async CreateContract(ctx, agreementData) {
@@ -28,7 +28,7 @@ class Agreement extends Contract {
 
   async CreatePersonalInfo(ctx, personalData) {
     try {
-      const access= new Access();
+      const access = new Access();
       access.CreatePersonalInfoAccess(ctx);
 
       let personal = JSON.parse(personalData);
@@ -41,7 +41,7 @@ class Agreement extends Contract {
 
   async CreateDiagnosis(ctx, diagnosisData) {
     try {
-      const access= new Access();
+      const access = new Access();
       access.CreateDiagnosisAccess(ctx);
 
       let diagnosis = JSON.parse(diagnosisData);
@@ -54,7 +54,7 @@ class Agreement extends Contract {
 
   async CreateMedication(ctx, medicationData) {
     try {
-      const access= new Access();
+      const access = new Access();
       access.CreateMedicationAccess(ctx);
 
       let medication = JSON.parse(medicationData);
@@ -67,7 +67,7 @@ class Agreement extends Contract {
 
   async CreateMedCount(ctx, countData) {
     try {
-      const access= new Access();
+      const access = new Access();
       access.CreateMedCountAccess(ctx);
 
       let count = JSON.parse(countData);
@@ -87,8 +87,12 @@ class Agreement extends Contract {
       throw new Error(error.stack);
     }
   }
+
   async UpdatePersonalInfo(ctx, personalInfoData) {
     try {
+      const access = new Access();
+      access.UpdatePersonalInfoAccess(ctx);
+
       let updatedPersonalInfo = JSON.parse(personalInfoData);
       await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
       return ctx.stub.getTxID();
@@ -97,12 +101,95 @@ class Agreement extends Contract {
     }
   }
 
+  async UpdateDiagnosis(ctx, personalInfoData) {
+    try {
+      const access = new Access();
+      access.UpdateDiagnosisAccess(ctx);
 
+      let updatedPersonalInfo = JSON.parse(personalInfoData);
+      await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
 
+  async UpdateMedication(ctx, personalInfoData) {
+    try {
+      const access = new Access();
+      access.UpdateMedicationAccess(ctx);
 
+      let updatedPersonalInfo = JSON.parse(personalInfoData);
+      await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async UpdateMedCount(ctx, personalInfoData) {
+    try {
+      const access = new Access();
+      access.UpdateMedCountAccess(ctx);
+
+      let updatedPersonalInfo = JSON.parse(personalInfoData);
+      await ctx.stub.putState(updatedPersonalInfo.id, personalInfoData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
 
   async DeletePrescription(ctx, prescriptionId) {
     try {
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async DeletePersonalInfo(ctx, prescriptionId) {
+    try {
+      const access = new Access();
+      access.DeletePersonalInfoAccess(ctx);
+
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async DeleteDiagnosis(ctx, prescriptionId) {
+    try {
+      const access = new Access();
+      access.DeleteDiagnosisAccess(ctx);
+
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async DeleteMedication(ctx, prescriptionId) {
+    try {
+      const access = new Access();
+      access.DeleteMedicationAccess(ctx);
+
+      await ctx.stub.deleteState(prescriptionId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async DeleteMedCount(ctx, prescriptionId) {
+    try {
+      const access = new Access();
+      access.DeleteMedCountAccess(ctx);
+
       await ctx.stub.deleteState(prescriptionId);
       return ctx.stub.getTxID();
     } catch (error) {

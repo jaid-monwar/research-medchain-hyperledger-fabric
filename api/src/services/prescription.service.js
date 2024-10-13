@@ -1,11 +1,21 @@
-const httpStatus = require('http-status');
-const { User } = require('../models');
-const ApiError = require('../utils/ApiError');
-const { Gateway, Wallets } = require('fabric-network');
-const { getContractObject, getWalletPath, getCCP, getPrescriptionsWithPagination } = require('../utils/blockchainUtils');
-const { NETWORK_ARTIFACTS_DEFAULT, BLOCKCHAIN_DOC_TYPE, PRESCRIPTION_STATUS, FILTER_TYPE } = require('../utils/Constants');
-const { getUUID } = require('../utils/uuid');
-const { getSignedUrl } = require('../utils/fileUpload');
+const httpStatus = require("http-status");
+const { User } = require("../models");
+const ApiError = require("../utils/ApiError");
+const { Gateway, Wallets } = require("fabric-network");
+const {
+  getContractObject,
+  getWalletPath,
+  getCCP,
+  getPrescriptionsWithPagination,
+} = require("../utils/blockchainUtils");
+const {
+  NETWORK_ARTIFACTS_DEFAULT,
+  BLOCKCHAIN_DOC_TYPE,
+  PRESCRIPTION_STATUS,
+  FILTER_TYPE,
+} = require("../utils/Constants");
+const { getUUID } = require("../utils/uuid");
+const { getSignedUrl } = require("../utils/fileUpload");
 const THIRTY_DAYS = 2592000000;
 
 // If we are sure that max records are limited, we can use any max number
@@ -24,7 +34,7 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     prescriptionData = {
-      fcn: 'CreatePrescription',
+      fcn: "CreatePrescription",
       data: {
         id: getUUID(),
         owner: orgName,
@@ -38,7 +48,13 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
         updatedBy: user.email,
         createAt: dateTime,
         updatedAt: dateTime,
-        document: { ...fileMetadata, createBy: user.email, updatedBy: user.email, createAt: dateTime, updatedAt: dateTime },
+        document: {
+          ...fileMetadata,
+          createBy: user.email,
+          updatedBy: user.email,
+          createAt: dateTime,
+          updatedAt: dateTime,
+        },
       },
     };
 
@@ -50,7 +66,10 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
       gateway,
       client
     );
-    await contract.submitTransaction(prescriptionData.fcn, JSON.stringify(prescriptionData.data));
+    await contract.submitTransaction(
+      prescriptionData.fcn,
+      JSON.stringify(prescriptionData.data)
+    );
     return prescriptionData.data;
   } catch (error) {
     console.log(error);
@@ -77,9 +96,9 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     prescriptionData = {
-      fcn: 'UpdatePrescription',
+      fcn: "UpdatePrescription",
       data: {
-        id:   prescriptionId,
+        id: prescriptionId,
         owner: prescriptionData.owner,
         orgId: parseInt(user.orgId),
         department: prescriptionData.department,
@@ -91,7 +110,11 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
         updatedBy: user.email,
         createAt: prescriptionData.createAt,
         updatedAt: dateTime,
-        document: { ...prescriptionData.document, updatedBy: user.email, updatedAt: dateTime },
+        document: {
+          ...prescriptionData.document,
+          updatedBy: user.email,
+          updatedAt: dateTime,
+        },
       },
     };
 
@@ -103,7 +126,10 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
       gateway,
       client
     );
-    await contract.submitTransaction(prescriptionData.fcn, JSON.stringify(prescriptionData.data));
+    await contract.submitTransaction(
+      prescriptionData.fcn,
+      JSON.stringify(prescriptionData.data)
+    );
     return prescriptionData.data;
   } catch (error) {
     console.log(error);
@@ -131,7 +157,7 @@ const approveAgreement = async (approvalData, agreementId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     approvalData = {
-      fcn: 'CreateContract',
+      fcn: "CreateContract",
       data: {
         id: getUUID(),
         agreementId: agreementId,
@@ -157,12 +183,18 @@ const approveAgreement = async (approvalData, agreementId, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction(approvalData.fcn, JSON.stringify(approvalData.data));
+    let result = await contract.submitTransaction(
+      approvalData.fcn,
+      JSON.stringify(approvalData.data)
+    );
 
     let agreement = await queryAgreementById(agreementId, user);
     if (agreement.status === AGREEMENT_STATUS.INPROGRESS) {
       agreement.status = AGREEMENT_STATUS.ACTIVE;
-      await contract.submitTransaction(approvalData.fcn, JSON.stringify(agreement));
+      await contract.submitTransaction(
+        approvalData.fcn,
+        JSON.stringify(agreement)
+      );
     }
 
     result = { txid: utf8Decoder.decode(result) };
@@ -193,7 +225,7 @@ const createPersonalInfo = async (personalinfoData, prescriptionId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     personalinfoData = {
-      fcn: 'CreatePersonalInfo',
+      fcn: "CreatePersonalInfo",
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
@@ -220,7 +252,10 @@ const createPersonalInfo = async (personalinfoData, prescriptionId, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction(personalinfoData.fcn, JSON.stringify(personalinfoData.data));
+    let result = await contract.submitTransaction(
+      personalinfoData.fcn,
+      JSON.stringify(personalinfoData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -244,7 +279,12 @@ const createPersonalInfo = async (personalinfoData, prescriptionId, user) => {
   }
 };
 
-const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personalInfoId, user) => {
+const updatePersonalInfo = async (
+  personalinfoData,
+  oldPersonalInfoData,
+  personalInfoId,
+  user
+) => {
   let gateway;
   let client;
   try {
@@ -273,9 +313,8 @@ const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personal
       personalinfoData.phone = oldPersonalInfoData.phone;
     }
 
-
     personalinfoData = {
-      fcn: 'UpdatePersonalInfo',
+      fcn: "UpdatePersonalInfo",
       data: {
         id: personalInfoId,
         prescriptionId: personalinfoData.prescriptionId,
@@ -302,7 +341,10 @@ const updatePersonalInfo = async (personalinfoData, oldPersonalInfoData,personal
       gateway,
       client
     );
-    let result = await contract.submitTransaction(personalinfoData.fcn, JSON.stringify(personalinfoData.data));
+    let result = await contract.submitTransaction(
+      personalinfoData.fcn,
+      JSON.stringify(personalinfoData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -339,7 +381,7 @@ const createDiagnosis = async (diagnosisData, prescriptionId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     diagnosisData = {
-      fcn: 'CreateDiagnosis',
+      fcn: "CreateDiagnosis",
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
@@ -363,7 +405,10 @@ const createDiagnosis = async (diagnosisData, prescriptionId, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction(diagnosisData.fcn, JSON.stringify(diagnosisData.data));
+    let result = await contract.submitTransaction(
+      diagnosisData.fcn,
+      JSON.stringify(diagnosisData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -387,7 +432,12 @@ const createDiagnosis = async (diagnosisData, prescriptionId, user) => {
   }
 };
 
-const updateDiagnosis = async (diagnosisData, oldDiagnosisData, diagnosisId, user) => {
+const updateDiagnosis = async (
+  diagnosisData,
+  oldDiagnosisData,
+  diagnosisId,
+  user
+) => {
   let gateway;
   let client;
   try {
@@ -408,7 +458,7 @@ const updateDiagnosis = async (diagnosisData, oldDiagnosisData, diagnosisId, use
       diagnosisData.comment = oldDiagnosisData.comment;
     }
     diagnosisData = {
-      fcn: 'UpdateDiagnosis',
+      fcn: "UpdateDiagnosis",
       data: {
         id: diagnosisId,
         prescriptionId: diagnosisData.prescriptionId,
@@ -432,7 +482,10 @@ const updateDiagnosis = async (diagnosisData, oldDiagnosisData, diagnosisId, use
       gateway,
       client
     );
-    let result = await contract.submitTransaction(diagnosisData.fcn, JSON.stringify(diagnosisData.data));
+    let result = await contract.submitTransaction(
+      diagnosisData.fcn,
+      JSON.stringify(diagnosisData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -456,7 +509,6 @@ const updateDiagnosis = async (diagnosisData, oldDiagnosisData, diagnosisId, use
   }
 };
 
-
 /**
  * Create a user
  * @param {Object} userBody
@@ -470,7 +522,7 @@ const createMedication = async (medicationData, prescriptionId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     medicationData = {
-      fcn: 'CreateMedication',
+      fcn: "CreateMedication",
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
@@ -496,7 +548,10 @@ const createMedication = async (medicationData, prescriptionId, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction(medicationData.fcn, JSON.stringify(medicationData.data));
+    let result = await contract.submitTransaction(
+      medicationData.fcn,
+      JSON.stringify(medicationData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -520,8 +575,12 @@ const createMedication = async (medicationData, prescriptionId, user) => {
   }
 };
 
-
-const updateMedication = async (medicationData, oldMedicationData,medicationId, user) => {
+const updateMedication = async (
+  medicationData,
+  oldMedicationData,
+  medicationId,
+  user
+) => {
   let gateway;
   let client;
   try {
@@ -547,10 +606,8 @@ const updateMedication = async (medicationData, oldMedicationData,medicationId, 
       medicationData.comment = oldMedicationData.comment;
     }
 
-
-
     medicationData = {
-      fcn: 'UpdateMedication',
+      fcn: "UpdateMedication",
       data: {
         id: medicationId,
         prescriptionId: medicationData.prescriptionId,
@@ -576,7 +633,10 @@ const updateMedication = async (medicationData, oldMedicationData,medicationId, 
       gateway,
       client
     );
-    let result = await contract.submitTransaction(medicationData.fcn, JSON.stringify(medicationData.data));
+    let result = await contract.submitTransaction(
+      medicationData.fcn,
+      JSON.stringify(medicationData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -600,7 +660,6 @@ const updateMedication = async (medicationData, oldMedicationData,medicationId, 
   }
 };
 
-
 /**
  * Create a user
  * @param {Object} userBody
@@ -614,7 +673,7 @@ const createMedCount = async (medcountData, prescriptionId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     medcountData = {
-      fcn: 'CreateMedCount',
+      fcn: "CreateMedCount",
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
@@ -638,7 +697,10 @@ const createMedCount = async (medcountData, prescriptionId, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction(medcountData.fcn, JSON.stringify(medcountData.data));
+    let result = await contract.submitTransaction(
+      medcountData.fcn,
+      JSON.stringify(medcountData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -662,7 +724,12 @@ const createMedCount = async (medcountData, prescriptionId, user) => {
   }
 };
 
-const updateMedCount = async (medcountData, oldMedcountData,medcountId, user) => {
+const updateMedCount = async (
+  medcountData,
+  oldMedcountData,
+  medcountId,
+  user
+) => {
   let gateway;
   let client;
   try {
@@ -682,9 +749,9 @@ const updateMedCount = async (medcountData, oldMedcountData,medcountId, user) =>
     }
 
     medcountData = {
-      fcn: 'UpdateMedCount',
+      fcn: "UpdateMedCount",
       data: {
-        id: medcountId ,
+        id: medcountId,
         prescriptionId: medcountData.prescriptionId,
         medname: medcountData.description,
         medbought: medcountData.medbought,
@@ -706,7 +773,10 @@ const updateMedCount = async (medcountData, oldMedcountData,medcountId, user) =>
       gateway,
       client
     );
-    let result = await contract.submitTransaction(medcountData.fcn, JSON.stringify(medcountData.data));
+    let result = await contract.submitTransaction(
+      medcountData.fcn,
+      JSON.stringify(medcountData.data)
+    );
 
     // let prescription = await queryPrescriptionById(prescriptionId, user);
     // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
@@ -741,7 +811,7 @@ const updateMedCount = async (medcountData, oldMedcountData,medcountId, user) =>
 const queryPrescriptions = async (filter) => {
   try {
     let query;
-    console.log('==========================filter type', filter);
+    console.log("==========================filter type", filter);
     if (filter?.filterType) {
       switch (filter.filterType) {
         case FILTER_TYPE.ALL:
@@ -793,7 +863,7 @@ const queryPrescriptions = async (filter) => {
     // query = `{\"selector\":{\"orgId\": ${filter.orgId},\"status\":\"${filter.filterType}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexOrgDoc\", \"indexDoc\"]}}`;
     //  query = `{\"selector\":{\"orgId\": \"${filter.orgId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
     //  query = `{\"selector\":{\"orgId\": ${filter.orgId}, \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}}}`;
-    console.log('filters--------------', filter, query);
+    console.log("filters--------------", filter, query);
     let data = await getPrescriptionsWithPagination(
       query,
       filter.pageSize,
@@ -806,7 +876,10 @@ const queryPrescriptions = async (filter) => {
     let tempData = [];
     for (let agreement of data?.data) {
       if (agreement?.Record?.document?.id) {
-        let signedUrl = await getSignedUrl(agreement.Record.document.id, `org${agreement.Record.orgId}`);
+        let signedUrl = await getSignedUrl(
+          agreement.Record.document.id,
+          `org${agreement.Record.orgId}`
+        );
         agreement.Record.document.url = signedUrl;
       }
       tempData.push(agreement);
@@ -814,7 +887,7 @@ const queryPrescriptions = async (filter) => {
     data.data = tempData;
     return data;
   } catch (error) {
-    console.log('error--------------', error);
+    console.log("error--------------", error);
   }
 };
 
@@ -922,7 +995,7 @@ const validateApprovals = async (agreementId, user) => {
   let orgName = `org${user.orgId}`;
   let filters = {
     pageSize: DEFAULT_MAX_RECORDS,
-    bookmark: '',
+    bookmark: "",
     orgName: orgName,
     email: user.email,
     agreementId,
@@ -931,7 +1004,9 @@ const validateApprovals = async (agreementId, user) => {
   let approvals = await queryApprovalsByAgreementId(filters);
   if (approvals?.data?.length) {
     let orgDepartmentApproval = approvals.data.filter(
-      (elm) => elm?.Record?.department == user.department && elm?.Record?.orgId == user.orgId
+      (elm) =>
+        elm?.Record?.department == user.department &&
+        elm?.Record?.orgId == user.orgId
     );
     if (orgDepartmentApproval?.length) {
       throw new ApiError(
@@ -958,12 +1033,17 @@ const queryHistoryById = async (id, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction('getAssetHistory', id);
+    let result = await contract.submitTransaction("getAssetHistory", id);
     // result = JSON.parse(result.toString());
     result = JSON.parse(utf8Decoder.decode(result));
     if (result) {
       result = result?.map((elm) => {
-        return { txId: elm?.txId, IsDelete: elm.IsDelete, ...elm.Value, timeStamp: elm?.Timestamp?.seconds?.low * 1000 };
+        return {
+          txId: elm?.txId,
+          IsDelete: elm.IsDelete,
+          ...elm.Value,
+          timeStamp: elm?.Timestamp?.seconds?.low * 1000,
+        };
       });
     }
     return result;
@@ -998,15 +1078,15 @@ const queryPrescriptionById = async (id, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction('getAssetById', id);
-    console.timeEnd('Test');
+    let result = await contract.submitTransaction("getAssetById", id);
+    console.timeEnd("Test");
     result = JSON.parse(utf8Decoder.decode(result));
     if (result) {
       result.document.url = await getSignedUrl(result?.document?.id, orgName);
     }
     let filter = {
       pageSize: DEFAULT_MAX_RECORDS,
-      bookmark: '',
+      bookmark: "",
       orgName,
       email: user.email,
       prescriptionId: id,
@@ -1033,7 +1113,6 @@ const queryPrescriptionById = async (id, user) => {
   }
 };
 
-
 const querySubAssetById = async (id, user) => {
   let gateway;
   let client;
@@ -1047,11 +1126,10 @@ const querySubAssetById = async (id, user) => {
       gateway,
       client
     );
-    let result = await contract.submitTransaction('getAssetById', id);
-    console.timeEnd('Test');
+    let result = await contract.submitTransaction("getAssetById", id);
+    console.timeEnd("Test");
 
-
-    // result = JSON.parse(utf8Decoder.decode(result));
+    result = JSON.parse(utf8Decoder.decode(result));
     // if (result) {
     //   result.document.url = await getSignedUrl(result?.document?.id, orgName);
     // }
@@ -1084,7 +1162,6 @@ const querySubAssetById = async (id, user) => {
   }
 };
 
-
 const getDocSignedURL = async (docId, user) => {
   let orgName = `org${user.orgId}`;
   return getSignedUrl(docId, orgName);
@@ -1108,10 +1185,10 @@ const getUserByEmail = async (email) => {
 const updateUserById = async (userId, updateBody) => {
   const user = await getUserById(userId);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
   if (updateBody.email && (await User.isEmailTaken(updateBody.email, userId))) {
-    throw new ApiError(httpStatus.BAD_REQUEST, 'Email already taken');
+    throw new ApiError(httpStatus.BAD_REQUEST, "Email already taken");
   }
   Object.assign(user, updateBody);
   await user.save();
@@ -1126,7 +1203,7 @@ const updateUserById = async (userId, updateBody) => {
 const deleteUserById = async (userId) => {
   const user = await getUserById(userId);
   if (!user) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+    throw new ApiError(httpStatus.NOT_FOUND, "User not found");
   }
   await user.remove();
   return user;
