@@ -13,6 +13,8 @@ const {
   BLOCKCHAIN_DOC_TYPE,
   PRESCRIPTION_STATUS,
   FILTER_TYPE,
+  ACCESS_STATUS,
+  PERMISSION_TYPE,
 } = require("../utils/Constants");
 const { getUUID } = require("../utils/uuid");
 const { getSignedUrl } = require("../utils/fileUpload");
@@ -956,6 +958,192 @@ const deleteMedCount = async (medcountId, user) => {
   }
 };
 
+const createAccessReq = async (accessReqData, prescriptionId, user) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    accessReqData = {
+      fcn: "CreateAccessRequest",
+      data: {
+        id: getUUID(),
+        prescriptionId: prescriptionId,
+        assetType: accessReqData.assetType,
+        permissionType: accessReqData.permissionType,
+        accessStatus: ACCESS_STATUS.DENIED,
+        docType: BLOCKCHAIN_DOC_TYPE.ACCESSREQ,
+        createBy: user.email,
+        updatedBy: user.email,
+        createAt: dateTime,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      accessReqData.fcn,
+      JSON.stringify(accessReqData.data)
+    );
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.MEDCOUNT) {
+    //   prescription.status = PRESCRIPTION_STATUS.PURCHASED;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+const updateAccessReq = async (
+  accessReqData,
+  oldAccessReqData,
+  accessReqId,
+  user
+) => {
+  let gateway;
+  let client;
+  try {
+    // let isLastApproval =  await validateApprovals(agreementId, user)
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+
+    // if some fields are not updated, then use the old data
+
+    if (!accessReqData.prescriptionId) {
+      accessReqData.prescriptionId = oldAccessReqData.prescriptionId;
+    }
+    if (!accessReqData.assetType) {
+      accessReqData.assetType = oldAccessReqData.assetType;
+    }
+    if (!accessReqData.permissionType) {
+      accessReqData.permissionType = oldAccessReqData.permissionType;
+    }
+    if (!accessReqData.accessStatus) {
+      accessReqData.accessStatus = oldAccessReqData.accessStatus;
+    }
+    if (!accessReqData.createBy) {
+      accessReqData.createBy = oldAccessReqData.createBy;
+    }
+    if (!accessReqData.createAt) {
+      accessReqData.createAt = oldAccessReqData.createAt;
+    }
+
+    accessReqData = {
+      fcn: "UpdateAccessRequest",
+      data: {
+        id: accessReqId,
+        prescriptionId: accessReqData.prescriptionId,
+        assetType: accessReqData.assetType,
+        permissionType: accessReqData.permissionType,
+        accessStatus: accessReqData.accessStatus,
+        docType: BLOCKCHAIN_DOC_TYPE.ACCESSREQ,
+        createBy: accessReqData.createBy,
+        updatedBy: user.email,
+        createAt: accessReqData.createAt,
+        updatedAt: dateTime,
+        orgId: parseInt(user.orgId),
+        department: user.department,
+      },
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      accessReqData.fcn,
+      JSON.stringify(accessReqData.data)
+    );
+
+    // let prescription = await queryPrescriptionById(prescriptionId, user);
+    // await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // if (prescription.status === PRESCRIPTION_STATUS.MEDCOUNT) {
+    //   prescription.status = PRESCRIPTION_STATUS.PURCHASED;
+    //   await contract.submitTransaction('CreatePrescription', JSON.stringify(prescription));
+    // }
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
+const deleteAccessReq = async (accessReqId, user) => {
+  let gateway;
+  let client;
+  try {
+    let dateTime = new Date();
+    let orgName = `org${user.orgId}`;
+    let accessReqData = {
+      fcn: "DeleteAccessRequest",
+      data: accessReqId,
+    };
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction(
+      accessReqData.fcn,
+      accessReqData.data
+    );
+
+    result = { txid: utf8Decoder.decode(result) };
+    return result;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -995,11 +1183,7 @@ const queryPrescriptions = async (filter) => {
           query = `{\"selector\":{\"$or\":[{\"firstParty\":\"Org${filter.orgId}\"}, {\"secondParty\":\"Org${filter.orgId}\"}],\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.PRESCRIPTION}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
 
           break;
-        case PRESCRIPTION_STATUS.PURCHASED:
-          // query = `{\"selector\":{\"orgId\": ${filter.orgId},\"orgId\": ${filter.orgId},\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
-          query = `{\"selector\":{\"$or\":[{\"firstParty\":\"Org${filter.orgId}\"}, {\"secondParty\":\"Org${filter.orgId}\"}],\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.PRESCRIPTION}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
 
-          break;
         // case FILTER_TYPE.EXPIRING_SOON:
         //   // query = `{\"selector\":{{\"endDate\":{\"$lt\":${(+new Date())+THIRTY_DAYS}}}, \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
         //   query = `{\"selector\":{\"endDate\":{\"$lt\":${(+new Date())+THIRTY_DAYS}}, \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
@@ -1148,6 +1332,22 @@ const queryMedCountsByPrescriptionId = async (filter) => {
   return data;
 };
 
+const queryAccessReqsByPrescriptionId = async (filter) => {
+  console.log(filter);
+  let query = `{\"selector\":{\"prescriptionId\":\"${filter.prescriptionId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.ACCESSREQ}\"},  \"use_index\":[\"_design/indexDocTypePrescriptionId\", \"docType_prescriptionId_index\"]}}`;
+  // let query = `{\"selector\":{\"orgId\": ${filter.orgId}, \"agreementId\":\"${filter.agreementId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.APPROVAL}\"}}}`;
+  let data = await getPrescriptionsWithPagination(
+    query,
+    filter.pageSize,
+    filter.bookmark,
+    filter.orgName,
+    filter.email,
+    NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+    NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
+  );
+  return data;
+};
+
 const validateApprovals = async (agreementId, user) => {
   let orgName = `org${user.orgId}`;
   let filters = {
@@ -1257,6 +1457,8 @@ const queryPrescriptionById = async (id, user) => {
     result.medications = medications?.data?.map((elm) => elm.Record) || [];
     let medcounts = await queryMedCountsByPrescriptionId(filter);
     result.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
+    let accessReqs = await queryAccessReqsByPrescriptionId(filter);
+    result.accessReqs = accessReqs?.data?.map((elm) => elm.Record) || [];
     return result;
   } catch (error) {
     console.log(error);
@@ -1375,16 +1577,19 @@ module.exports = {
   updateDiagnosis,
   updateMedication,
   updateMedCount,
+  updateAccessReq,
 
   createPersonalInfo,
   createDiagnosis,
   createMedication,
   createMedCount,
+  createAccessReq,
 
   deletePersonalInfo,
   deleteDiagnosis,
   deleteMedication,
   deleteMedCount,
+  deleteAccessReq,
 
   queryPrescriptionById,
   querySubAssetById,
@@ -1392,10 +1597,13 @@ module.exports = {
   updateUserById,
   deleteUserById,
   approveAgreement,
+
   queryPersonalInfosByPrescriptionId,
   queryDiagnosesByPrescriptionId,
   queryMedicationsByPrescriptionId,
   queryMedCountsByPrescriptionId,
+  queryAccessReqsByPrescriptionId,
+
   getDocSignedURL,
   queryHistoryById,
 };

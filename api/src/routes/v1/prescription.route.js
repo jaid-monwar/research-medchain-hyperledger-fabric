@@ -143,6 +143,33 @@ router
     prescriptionController.deleteMedCount
   );
 
+// AccessReq routes
+router
+  .route("/accessreq/:id")
+  .post(
+    auth,
+    validate(prescriptionValidation.createAccessReq),
+    prescriptionController.createAccessReq
+  )
+  .get(
+    auth,
+    validate(prescriptionValidation.getPrescriptionAccessReqs),
+    prescriptionController.getAccessReqsByPrescriptionId
+  );
+
+router
+  .route("/accessreqs/:id")
+  .put(
+    auth,
+    validate(prescriptionValidation.updateAccessReq),
+    prescriptionController.updateAccessReq
+  )
+  .delete(
+    auth,
+    validate(prescriptionValidation.updateAccessReq),
+    prescriptionController.deleteAccessReq
+  );
+
 // router
 //   .route('/history/:id')
 //   .get(auth, validate(prescriptionValidation.getAgreementApprovals), prescriptionController.getHistoryById);

@@ -83,8 +83,8 @@ class Agreement extends Contract {
       const access = new Access();
       access.CreateAccessRequestAccess(ctx);
 
-      let request = JSON.parse(requestData);
-      await ctx.stub.putState(request.id, requestData);
+      let requestInfo = JSON.parse(requestData);
+      await ctx.stub.putState(requestInfo.id, requestData);
       return ctx.stub.getTxID();
     } catch (error) {
       throw new Error(error.stack);

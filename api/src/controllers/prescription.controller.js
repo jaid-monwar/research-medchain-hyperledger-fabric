@@ -158,17 +158,6 @@ const deletePersonalInfo = catchAsync(async (req, res) => {
     );
 });
 
-// const createDiagnosis = catchAsync(async (req, res) => {
-//   let { user } = req.loggerInfo;
-//   let diagnosisData = req.body;
-//   let prescriptionId = req.params.id;
-//   if (user.department !== 'doctor') {
-//     throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to submit diagnosis form');
-//   }
-//   const result = await prescriptionService.createDiagnosis(diagnosisData, prescriptionId, user);
-//   res.status(httpStatus.CREATED).send(getSuccessResponse(httpStatus.CREATED, 'Diagnosis submitted successfully', result));
-// });
-
 const createDiagnosis = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let diagnosisData = req.body;
@@ -234,11 +223,13 @@ const deleteDiagnosis = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Diagnosis deleted successfully", result)
+      getSuccessResponse(
+        httpStatus.OK,
+        "Diagnosis deleted successfully",
+        result
+      )
     );
 });
-
-
 
 const createMedication = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -310,11 +301,13 @@ const deleteMedication = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Medication deleted successfully", result)
+      getSuccessResponse(
+        httpStatus.OK,
+        "Medication deleted successfully",
+        result
+      )
     );
 });
-
-
 
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -378,6 +371,78 @@ const deleteMedCount = catchAsync(async (req, res) => {
     .status(httpStatus.OK)
     .send(
       getSuccessResponse(httpStatus.OK, "Medcount deleted successfully", result)
+    );
+});
+
+const createAccessReq = catchAsync(async (req, res) => {
+  let { user } = req.loggerInfo;
+  let accessReqData = req.body;
+  let prescriptionId = req.params.id;
+  if (user.department === "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to submit access request"
+    );
+  }
+  const result = await prescriptionService.createAccessReq(
+    accessReqData,
+    prescriptionId,
+    user
+  );
+  res
+    .status(httpStatus.CREATED)
+    .send(
+      getSuccessResponse(
+        httpStatus.CREATED,
+        "Access request submitted successfully",
+        result
+      )
+    );
+});
+
+const updateAccessReq = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  let accessReqData = req.body;
+  if (user.department !== "patient") {
+    throw new ApiError(
+      httpStatus.UNAUTHORIZED,
+      "You are not authorized to update access request"
+    );
+  }
+  const oldAccessReqData = await prescriptionService.querySubAssetById(
+    id,
+    user
+  );
+  const result = await prescriptionService.updateAccessReq(
+    accessReqData,
+    oldAccessReqData,
+    id,
+    user
+  );
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Access request updated successfully",
+        result
+      )
+    );
+});
+
+const deleteAccessReq = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  let { user } = req.loggerInfo;
+  const result = await prescriptionService.deleteAccessReq(id, user);
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Access request deleted successfully",
+        result
+      )
     );
 });
 
@@ -570,6 +635,33 @@ const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
     );
 });
 
+const getAccessReqsByPrescriptionId = catchAsync(async (req, res) => {
+  const { pageSize, bookmark } = req.query;
+  const prescriptionId = req.params.id;
+  let { orgId, email, department } = req.loggerInfo.user;
+  let orgName = `org${orgId}`;
+
+  let filter = {
+    orgId: parseInt(req.loggerInfo.user.orgId),
+    pageSize: pageSize || "10",
+    bookmark: bookmark || "",
+    orgName,
+    email,
+    prescriptionId,
+  };
+  // if (department !== 'patient') {
+  //   throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to access this form');
+  // }
+
+  let data = await prescriptionService.queryAccessReqsByPrescriptionId(filter);
+  data = data.data.map((elm) => elm.Record);
+  res.status(httpStatus.OK).send(
+    getSuccessResponse(httpStatus.OK, "Access Requests fetched successfully", {
+      accessreqs: data,
+    })
+  );
+});
+
 const getPrescriptionById = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -640,6 +732,10 @@ module.exports = {
   updateMedCount,
   deleteMedCount,
 
+  createAccessReq,
+  updateAccessReq,
+  deleteAccessReq,
+
   getPrescriptions,
   getUser,
   updateUser,
@@ -647,10 +743,13 @@ module.exports = {
   getPrescriptionById,
   getSubAssetById,
   approveAgreement,
+
   getPersonalInfosByPrescriptionId,
   getDiagnosesByPrescriptionId,
   getMedicationsByPrescriptionId,
   getMedCountsByPrescriptionId,
+  getAccessReqsByPrescriptionId,
+
   getSignedURL,
   getHistoryById,
 };
