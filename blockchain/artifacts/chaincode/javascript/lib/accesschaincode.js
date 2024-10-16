@@ -39,10 +39,7 @@ class Access extends Contract {
 
   CreateAccessRequestAccess(ctx) {
     let cid = new ClientIdentity(ctx.stub);
-    if (
-      !cid.assertAttributeValue("department", "pharmacist") ||
-      !cid.assertAttributeValue("department", "doctor")
-    ) {
+    if (cid.assertAttributeValue("department", "patient")) {
       throw new Error(
         "You are not authorized to perform this operation, Only doctor or pharmacist can do this operation"
       );

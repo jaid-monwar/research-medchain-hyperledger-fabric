@@ -3,6 +3,9 @@ const {
   USER_DEPARTMENT,
   APPROVAL_STATUS,
   GENDER,
+  ACCESS_STATUS,
+  PERMISSION_TYPE,
+  BLOCKCHAIN_DOC_TYPE,
 } = require("../utils/Constants");
 const { password } = require("./custom.validation");
 
@@ -37,6 +40,12 @@ const updatePersonalInfo = {
   }),
 };
 
+const updateAccessReq = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
+
 const createDiagnosis = {
   body: Joi.object().keys({
     description: Joi.string().required(),
@@ -56,6 +65,28 @@ const createMedication = {
 const createMedCount = {
   body: Joi.object().keys({
     medbought: Joi.string().required(),
+  }),
+};
+
+const createAccessReq = {
+  body: Joi.object().keys({
+    // asset type can be personal info, diagnosis, medication, medcount
+    assetType: Joi.string()
+      .required()
+      .valid(
+        BLOCKCHAIN_DOC_TYPE.PERSONALINFO,
+        BLOCKCHAIN_DOC_TYPE.DIAGNOSIS,
+        BLOCKCHAIN_DOC_TYPE.MEDICATION,
+        BLOCKCHAIN_DOC_TYPE.MEDCOUNT
+      ),
+    // permission type can be read, update, delete
+    permissionType: Joi.string()
+      .required()
+      .valid(
+        PERMISSION_TYPE.READ,
+        PERMISSION_TYPE.UPDATE,
+        PERMISSION_TYPE.DELETE
+      ),
   }),
 };
 
@@ -92,19 +123,33 @@ const getPrescriptionMedCounts = {
     id: Joi.string().required(),
   }),
 };
+const getPrescriptionAccessReqs = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
 
 module.exports = {
   createPrescription,
+
   createPersonalInfo,
   updatePersonalInfo,
+
   createDiagnosis,
   createMedication,
   createMedCount,
+
+  createAccessReq,
+  updateAccessReq,
+
   updatePrescription,
   getPrescriptionById,
+
   getPrescriptionPersonalInfos,
   getPrescriptionDiagnoses,
   getPrescriptionMedications,
   getPrescriptionMedCounts,
+  getPrescriptionAccessReqs,
+
   getSignedURL,
 };
