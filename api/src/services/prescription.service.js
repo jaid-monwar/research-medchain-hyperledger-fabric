@@ -784,7 +784,7 @@ const deleteMedication = async (medicationId, user) => {
  * @param {Object} userBody
  * @returns {Promise<Agreement>}
  */
-const createMedCount = async (medcountData, prescriptionId, user) => {
+const createMedCount = async (medcountData, medicationId, user) => {
   let gateway;
   let client;
   try {
@@ -795,7 +795,7 @@ const createMedCount = async (medcountData, prescriptionId, user) => {
       fcn: "CreateMedCount",
       data: {
         id: getUUID(),
-        prescriptionId: prescriptionId,
+        medicationId: medicationId,
         medname: medcountData.description,
         medbought: medcountData.medbought,
         docType: BLOCKCHAIN_DOC_TYPE.MEDCOUNT,
@@ -857,8 +857,8 @@ const updateMedCount = async (
     let orgName = `org${user.orgId}`;
 
     // if some fields are not updated, then use the old data
-    if (!medcountData.prescriptionId) {
-      medcountData.prescriptionId = oldMedcountData.prescriptionId;
+    if (!medcountData.medicationId) {
+      medcountData.medicationId = oldMedcountData.medicationId;
     }
     if (!medcountData.description) {
       medcountData.description = oldMedcountData.description;
@@ -871,7 +871,7 @@ const updateMedCount = async (
       fcn: "UpdateMedCount",
       data: {
         id: medcountId,
-        prescriptionId: medcountData.prescriptionId,
+        medicationId: medcountData.medicationId,
         medname: medcountData.description,
         medbought: medcountData.medbought,
         docType: BLOCKCHAIN_DOC_TYPE.MEDCOUNT,
@@ -1319,9 +1319,9 @@ const queryMedicationsByPrescriptionId = async (filter) => {
  * @param {number} [options.page] - Current page (default = 1)
  * @returns {Promise<QueryResult>}
  */
-const queryMedCountsByPrescriptionId = async (filter) => {
+const queryMedCountsByMedicationId = async (filter) => {
   console.log(filter);
-  let query = `{\"selector\":{\"prescriptionId\":\"${filter.prescriptionId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.MEDCOUNT}\"},  \"use_index\":[\"_design/indexDocTypePrescriptionId\", \"docType_prescriptionId_index\"]}}`;
+  let query = `{\"selector\":{\"medicationId\":\"${filter.medicationId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.MEDCOUNT}\"},  \"use_index\":[\"_design/indexDocTypeMedicationId\", \"docType_medicationId_index\"]}}`;
   // let query = `{\"selector\":{\"orgId\": ${filter.orgId}, \"agreementId\":\"${filter.agreementId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.APPROVAL}\"}}}`;
   let data = await getPrescriptionsWithPagination(
     query,
@@ -1461,8 +1461,6 @@ const queryPrescriptionById = async (id, user) => {
     result.diagnoses = diagnoses?.data?.map((elm) => elm.Record) || [];
     let medications = await queryMedicationsByPrescriptionId(filter);
     result.medications = medications?.data?.map((elm) => elm.Record) || [];
-    let medcounts = await queryMedCountsByPrescriptionId(filter);
-    result.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
     let accessReqs = await queryAccessReqsByPrescriptionId(filter);
     result.accessReqs = accessReqs?.data?.map((elm) => elm.Record) || [];
     return result;
@@ -1477,6 +1475,51 @@ const queryPrescriptionById = async (id, user) => {
     }
   }
 };
+
+const queryMedicationById = async (id, user) => {
+  let gateway;
+  let client;
+  try {
+    let orgName = `org${user.orgId}`;
+
+    const contract = await getContractObject(
+      orgName,
+      user.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME,
+      gateway,
+      client
+    );
+    let result = await contract.submitTransaction("getAssetById", id);
+    console.timeEnd("Test");
+    result = JSON.parse(utf8Decoder.decode(result));
+    if (result) {
+      result.document.url = await getSignedUrl(result?.document?.id, orgName);
+    }
+    let filter = {
+      pageSize: DEFAULT_MAX_RECORDS,
+      bookmark: "",
+      orgName,
+      email: user.email,
+      medicationId: id,
+    };
+
+    let medcounts = await queryMedCountsByMedicationId(filter);
+    result.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
+ 
+    return result;
+  } catch (error) {
+    console.log(error);
+  } finally {
+    if (gateway) {
+      gateway.close();
+    }
+    if (client) {
+      client.close();
+    }
+  }
+};
+
 
 const querySubAssetById = async (id, user) => {
   let gateway;
@@ -1599,6 +1642,7 @@ module.exports = {
   deleteAccessReq,
 
   queryPrescriptionById,
+  queryMedicationById,
   querySubAssetById,
   getUserByEmail,
   updateUserById,
@@ -1608,7 +1652,7 @@ module.exports = {
   queryPersonalInfosByPrescriptionId,
   queryDiagnosesByPrescriptionId,
   queryMedicationsByPrescriptionId,
-  queryMedCountsByPrescriptionId,
+  queryMedCountsByMedicationId,
   queryAccessReqsByPrescriptionId,
 
   getDocSignedURL,

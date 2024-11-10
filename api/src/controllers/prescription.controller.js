@@ -315,7 +315,7 @@ const deleteMedication = catchAsync(async (req, res) => {
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let medcountData = req.body;
-  let prescriptionId = req.params.id;
+  let medicationId = req.params.id;
   if (user.department !== "pharmacist") {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
@@ -324,7 +324,7 @@ const createMedCount = catchAsync(async (req, res) => {
   }
   const result = await prescriptionService.createMedCount(
     medcountData,
-    prescriptionId,
+    medicationId,
     user
   );
   res
