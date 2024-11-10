@@ -90,7 +90,7 @@ router
   );
 
 // Medication routes
-router
+router 
   .route("/medication/:id")
   .post(
     auth,
@@ -100,7 +100,7 @@ router
   .get(
     auth,
     validate(prescriptionValidation.getPrescriptionMedications),
-    prescriptionController.getMedicationsByPrescriptionId
+    prescriptionController.getMedicationById
   );
 
 router
@@ -127,7 +127,7 @@ router
   .get(
     auth,
     validate(prescriptionValidation.getPrescriptionMedCounts),
-    prescriptionController.getMedCountsByPrescriptionId
+    prescriptionController.getMedCountsByMedicationId
   );
 
 router

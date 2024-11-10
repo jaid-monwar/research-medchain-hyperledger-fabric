@@ -615,9 +615,9 @@ const getMedicationsByPrescriptionId = catchAsync(async (req, res) => {
   );
 });
 
-const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
+const getMedCountsByMedicationId = catchAsync(async (req, res) => {
   const { pageSize, bookmark } = req.query;
-  const prescriptionId = req.params.id;
+  const medicationId = req.params.id;
   let { orgId, email, department } = req.loggerInfo.user;
   let orgName = `org${orgId}`;
 
@@ -627,13 +627,13 @@ const getMedCountsByPrescriptionId = catchAsync(async (req, res) => {
     bookmark: bookmark || "",
     orgName,
     email,
-    prescriptionId,
+    medicationId,
   };
   // if (department !== 'pharmacist') {
   //   throw new ApiError(httpStatus.UNAUTHORIZED, 'You are not authorized to access this form');
   // }
 
-  let data = await prescriptionService.queryMedCountsByPrescriptionId(filter);
+  let data = await prescriptionService.queryMedCountsByMedicationId(filter);
   data = data.data.map((elm) => elm.Record);
   res
     .status(httpStatus.OK)
@@ -690,6 +690,26 @@ const getPrescriptionById = catchAsync(async (req, res) => {
       )
     );
 });
+
+const getMedicationById = catchAsync(async (req, res) => {
+  const { id } = req.params;
+
+  let { user } = req.loggerInfo;
+  let data = await prescriptionService.queryMedicationById(id, user);
+
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(
+        httpStatus.OK,
+        "Prescription fetched successfully",
+        data
+      )
+    );
+});
+
+
+
 
 const getSubAssetById = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -753,6 +773,7 @@ module.exports = {
   updateUser,
   deleteUser,
   getPrescriptionById,
+  getMedicationById,
   getSubAssetById,
   approveAgreement,
 
@@ -760,7 +781,7 @@ module.exports = {
   getPersonalInfosByPrescriptionId,
   getDiagnosesByPrescriptionId,
   getMedicationsByPrescriptionId,
-  getMedCountsByPrescriptionId,
+  getMedCountsByMedicationId,
   getAccessReqsByPrescriptionId,
   getSignedURL,
   getHistoryById,
