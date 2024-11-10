@@ -40,6 +40,12 @@ const updatePersonalInfo = {
   }),
 };
 
+const updateAccessReq = {
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
+};
+
 const createDiagnosis = {
   body: Joi.object().keys({
     description: Joi.string().required(),
@@ -67,11 +73,20 @@ const createAccessReq = {
     // asset type can be personal info, diagnosis, medication, medcount
     assetType: Joi.string()
       .required()
-      .valid(BLOCKCHAIN_DOC_TYPE.PERSONALINFO, BLOCKCHAIN_DOC_TYPE.DIAGNOSIS, BLOCKCHAIN_DOC_TYPE.MEDICATION, BLOCKCHAIN_DOC_TYPE.MEDCOUNT),
+      .valid(
+        BLOCKCHAIN_DOC_TYPE.PERSONALINFO,
+        BLOCKCHAIN_DOC_TYPE.DIAGNOSIS,
+        BLOCKCHAIN_DOC_TYPE.MEDICATION,
+        BLOCKCHAIN_DOC_TYPE.MEDCOUNT
+      ),
     // permission type can be read, update, delete
     permissionType: Joi.string()
       .required()
-      .valid(PERMISSION_TYPE.READ, PERMISSION_TYPE.UPDATE, PERMISSION_TYPE.DELETE),
+      .valid(
+        PERMISSION_TYPE.READ,
+        PERMISSION_TYPE.UPDATE,
+        PERMISSION_TYPE.DELETE
+      ),
   }),
 };
 
@@ -123,7 +138,10 @@ module.exports = {
   createDiagnosis,
   createMedication,
   createMedCount,
+
   createAccessReq,
+  updateAccessReq,
+
 
   updatePrescription,
   getPrescriptionById,

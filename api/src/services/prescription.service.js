@@ -958,9 +958,6 @@ const deleteMedCount = async (medcountId, user) => {
   }
 };
 
-
-
-
 const createAccessReq = async (accessReqData, prescriptionId, user) => {
   let gateway;
   let client;
@@ -969,14 +966,12 @@ const createAccessReq = async (accessReqData, prescriptionId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     accessReqData = {
-      fcn: "CreateAccessReq",
+      fcn: "CreateAccessRequest",
       data: {
         id: getUUID(),
         prescriptionId: prescriptionId,
-
         assetType: accessReqData.assetType,
         permissionType: accessReqData.permissionType,
-
         accessStatus: ACCESS_STATUS.DENIED,
         docType: BLOCKCHAIN_DOC_TYPE.ACCESSREQ,
         createBy: user.email,
@@ -1058,7 +1053,7 @@ const updateAccessReq = async (
     }
 
     accessReqData = {
-      fcn: "UpdateAccessReq",
+      fcn: "UpdateAccessRequest",
       data: {
         id: accessReqId,
         prescriptionId: accessReqData.prescriptionId,
@@ -1117,7 +1112,8 @@ const deleteAccessReq = async (accessReqId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     let accessReqData = {
-      fcn: "DeleteAccessReq",
+
+      fcn: "DeleteAccessRequest",
       data: accessReqId,
     };
 
@@ -1147,10 +1143,8 @@ const deleteAccessReq = async (accessReqId, user) => {
       client.close();
     }
   }
-}
 
-
-
+};
 
 
 /**
@@ -1192,11 +1186,7 @@ const queryPrescriptions = async (filter) => {
           query = `{\"selector\":{\"$or\":[{\"firstParty\":\"Org${filter.orgId}\"}, {\"secondParty\":\"Org${filter.orgId}\"}],\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.PRESCRIPTION}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
 
           break;
-        case PRESCRIPTION_STATUS.PURCHASED:
-          // query = `{\"selector\":{\"orgId\": ${filter.orgId},\"orgId\": ${filter.orgId},\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
-          query = `{\"selector\":{\"$or\":[{\"firstParty\":\"Org${filter.orgId}\"}, {\"secondParty\":\"Org${filter.orgId}\"}],\"status\":\"${filter.filterType}\",  \"docType\": \"${BLOCKCHAIN_DOC_TYPE.PRESCRIPTION}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
 
-          break;
         // case FILTER_TYPE.EXPIRING_SOON:
         //   // query = `{\"selector\":{{\"endDate\":{\"$lt\":${(+new Date())+THIRTY_DAYS}}}, \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"sort\":[{\"updatedAt\":\"desc\"}], \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
         //   query = `{\"selector\":{\"endDate\":{\"$lt\":${(+new Date())+THIRTY_DAYS}}, \"docType\": \"${BLOCKCHAIN_DOC_TYPE.AGREEMENT}\"}, \"use_index\":[\"_design/indexAssetTypeOrgIdTime\", \"orgId_docType_time_index\"]}}`;
@@ -1360,8 +1350,8 @@ const queryAccessReqsByPrescriptionId = async (filter) => {
     NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
   );
   return data;
-}
 
+};
 
 
 const validateApprovals = async (agreementId, user) => {
@@ -1620,7 +1610,6 @@ module.exports = {
   queryMedicationsByPrescriptionId,
   queryMedCountsByPrescriptionId,
   queryAccessReqsByPrescriptionId,
-
 
   getDocSignedURL,
   queryHistoryById,

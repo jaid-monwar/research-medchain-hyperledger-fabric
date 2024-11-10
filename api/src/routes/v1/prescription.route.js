@@ -144,9 +144,6 @@ router
   );
 
 
-
-// AccessReq routes
-
 router
   .route("/accessreq/:id")
   .post(
@@ -164,29 +161,14 @@ router
   .route("/accessreqs/:id")
   .put(
     auth,
-    validate(prescriptionValidation.updatePersonalInfo),
+    validate(prescriptionValidation.updateAccessReq),
     prescriptionController.updateAccessReq
   )
   .delete(
     auth,
-    validate(prescriptionValidation.updatePersonalInfo),
+    validate(prescriptionValidation.updateAccessReq),
     prescriptionController.deleteAccessReq
   );
-  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 // router

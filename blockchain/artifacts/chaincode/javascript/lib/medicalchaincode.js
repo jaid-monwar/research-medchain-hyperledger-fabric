@@ -78,6 +78,19 @@ class Agreement extends Contract {
     }
   }
 
+  async CreateAccessRequest(ctx, requestData) {
+    try {
+      const access = new Access();
+      access.CreateAccessRequestAccess(ctx);
+
+      let requestInfo = JSON.parse(requestData);
+      await ctx.stub.putState(requestInfo.id, requestData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
   async UpdatePrescription(ctx, prescriptionData) {
     try {
       let updatedprescription = JSON.parse(prescriptionData);
@@ -140,6 +153,19 @@ class Agreement extends Contract {
     }
   }
 
+  async UpdateAccessRequest(ctx, requestData) {
+    try {
+      const access = new Access();
+      access.UpdateAccessRequestAccess(ctx);
+
+      let request = JSON.parse(requestData);
+      await ctx.stub.putState(request.id, requestData);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
   async DeletePrescription(ctx, prescriptionId) {
     try {
       await ctx.stub.deleteState(prescriptionId);
@@ -149,48 +175,60 @@ class Agreement extends Contract {
     }
   }
 
-  async DeletePersonalInfo(ctx, prescriptionId) {
+  async DeletePersonalInfo(ctx, personalInfoId) {
     try {
       const access = new Access();
       access.DeletePersonalInfoAccess(ctx);
 
-      await ctx.stub.deleteState(prescriptionId);
+      await ctx.stub.deleteState(personalInfoId);
       return ctx.stub.getTxID();
     } catch (error) {
       throw new Error(error.stack);
     }
   }
 
-  async DeleteDiagnosis(ctx, prescriptionId) {
+  async DeleteDiagnosis(ctx, diagnosisId) {
     try {
       const access = new Access();
       access.DeleteDiagnosisAccess(ctx);
 
-      await ctx.stub.deleteState(prescriptionId);
+      await ctx.stub.deleteState(diagnosisId);
       return ctx.stub.getTxID();
     } catch (error) {
       throw new Error(error.stack);
     }
   }
 
-  async DeleteMedication(ctx, prescriptionId) {
+  async DeleteMedication(ctx, medicationId) {
     try {
       const access = new Access();
       access.DeleteMedicationAccess(ctx);
 
-      await ctx.stub.deleteState(prescriptionId);
+      await ctx.stub.deleteState(medicationId);
       return ctx.stub.getTxID();
     } catch (error) {
       throw new Error(error.stack);
     }
   }
 
-  async DeleteMedCount(ctx, prescriptionId) {
+  async DeleteMedCount(ctx, medCountId) {
     try {
       const access = new Access();
       access.DeleteMedCountAccess(ctx);
 
-      await ctx.stub.deleteState(prescriptionId);
+      await ctx.stub.deleteState(medCountId);
+      return ctx.stub.getTxID();
+    } catch (error) {
+      throw new Error(error.stack);
+    }
+  }
+
+  async DeleteAccessRequest(ctx, requestId) {
+    try {
+      // const access = new Access();
+      // access.DeleteAccessRequestAccess(ctx);
+
+      await ctx.stub.deleteState(requestId);
       return ctx.stub.getTxID();
     } catch (error) {
       throw new Error(error.stack);

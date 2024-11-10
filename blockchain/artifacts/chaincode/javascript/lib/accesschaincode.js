@@ -37,6 +37,15 @@ class Access extends Contract {
     }
   }
 
+  CreateAccessRequestAccess(ctx) {
+    let cid = new ClientIdentity(ctx.stub);
+    if (cid.assertAttributeValue("department", "patient")) {
+      throw new Error(
+        "You are not authorized to perform this operation, Only doctor or pharmacist can do this operation"
+      );
+    }
+  }
+
   UpdatePersonalInfoAccess(ctx) {
     let cid = new ClientIdentity(ctx.stub);
     if (!cid.assertAttributeValue("department", "patient")) {
@@ -69,6 +78,15 @@ class Access extends Contract {
     if (!cid.assertAttributeValue("department", "pharmacist")) {
       throw new Error(
         "You are not authorized to perform this operation, Only pharmacist can do this operation"
+      );
+    }
+  }
+
+  UpdateAccessRequestAccess(ctx) {
+    let cid = new ClientIdentity(ctx.stub);
+    if (!cid.assertAttributeValue("department", "patient")) {
+      throw new Error(
+        "You are not authorized to perform this operation, Only patient can do this operation"
       );
     }
   }
@@ -108,5 +126,14 @@ class Access extends Contract {
       );
     }
   }
+
+  // DeleteAccessRequestAccess(ctx) {
+  //   let cid = new ClientIdentity(ctx.stub);
+  //   if (!cid.assertAttributeValue("department", "pharmacist")) {
+  //     throw new Error(
+  //       "You are not authorized to perform this operation, Only pharmacist can do this operation"
+  //     );
+  //   }
+  // }
 }
 module.exports = Access;

@@ -161,9 +161,6 @@ const deletePersonalInfo = catchAsync(async (req, res) => {
     );
 });
 
-
-
-
 const createDiagnosis = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let diagnosisData = req.body;
@@ -229,11 +226,13 @@ const deleteDiagnosis = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Diagnosis deleted successfully", result)
+      getSuccessResponse(
+        httpStatus.OK,
+        "Diagnosis deleted successfully",
+        result
+      )
     );
 });
-
-
 
 const createMedication = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -305,11 +304,13 @@ const deleteMedication = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Medication deleted successfully", result)
+      getSuccessResponse(
+        httpStatus.OK,
+        "Medication deleted successfully",
+        result
+      )
     );
 });
-
-
 
 const createMedCount = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -377,8 +378,6 @@ const deleteMedCount = catchAsync(async (req, res) => {
 });
 
 
-
-
 const createAccessReq = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let accessReqData = req.body;
@@ -428,7 +427,13 @@ const updateAccessReq = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Access request updated successfully", result)
+
+      getSuccessResponse(
+        httpStatus.OK,
+        "Access request updated successfully",
+        result
+      )
+
     );
 });
 
@@ -439,15 +444,14 @@ const deleteAccessReq = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
-      getSuccessResponse(httpStatus.OK, "Access request deleted successfully", result)
+
+      getSuccessResponse(
+        httpStatus.OK,
+        "Access request deleted successfully",
+        result
+      )
     );
 });
-
-
-
-
-
-
 
 
 const getSignedURL = catchAsync(async (req, res) => {
@@ -670,9 +674,6 @@ const getAccessReqsByPrescriptionId = catchAsync(async (req, res) => {
 });
 
 
-
-
-
 const getPrescriptionById = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -761,8 +762,6 @@ module.exports = {
   getMedicationsByPrescriptionId,
   getMedCountsByPrescriptionId,
   getAccessReqsByPrescriptionId,
-
-
   getSignedURL,
   getHistoryById,
 };
