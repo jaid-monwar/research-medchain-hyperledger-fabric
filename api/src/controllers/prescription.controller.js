@@ -79,6 +79,9 @@ const approveAgreement = catchAsync(async (req, res) => {
     );
 });
 
+
+
+
 const createPersonalInfo = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let personalinfoData = req.body;
@@ -374,6 +377,7 @@ const deleteMedCount = catchAsync(async (req, res) => {
     );
 });
 
+
 const createAccessReq = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   let accessReqData = req.body;
@@ -423,11 +427,13 @@ const updateAccessReq = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
+
       getSuccessResponse(
         httpStatus.OK,
         "Access request updated successfully",
         result
       )
+
     );
 });
 
@@ -438,6 +444,7 @@ const deleteAccessReq = catchAsync(async (req, res) => {
   res
     .status(httpStatus.OK)
     .send(
+
       getSuccessResponse(
         httpStatus.OK,
         "Access request deleted successfully",
@@ -445,6 +452,7 @@ const deleteAccessReq = catchAsync(async (req, res) => {
       )
     );
 });
+
 
 const getSignedURL = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -523,6 +531,9 @@ const getApprovalsByAgreementId = catchAsync(async (req, res) => {
     })
   );
 });
+
+
+
 
 const getPersonalInfosByPrescriptionId = catchAsync(async (req, res) => {
   const { pageSize, bookmark } = req.query;
@@ -662,6 +673,7 @@ const getAccessReqsByPrescriptionId = catchAsync(async (req, res) => {
   );
 });
 
+
 const getPrescriptionById = catchAsync(async (req, res) => {
   const { id } = req.params;
 
@@ -744,12 +756,12 @@ module.exports = {
   getSubAssetById,
   approveAgreement,
 
+
   getPersonalInfosByPrescriptionId,
   getDiagnosesByPrescriptionId,
   getMedicationsByPrescriptionId,
   getMedCountsByPrescriptionId,
   getAccessReqsByPrescriptionId,
-
   getSignedURL,
   getHistoryById,
 };

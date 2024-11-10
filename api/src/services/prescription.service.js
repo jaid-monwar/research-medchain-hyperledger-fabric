@@ -1112,6 +1112,7 @@ const deleteAccessReq = async (accessReqId, user) => {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
     let accessReqData = {
+
       fcn: "DeleteAccessRequest",
       data: accessReqId,
     };
@@ -1142,7 +1143,9 @@ const deleteAccessReq = async (accessReqId, user) => {
       client.close();
     }
   }
+
 };
+
 
 /**
  * Query for users
@@ -1332,6 +1335,7 @@ const queryMedCountsByPrescriptionId = async (filter) => {
   return data;
 };
 
+
 const queryAccessReqsByPrescriptionId = async (filter) => {
   console.log(filter);
   let query = `{\"selector\":{\"prescriptionId\":\"${filter.prescriptionId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.ACCESSREQ}\"},  \"use_index\":[\"_design/indexDocTypePrescriptionId\", \"docType_prescriptionId_index\"]}}`;
@@ -1346,7 +1350,9 @@ const queryAccessReqsByPrescriptionId = async (filter) => {
     NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
   );
   return data;
+
 };
+
 
 const validateApprovals = async (agreementId, user) => {
   let orgName = `org${user.orgId}`;
@@ -1569,6 +1575,7 @@ const deleteUserById = async (userId) => {
 };
 
 module.exports = {
+
   createPrescription,
   updatePrescription,
   queryPrescriptions,

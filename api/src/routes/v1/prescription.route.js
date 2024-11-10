@@ -143,7 +143,7 @@ router
     prescriptionController.deleteMedCount
   );
 
-// AccessReq routes
+
 router
   .route("/accessreq/:id")
   .post(
@@ -169,6 +169,7 @@ router
     validate(prescriptionValidation.updateAccessReq),
     prescriptionController.deleteAccessReq
   );
+
 
 // router
 //   .route('/history/:id')
