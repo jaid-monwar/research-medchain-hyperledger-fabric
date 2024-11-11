@@ -18,6 +18,7 @@ const {
 } = require("../utils/Constants");
 const { getUUID } = require("../utils/uuid");
 const { getSignedUrl } = require("../utils/fileUpload");
+const { filter } = require("compression");
 const THIRTY_DAYS = 2592000000;
 
 // If we are sure that max records are limited, we can use any max number
@@ -1298,15 +1299,44 @@ const queryMedicationsByPrescriptionId = async (filter) => {
   console.log(filter);
   let query = `{\"selector\":{\"prescriptionId\":\"${filter.prescriptionId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.MEDICATION}\"},  \"use_index\":[\"_design/indexDocTypePrescriptionId\", \"docType_prescriptiontId_index\"]}}`;
   // let query = `{\"selector\":{\"orgId\": ${filter.orgId}, \"agreementId\":\"${filter.agreementId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.APPROVAL}\"}}}`;
+  
   let data = await getPrescriptionsWithPagination(
     query,
     filter.pageSize,
     filter.bookmark,
     filter.orgName,
     filter.email,
+
     NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
     NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
   );
+  let medications = data?.data?.map((elm) => elm.Record) || [];
+
+  medications.forEach(async(element) => {
+    let r=element;
+    let filter2 = {
+      pageSize: DEFAULT_MAX_RECORDS,
+      bookmark: "",
+      orgName:filter.orgName,
+      email: filter.email,
+      medicationId: element.id,
+    };
+    let medcounts = await queryMedCountsByMedicationId(filter2);
+    r.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
+    medications.push(r);
+    
+  });
+
+  // let data = await getPrescriptionsWithPagination(
+  //   query,
+  //   filter.pageSize,
+  //   filter.bookmark,
+  //   filter.orgName,
+  //   filter.email,
+
+  //   NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+  //   NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
+  // );
   return data;
 };
 
@@ -1493,9 +1523,9 @@ const queryMedicationById = async (id, user) => {
     let result = await contract.submitTransaction("getAssetById", id);
     console.timeEnd("Test");
     result = JSON.parse(utf8Decoder.decode(result));
-    if (result) {
-      result.document.url = await getSignedUrl(result?.document?.id, orgName);
-    }
+    // if (result) {
+    //   result.document.url = await getSignedUrl(result?.document?.id, orgName);
+    // }
     let filter = {
       pageSize: DEFAULT_MAX_RECORDS,
       bookmark: "",
