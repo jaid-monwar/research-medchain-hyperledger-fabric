@@ -1,0 +1,2833 @@
+{
+	"info": {
+		"_postman_id": "533a2a90-beaf-4bfc-a8c3-272fc9183f6a",
+		"name": "Medibloc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25486750"
+	},
+	"item": [
+		{
+			"name": "Admin Auth",
+			"item": [
+				{
+					"name": "Admin login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"pm.environment.set(\"token\", data.payload.access.token);"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admin50@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/auth/login"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "User Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = pm.response.json()",
+									"console.log(data.payload);",
+									"pm.environment.set(\"token\", data.payload.access.token);",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"patient1@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/auth/login"
+					},
+					"response": []
+				},
+				{
+					"name": "User Sign Up",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"doctor1@gmail.com\",\n    \"name\":\"Jaid Doctor\",\n    \"password\":\"Admin@123\",\n    \"department\": \"doctor\",\n    \"orgId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/auth/register"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Admin Actions",
+			"item": [
+				{
+					"name": "Update User Status",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\":\"active\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/users/670fbe7cfa01418dbd9278d9"
+					},
+					"response": [
+						{
+							"name": "Update User Status",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\":\"active\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "142"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8e-j71XNviXZp4xLo6TkIoTOcComlE\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:35:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User status updated successfully, Status: active\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:35:22.093Z\",\n    \"payload\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Users",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admin@gmail.com\",\n    \"password\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}v1/users?size=30&page=0",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"users"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "30"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/v1/users?size=30&page=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"users"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "30"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "777"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"309-i3Evf1T82vwLwbfF6kjowtQ5PRY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:34:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:34:35.886Z\",\n    \"payload\": {\n        \"docs\": [\n            {\n                \"status\": \"inactive\",\n                \"type\": \"user\",\n                \"isVerified\": false,\n                \"email\": \"user43@gmail.com\",\n                \"name\": \"pavan\",\n                \"department\": \"legal\",\n                \"orgId\": 1,\n                \"id\": \"6537651fc7df8dbafa1e88d9\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": true,\n                \"name\": \"max\",\n                \"email\": \"admin50@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"secret\": \"avBdMwkohOqM\",\n                \"id\": \"653760b90c317daf272570e3\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": false,\n                \"name\": \"max\",\n                \"email\": \"admin48@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"id\": \"653745ab618ba0000873cbd1\"\n            }\n        ],\n        \"totalDocs\": 3,\n        \"offset\": 0,\n        \"limit\": 30,\n        \"totalPages\": 1,\n        \"page\": 1,\n        \"pagingCounter\": 1,\n        \"hasPrevPage\": false,\n        \"hasNextPage\": false,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "User Actions",
+			"item": [
+				{
+					"name": "Update User Access",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"access\":\"grant\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/users/access/66ce327f484264958b29e5a8"
+					},
+					"response": [
+						{
+							"name": "Update User Status",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"status\":\"active\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "142"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"8e-j71XNviXZp4xLo6TkIoTOcComlE\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:35:22 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"User status updated successfully, Status: active\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:35:22.093Z\",\n    \"payload\": \"\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Doctors",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admin@gmail.com\",\n    \"password\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}v1/users/doctors?size=30&page=0",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"users",
+								"doctors"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "30"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/v1/users?size=30&page=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"users"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "30"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "777"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"309-i3Evf1T82vwLwbfF6kjowtQ5PRY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:34:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:34:35.886Z\",\n    \"payload\": {\n        \"docs\": [\n            {\n                \"status\": \"inactive\",\n                \"type\": \"user\",\n                \"isVerified\": false,\n                \"email\": \"user43@gmail.com\",\n                \"name\": \"pavan\",\n                \"department\": \"legal\",\n                \"orgId\": 1,\n                \"id\": \"6537651fc7df8dbafa1e88d9\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": true,\n                \"name\": \"max\",\n                \"email\": \"admin50@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"secret\": \"avBdMwkohOqM\",\n                \"id\": \"653760b90c317daf272570e3\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": false,\n                \"name\": \"max\",\n                \"email\": \"admin48@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"id\": \"653745ab618ba0000873cbd1\"\n            }\n        ],\n        \"totalDocs\": 3,\n        \"offset\": 0,\n        \"limit\": 30,\n        \"totalPages\": 1,\n        \"page\": 1,\n        \"pagingCounter\": 1,\n        \"hasPrevPage\": false,\n        \"hasNextPage\": false,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Pharmacists",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"admin@gmail.com\",\n    \"password\":\"12345\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}v1/users/pharmacists?size=30&page=0",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"users",
+								"pharmacists"
+							],
+							"query": [
+								{
+									"key": "size",
+									"value": "30"
+								},
+								{
+									"key": "page",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/v1/users?size=30&page=0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"users"
+									],
+									"query": [
+										{
+											"key": "size",
+											"value": "30"
+										},
+										{
+											"key": "page",
+											"value": "0"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "777"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"309-i3Evf1T82vwLwbfF6kjowtQ5PRY\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:34:35 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:34:35.886Z\",\n    \"payload\": {\n        \"docs\": [\n            {\n                \"status\": \"inactive\",\n                \"type\": \"user\",\n                \"isVerified\": false,\n                \"email\": \"user43@gmail.com\",\n                \"name\": \"pavan\",\n                \"department\": \"legal\",\n                \"orgId\": 1,\n                \"id\": \"6537651fc7df8dbafa1e88d9\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": true,\n                \"name\": \"max\",\n                \"email\": \"admin50@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"secret\": \"avBdMwkohOqM\",\n                \"id\": \"653760b90c317daf272570e3\"\n            },\n            {\n                \"status\": \"active\",\n                \"type\": \"admin\",\n                \"isVerified\": false,\n                \"name\": \"max\",\n                \"email\": \"admin48@gmail.com\",\n                \"orgId\": 1,\n                \"department\": \"legal\",\n                \"id\": \"653745ab618ba0000873cbd1\"\n            }\n        ],\n        \"totalDocs\": 3,\n        \"offset\": 0,\n        \"limit\": 30,\n        \"totalPages\": 1,\n        \"page\": 1,\n        \"pagingCounter\": 1,\n        \"hasPrevPage\": false,\n        \"hasNextPage\": false,\n        \"prevPage\": null,\n        \"nextPage\": null\n    }\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Prescription",
+			"item": [
+				{
+					"name": "Personal Info",
+					"item": [
+						{
+							"name": "Add Personal Info to Prescription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Jaid Monwar Chowdhury\",\n    \"age\":\"24\",\n    \"gender\":\"male\",\n    \"address\": \"Dhanmondi\",\n    \"phone\": \"017777777777\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/personalinfo/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+							},
+							"response": [
+								{
+									"name": "Add Approval to Agreement",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"description\":\"user7@gmail.com\",\n    \"action\":\"No Action needed\",\n    \"comment\":\"Agreement approved\",\n    \"status\": \"approved\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "198"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"c6-84ERvjFYN1YSRuRCWABUp2CFV7g\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:14:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"approval submitted successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-25T03:14:47.078Z\",\n    \"payload\": {\n        \"txid\": \"91322248c29eab80dc0b8b0bb2ec8ede722e191c1b827924339b298465b9ac47\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Personal Infos by Prescription ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/personalinfo/f0ea2f9d-e613-4cda-9f63-a382c3cfb290"
+							},
+							"response": [
+								{
+									"name": "Get Approvals by Agreement ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-li6W6NcVx+0RPx4N/cR6l/kuEQQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:15:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:15:19.704Z\",\n    \"payload\": {\n        \"approvals\": [\n            {\n                \"action\": \"No Action needed\",\n                \"agreementId\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n                \"comment\": \"Agreement approved\",\n                \"createAt\": \"2023-10-25T03:14:39.903Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"description\": \"user7@gmail.com\",\n                \"docType\": \"approval\",\n                \"id\": \"6bee3187-b3d7-4ef4-9058-8594add70525\",\n                \"orgId\": 1,\n                \"status\": \"approved\",\n                \"updatedAt\": \"2023-10-25T03:14:39.903Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Edit Personal Info By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"name\":\"Sayem\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/personalinfos/0ad74b1e-172e-4460-b3ac-e8ee5a4d70cd"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Personal Info By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/personalinfos/86054e59-50e3-4fb9-807f-189959052363"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Access Request",
+					"item": [
+						{
+							"name": "Add Access Request to Prescription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"assetType\":\"diagnosis\",\n    \"permissionType\":\"update\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/accessreq/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+							},
+							"response": [
+								{
+									"name": "Add Approval to Agreement",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"description\":\"user7@gmail.com\",\n    \"action\":\"No Action needed\",\n    \"comment\":\"Agreement approved\",\n    \"status\": \"approved\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "198"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"c6-84ERvjFYN1YSRuRCWABUp2CFV7g\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:14:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"approval submitted successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-25T03:14:47.078Z\",\n    \"payload\": {\n        \"txid\": \"91322248c29eab80dc0b8b0bb2ec8ede722e191c1b827924339b298465b9ac47\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Access Requests by Prescription ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/accessreq/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+							},
+							"response": [
+								{
+									"name": "Get Approvals by Agreement ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-li6W6NcVx+0RPx4N/cR6l/kuEQQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:15:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:15:19.704Z\",\n    \"payload\": {\n        \"approvals\": [\n            {\n                \"action\": \"No Action needed\",\n                \"agreementId\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n                \"comment\": \"Agreement approved\",\n                \"createAt\": \"2023-10-25T03:14:39.903Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"description\": \"user7@gmail.com\",\n                \"docType\": \"approval\",\n                \"id\": \"6bee3187-b3d7-4ef4-9058-8594add70525\",\n                \"orgId\": 1,\n                \"status\": \"approved\",\n                \"updatedAt\": \"2023-10-25T03:14:39.903Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Update Access Request By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"accessStatus\":\"granted\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/accessreqs/0fca951e-d5dc-4cc7-9d60-5b12eec27dd5"
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Access Requests By ID",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/accessreqs/0fca951e-d5dc-4cc7-9d60-5b12eec27dd5"
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Diagnosis",
+					"item": [
+						{
+							"name": "Add Diagnosis to Prescription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"description\":\"heart pain, fever\",\n    \"comment\":\" need to work hard\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/diagnosis/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+							},
+							"response": [
+								{
+									"name": "Add Approval to Agreement",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"description\":\"user7@gmail.com\",\n    \"action\":\"No Action needed\",\n    \"comment\":\"Agreement approved\",\n    \"status\": \"approved\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "198"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"c6-84ERvjFYN1YSRuRCWABUp2CFV7g\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:14:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"approval submitted successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-25T03:14:47.078Z\",\n    \"payload\": {\n        \"txid\": \"91322248c29eab80dc0b8b0bb2ec8ede722e191c1b827924339b298465b9ac47\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Diagnosis by Prescription ID",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+							},
+							"response": [
+								{
+									"name": "Get Approvals by Agreement ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-li6W6NcVx+0RPx4N/cR6l/kuEQQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:15:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:15:19.704Z\",\n    \"payload\": {\n        \"approvals\": [\n            {\n                \"action\": \"No Action needed\",\n                \"agreementId\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n                \"comment\": \"Agreement approved\",\n                \"createAt\": \"2023-10-25T03:14:39.903Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"description\": \"user7@gmail.com\",\n                \"docType\": \"approval\",\n                \"id\": \"6bee3187-b3d7-4ef4-9058-8594add70525\",\n                \"orgId\": 1,\n                \"status\": \"approved\",\n                \"updatedAt\": \"2023-10-25T03:14:39.903Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Medication",
+					"item": [
+						{
+							"name": "Add Medication to Prescription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"medname\":\"condom\",\n    \"meddosage\":\"2\",\n    \"medcount\":\"1\",\n    \"comment\": \"niceee\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/medication/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+							},
+							"response": [
+								{
+									"name": "Add Approval to Agreement",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"description\":\"user7@gmail.com\",\n    \"action\":\"No Action needed\",\n    \"comment\":\"Agreement approved\",\n    \"status\": \"approved\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "198"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"c6-84ERvjFYN1YSRuRCWABUp2CFV7g\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:14:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"approval submitted successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-25T03:14:47.078Z\",\n    \"payload\": {\n        \"txid\": \"91322248c29eab80dc0b8b0bb2ec8ede722e191c1b827924339b298465b9ac47\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Medication by Prescription Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"medname\":\"napa\",\n    \"meddose\":\"2\",\n    \"medcount\":\"1\",\n    \"comment\": \"niceee\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/medication/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+							},
+							"response": [
+								{
+									"name": "Get Approvals by Agreement ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-li6W6NcVx+0RPx4N/cR6l/kuEQQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:15:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:15:19.704Z\",\n    \"payload\": {\n        \"approvals\": [\n            {\n                \"action\": \"No Action needed\",\n                \"agreementId\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n                \"comment\": \"Agreement approved\",\n                \"createAt\": \"2023-10-25T03:14:39.903Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"description\": \"user7@gmail.com\",\n                \"docType\": \"approval\",\n                \"id\": \"6bee3187-b3d7-4ef4-9058-8594add70525\",\n                \"orgId\": 1,\n                \"status\": \"approved\",\n                \"updatedAt\": \"2023-10-25T03:14:39.903Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Med Count",
+					"item": [
+						{
+							"name": "Add Med Count to Prescription",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"medbought\":\"5\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/medcount/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+							},
+							"response": [
+								{
+									"name": "Add Approval to Agreement",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"description\":\"user7@gmail.com\",\n    \"action\":\"No Action needed\",\n    \"comment\":\"Agreement approved\",\n    \"status\": \"approved\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "Created",
+									"code": 201,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "198"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"c6-84ERvjFYN1YSRuRCWABUp2CFV7g\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:14:47 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"approval submitted successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-25T03:14:47.078Z\",\n    \"payload\": {\n        \"txid\": \"91322248c29eab80dc0b8b0bb2ec8ede722e191c1b827924339b298465b9ac47\"\n    }\n}"
+								}
+							]
+						},
+						{
+							"name": "Get Med Count by Prescription Id",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": {
+										"token": "{{token}}"
+									}
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{url}}v1/prescriptions/medcount/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+							},
+							"response": [
+								{
+									"name": "Get Approvals by Agreement ID",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Security-Policy",
+											"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+										},
+										{
+											"key": "X-DNS-Prefetch-Control",
+											"value": "off"
+										},
+										{
+											"key": "Expect-CT",
+											"value": "max-age=0"
+										},
+										{
+											"key": "X-Frame-Options",
+											"value": "SAMEORIGIN"
+										},
+										{
+											"key": "Strict-Transport-Security",
+											"value": "max-age=15552000; includeSubDomains"
+										},
+										{
+											"key": "X-Download-Options",
+											"value": "noopen"
+										},
+										{
+											"key": "X-Content-Type-Options",
+											"value": "nosniff"
+										},
+										{
+											"key": "X-Permitted-Cross-Domain-Policies",
+											"value": "none"
+										},
+										{
+											"key": "Referrer-Policy",
+											"value": "no-referrer"
+										},
+										{
+											"key": "X-XSS-Protection",
+											"value": "0"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json; charset=utf-8"
+										},
+										{
+											"key": "Content-Length",
+											"value": "535"
+										},
+										{
+											"key": "ETag",
+											"value": "W/\"217-li6W6NcVx+0RPx4N/cR6l/kuEQQ\""
+										},
+										{
+											"key": "Vary",
+											"value": "Accept-Encoding"
+										},
+										{
+											"key": "Date",
+											"value": "Wed, 25 Oct 2023 03:15:19 GMT"
+										},
+										{
+											"key": "Connection",
+											"value": "keep-alive"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:15:19.704Z\",\n    \"payload\": {\n        \"approvals\": [\n            {\n                \"action\": \"No Action needed\",\n                \"agreementId\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n                \"comment\": \"Agreement approved\",\n                \"createAt\": \"2023-10-25T03:14:39.903Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"description\": \"user7@gmail.com\",\n                \"docType\": \"approval\",\n                \"id\": \"6bee3187-b3d7-4ef4-9058-8594add70525\",\n                \"orgId\": 1,\n                \"status\": \"approved\",\n                \"updatedAt\": \"2023-10-25T03:14:39.903Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ]\n    }\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Add Prescription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "agreement",
+									"type": "file",
+									"src": "Apache Server Configuration.pdf"
+								},
+								{
+									"key": "typeOfContract",
+									"value": "Legal Agreement",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Hardware Terms Agreement 1444ergt",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "contract",
+									"value": "Laptop Contract",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "firstParty",
+									"value": "Org1",
+									"type": "text"
+								},
+								{
+									"key": "secondParty",
+									"value": "Org2",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1700073000000",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "comment",
+									"value": "second prescription",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url}}v1/prescriptions"
+					},
+					"response": [
+						{
+							"name": "Add Aggrement Form Data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "agreement",
+											"type": "file",
+											"src": "/home/pavan/Documents/test pdf file.pdf"
+										},
+										{
+											"key": "typeOfContract",
+											"value": "Legal Agreement",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Hardware Terms Agreement",
+											"type": "text"
+										},
+										{
+											"key": "contract",
+											"value": "Laptop Contract",
+											"type": "text"
+										},
+										{
+											"key": "firstParty",
+											"value": "IBM",
+											"type": "text"
+										},
+										{
+											"key": "secondParty",
+											"value": "Lenovo",
+											"type": "text"
+										},
+										{
+											"key": "startDate",
+											"value": "1662868248456",
+											"type": "text"
+										},
+										{
+											"key": "endDate",
+											"value": "1662868248456",
+											"type": "text"
+										},
+										{
+											"key": "comment",
+											"value": "500 Laptop Agreement created",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/v1/agreements"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41d-VYybkZ+3JkP3TGxj+oV27a3ZxnA\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:36:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Agreement created successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-24T06:36:08.518Z\",\n    \"payload\": {\n        \"id\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n        \"typeOfContract\": \"Legal Agreement\",\n        \"title\": \"Hardware Terms Agreement\",\n        \"owner\": \"org1\",\n        \"contract\": \"Laptop Contract\",\n        \"orgId\": 1,\n        \"department\": \"legal\",\n        \"firstParty\": \"IBM\",\n        \"secondParty\": \"Lenovo\",\n        \"status\": \"inprogress\",\n        \"startDate\": 1662868248456,\n        \"endDate\": 1662868248456,\n        \"docType\": \"agreement\",\n        \"comments\": [\n            \"500 Laptop Agreement created\"\n        ],\n        \"createBy\": \"admin50@gmail.com\",\n        \"updatedBy\": \"admin50@gmail.com\",\n        \"createAt\": \"2023-10-24T06:36:05.906Z\",\n        \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n        \"document\": {\n            \"id\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"orgName\": \"org1\",\n            \"name\": \"test pdf file\",\n            \"url\": \"https://e-agreements.s3.amazonaws.com/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"contentHash\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e\",\n            \"createBy\": \"admin50@gmail.com\",\n            \"updatedBy\": \"admin50@gmail.com\",\n            \"createAt\": \"2023-10-24T06:36:05.906Z\",\n            \"updatedAt\": \"2023-10-24T06:36:05.906Z\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Prescription",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "agreement",
+									"type": "file",
+									"src": "/home/seed/Downloads/my_sign.pdf"
+								},
+								{
+									"key": "typeOfContract",
+									"value": "Legal Agreement",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "title",
+									"value": "Hardware Terms Agreement 1444ergt",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "contract",
+									"value": "Laptop Contract",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "firstParty",
+									"value": "Org1",
+									"type": "text"
+								},
+								{
+									"key": "secondParty",
+									"value": "Org2",
+									"type": "text"
+								},
+								{
+									"key": "startDate",
+									"value": "1700073000000",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "comment",
+									"value": "second time here",
+									"type": "text"
+								}
+							]
+						},
+						"url": "{{url}}v1/prescriptions/4c18a0a3-5d93-47d6-9acb-4650f3e14a85"
+					},
+					"response": [
+						{
+							"name": "Add Aggrement Form Data",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "agreement",
+											"type": "file",
+											"src": "/home/pavan/Documents/test pdf file.pdf"
+										},
+										{
+											"key": "typeOfContract",
+											"value": "Legal Agreement",
+											"type": "text"
+										},
+										{
+											"key": "title",
+											"value": "Hardware Terms Agreement",
+											"type": "text"
+										},
+										{
+											"key": "contract",
+											"value": "Laptop Contract",
+											"type": "text"
+										},
+										{
+											"key": "firstParty",
+											"value": "IBM",
+											"type": "text"
+										},
+										{
+											"key": "secondParty",
+											"value": "Lenovo",
+											"type": "text"
+										},
+										{
+											"key": "startDate",
+											"value": "1662868248456",
+											"type": "text"
+										},
+										{
+											"key": "endDate",
+											"value": "1662868248456",
+											"type": "text"
+										},
+										{
+											"key": "comment",
+											"value": "500 Laptop Agreement created",
+											"type": "text"
+										}
+									],
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "http://localhost:3000/v1/agreements"
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"41d-VYybkZ+3JkP3TGxj+oV27a3ZxnA\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:36:08 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Agreement created successfully\",\n    \"status\": 201,\n    \"timestamp\": \"2023-10-24T06:36:08.518Z\",\n    \"payload\": {\n        \"id\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n        \"typeOfContract\": \"Legal Agreement\",\n        \"title\": \"Hardware Terms Agreement\",\n        \"owner\": \"org1\",\n        \"contract\": \"Laptop Contract\",\n        \"orgId\": 1,\n        \"department\": \"legal\",\n        \"firstParty\": \"IBM\",\n        \"secondParty\": \"Lenovo\",\n        \"status\": \"inprogress\",\n        \"startDate\": 1662868248456,\n        \"endDate\": 1662868248456,\n        \"docType\": \"agreement\",\n        \"comments\": [\n            \"500 Laptop Agreement created\"\n        ],\n        \"createBy\": \"admin50@gmail.com\",\n        \"updatedBy\": \"admin50@gmail.com\",\n        \"createAt\": \"2023-10-24T06:36:05.906Z\",\n        \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n        \"document\": {\n            \"id\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"orgName\": \"org1\",\n            \"name\": \"test pdf file\",\n            \"url\": \"https://e-agreements.s3.amazonaws.com/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"contentHash\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e\",\n            \"createBy\": \"admin50@gmail.com\",\n            \"updatedBy\": \"admin50@gmail.com\",\n            \"createAt\": \"2023-10-24T06:36:05.906Z\",\n            \"updatedAt\": \"2023-10-24T06:36:05.906Z\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Prescriptions",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"user7@gmail.com\",\n    \"name\":\"pavan\",\n    \"password\":\"test@12345\",\n    \"department\": \"legal\",\n    \"orgId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}v1/prescriptions?pageSize=100&filterType=prescription",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"prescriptions"
+							],
+							"query": [
+								{
+									"key": "pageSize",
+									"value": "100"
+								},
+								{
+									"key": "bookmark",
+									"value": "\"\"",
+									"disabled": true
+								},
+								{
+									"key": "filterType",
+									"value": "prescription"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Agreements",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements?pageSize=100&filterType=inprogress",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements"
+									],
+									"query": [
+										{
+											"key": "pageSize",
+											"value": "100"
+										},
+										{
+											"key": "bookmark",
+											"value": "\"\"",
+											"disabled": true
+										},
+										{
+											"key": "filterType",
+											"value": "inprogress"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"5a6-WEw5KXMP++UTwZAhcLTIAPTaESg\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 24 Oct 2023 06:36:45 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Users fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-24T06:36:45.345Z\",\n    \"payload\": {\n        \"data\": [\n            {\n                \"comments\": [\n                    \"rthryth\"\n                ],\n                \"contract\": \"rgnyn\",\n                \"createAt\": \"2023-10-24T06:15:57.410Z\",\n                \"createBy\": \"admin50@gmail.com\",\n                \"department\": \"legal\",\n                \"docType\": \"agreement\",\n                \"document\": {\n                    \"contentHash\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e\",\n                    \"createAt\": \"2023-10-24T06:15:57.410Z\",\n                    \"createBy\": \"admin50@gmail.com\",\n                    \"id\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n                    \"name\": \"test pdf file\",\n                    \"orgName\": \"org1\",\n                    \"updatedAt\": \"2023-10-24T06:15:57.410Z\",\n                    \"updatedBy\": \"admin50@gmail.com\",\n                    \"url\": \"https://e-agreements.s3.us-west-2.amazonaws.com/org1/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test%20pdf%20file.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWKYUXK2DAENBPDCM%2F20231024%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20231024T063645Z&X-Amz-Expires=3600&X-Amz-Signature=505adc46a5a9c7d64df1fbb4f51749f8fc21ef369bb3ecb18b6da62740bd5bb0&X-Amz-SignedHeaders=host\"\n                },\n                \"endDate\": 1698345000000,\n                \"firstParty\": \"Org1\",\n                \"id\": \"c978e11d-6219-42b7-8880-b5a73bc4b471\",\n                \"orgId\": 1,\n                \"owner\": \"org1\",\n                \"secondParty\": \"Org2\",\n                \"startDate\": 1696357800000,\n                \"status\": \"inprogress\",\n                \"title\": \"dfgnry\",\n                \"typeOfContract\": \"rytnry\",\n                \"updatedAt\": \"2023-10-24T06:15:57.410Z\",\n                \"updatedBy\": \"admin50@gmail.com\"\n            }\n        ],\n        \"metadata\": {\n            \"RecordsCount\": 1,\n            \"Bookmark\": \"g1AAAAB4eJzLYWBgYMpgSmHgKy5JLCrJTq2MT8lPzkzJBYqrJFuaW6QaGqbomhkZWuqaGCWZ61pYWBjoJpkmmhsnJZskmZgbgvRywPQSrSsLAEqyHtU\"\n        }\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Prescription By Id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": {
+								"token": "{{token}}"
+							}
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"jpatient@gmail.com\",\n    \"name\":\"Jaid Patient\",\n    \"password\":\"Admin@123\",\n    \"department\": \"patient\",\n    \"orgId\": 1\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": "{{url}}v1/prescriptions/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+					},
+					"response": [
+						{
+							"name": "Get Agreement by id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": "http://localhost:3000/v1/agreements/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"54a-uFki3F6A2usXyTiKsoP6xv9ipPA\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 25 Oct 2023 03:12:30 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Agreement fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:12:30.743Z\",\n    \"payload\": {\n        \"comments\": [\n            \"500 Laptop Agreement created\"\n        ],\n        \"contract\": \"Laptop Contract\",\n        \"createAt\": \"2023-10-24T06:36:05.906Z\",\n        \"createBy\": \"admin50@gmail.com\",\n        \"department\": \"legal\",\n        \"docType\": \"agreement\",\n        \"document\": {\n            \"contentHash\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e\",\n            \"createAt\": \"2023-10-24T06:36:05.906Z\",\n            \"createBy\": \"admin50@gmail.com\",\n            \"id\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"name\": \"test pdf file\",\n            \"orgName\": \"org1\",\n            \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n            \"updatedBy\": \"admin50@gmail.com\",\n            \"url\": \"https://e-agreements.s3.us-west-2.amazonaws.com/org1/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test%20pdf%20file.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWKYUXK2DAENBPDCM%2F20231025%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20231025T031230Z&X-Amz-Expires=3600&X-Amz-Signature=ec6a9785c7f43da3cebfd7d3e6c5601adcc8ded4bd0f4b80cda7ca4bc06d7b6d&X-Amz-SignedHeaders=host\"\n        },\n        \"endDate\": 1662868248456,\n        \"firstParty\": \"IBM\",\n        \"id\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n        \"orgId\": 1,\n        \"owner\": \"org1\",\n        \"secondParty\": \"Lenovo\",\n        \"startDate\": 1662868248456,\n        \"status\": \"inprogress\",\n        \"title\": \"Hardware Terms Agreement\",\n        \"typeOfContract\": \"Legal Agreement\",\n        \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n        \"updatedBy\": \"admin50@gmail.com\",\n        \"approvals\": []\n    }\n}"
+						}
+					]
+				}
+			]
+		}
+	]
+}
