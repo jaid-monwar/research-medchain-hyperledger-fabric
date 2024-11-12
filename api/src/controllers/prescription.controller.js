@@ -481,6 +481,8 @@ const getPrescriptions = catchAsync(async (req, res) => {
     filterType,
   };
 
+  
+
   console.log(filter);
 
   let data = await prescriptionService.queryPrescriptions(filter);
@@ -494,6 +496,51 @@ const getPrescriptions = catchAsync(async (req, res) => {
       getSuccessResponse(httpStatus.OK, "Users fetched successfully", data)
     );
 });
+
+const getPrescriptionsByDate = catchAsync(async (req, res) => {
+  const { date } = req.body; // Only the date (YYYY-MM-DD) is expected in the request body
+  console.log(date);
+
+  // Parse the date to get the start and end timestamps in ISO format
+  const startOfDay = `${date}T00:00:00.000Z`;
+  const endOfDay = `${date}T23:59:59.999Z`;
+
+  console.log(startOfDay);
+  console.log(endOfDay);
+
+  // Extract other pagination parameters if needed
+  const { pageSize, bookmark } = req.body;
+
+  // Extract user info from req.loggerInfo
+  let { orgId, email } = req.loggerInfo.user;
+  let orgName = `org${orgId}`;
+
+  // Construct the filter to pass to the service function
+  let filter = {
+    startOfDay,
+    endOfDay,
+    pageSize: pageSize || 10, // Default pageSize to 10 if not provided
+    bookmark: bookmark || "", // Bookmark for pagination, if provided
+    orgName,
+    email
+  };
+
+  console.log("Filter for date range:", filter);
+
+  // Call the service function with the filter
+  let data = await prescriptionService.queryPrescriptionsByDateRange(filter);
+  if (data?.data) {
+    data.data = data.data.map((elm) => elm.Record);
+  }
+
+  // Send the response
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Prescriptions fetched successfully", data)
+    );
+});
+
 
 const getHistoryById = catchAsync(async (req, res) => {
   const { id } = req.params;
@@ -769,6 +816,7 @@ module.exports = {
   deleteAccessReq,
 
   getPrescriptions,
+  getPrescriptionsByDate,
   getUser,
   updateUser,
   deleteUser,

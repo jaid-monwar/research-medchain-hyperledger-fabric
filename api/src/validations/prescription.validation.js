@@ -22,6 +22,13 @@ const updatePrescription = Joi.object().keys({
   comment: Joi.string().required(),
 });
 
+const getPrescriptionsByDate = Joi.object().keys({
+  // id: Joi.string().required(),
+  createAt: Joi.string().required(),
+  //secondParty: Joi.string().required(),
+  //comment: Joi.string().required(),
+});
+
 const createPersonalInfo = {
   body: Joi.object().keys({
     name: Joi.string().required(),
@@ -145,6 +152,7 @@ module.exports = {
 
   updatePrescription,
   getPrescriptionById,
+  getPrescriptionsByDate,
 
   getPrescriptionPersonalInfos,
   getPrescriptionDiagnoses,

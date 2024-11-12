@@ -27,6 +27,15 @@ router
   .post(auth, uploadFileToS3, prescriptionController.createPrescription)
   .get(auth, prescriptionController.getPrescriptions);
 
+
+router
+  .route("/prescription/date/")
+  .get(auth, 
+    validate(prescriptionValidation.getPrescriptionsByDate),
+    prescriptionController.getPrescriptionsByDate);
+
+
+
 router
   .route("/documents/:id")
   .get(

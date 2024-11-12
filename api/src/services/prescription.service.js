@@ -1146,7 +1146,7 @@ const deleteAccessReq = async (accessReqId, user) => {
   }
 
 };
-
+//"2024-11-12T17:14:18.991Z"
 
 /**
  * Query for users
@@ -1236,6 +1236,135 @@ const queryPrescriptions = async (filter) => {
   }
 };
 
+
+const queryPrescriptionsByDate = async (filter) => {
+  try {
+    // Validate the filter object
+    if (!filter || !filter.createAt) {
+      throw new Error("The 'createAt' filter is required.");
+    }
+
+    const selector = {
+      createAt: filter.createAt, // Assuming filter.updatedAt is a string in the exact format "YYYY-MM-DDTHH:mm:ss.sssZ"
+      docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION
+    };
+
+    const queryObject = {
+      selector: selector,
+      sort: [{ updatedAt: "desc" }],
+      use_index: ["_design/indexAssetTypeOrgIdTime", "orgId_docType_time_index"]
+    };
+
+    // Convert the query object to a JSON string
+    const query = JSON.stringify(queryObject);
+
+    console.log("Executing queryPrescriptionsByExactCreatedAt with filter:", filter);
+    console.log("Constructed Query:", query);
+
+    // Execute the query with pagination
+    let data = await getPrescriptionsWithPagination(
+      query,
+      filter.pageSize || 10,
+      filter.bookmark,
+      filter.orgName ,
+      filter.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
+    );
+
+    let tempData = [];
+    for (let prescription of data?.data || []) {
+      if (prescription?.Record?.document?.id) {
+        try {
+          const signedUrl = await getSignedUrl(
+            prescription.Record.document.id,
+            `org${prescription.Record.orgId}`
+          );
+          prescription.Record.document.url = signedUrl;
+        } catch (urlError) {
+          console.error("Error generating signed URL:", urlError);
+          prescription.Record.document.url = null; // Or handle as needed
+        }
+      }
+      tempData.push(prescription);
+    }
+
+    // Replace the original data with the processed data
+    data.data = tempData;
+
+    return data;
+  } catch (error) {
+    console.error("Error in queryPrescriptionsByExactUpdatedAt:", error);
+    throw error; // Propagate the error to be handled by the caller
+  }
+};
+
+const queryPrescriptionsByDateRange = async (filter) => {
+  try {
+    const { startOfDay, endOfDay, pageSize, bookmark, orgName, email } = filter;
+
+    // Construct the selector for the CouchDB query with range for updatedAt
+    const selector = {
+      createAt: {
+        $gte: startOfDay,
+        $lte: endOfDay
+      },
+      docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION
+    };
+
+    // Construct the full query object
+    const queryObject = {
+      selector: selector,
+      sort: [{ updatedAt: "desc" }],
+      use_index: ["_design/indexAssetTypeOrgIdTime", "orgId_docType_time_index"]
+    };
+
+    // Convert the query object to a JSON string
+    const query = JSON.stringify(queryObject);
+
+    console.log("Executing queryPrescriptionsByDateRange with filter:", filter);
+    console.log("Constructed Query:", query);
+
+    // Execute the query with pagination
+    let data = await getPrescriptionsWithPagination(
+      query,
+      pageSize || 10, // Default pageSize to 10 if not provided
+      bookmark,
+      orgName,
+      email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
+    );
+
+    // Process the fetched data to include signed URLs
+    let tempData = [];
+    for (let prescription of data?.data || []) {
+      if (prescription?.Record?.document?.id) {
+        try {
+          const signedUrl = await getSignedUrl(
+            prescription.Record.document.id,
+            `org${prescription.Record.orgId}`
+          );
+          prescription.Record.document.url = signedUrl;
+        } catch (urlError) {
+          console.error("Error generating signed URL:", urlError);
+          prescription.Record.document.url = null; // Or handle as needed
+        }
+      }
+      tempData.push(prescription);
+    }
+
+    // Replace the original data with the processed data
+    data.data = tempData;
+
+    return data;
+  } catch (error) {
+    console.error("Error in queryPrescriptionsByDateRange:", error);
+    throw error; // Propagate the error to be handled by the caller
+  }
+};
+
+
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -1313,7 +1442,7 @@ const queryMedicationsByPrescriptionId = async (filter) => {
   let medications = data?.data?.map((elm) => elm.Record) || [];
 
   medications.forEach(async(element) => {
-    let r=element;
+    //let r=element;
     let filter2 = {
       pageSize: DEFAULT_MAX_RECORDS,
       bookmark: "",
@@ -1322,8 +1451,7 @@ const queryMedicationsByPrescriptionId = async (filter) => {
       medicationId: element.id,
     };
     let medcounts = await queryMedCountsByMedicationId(filter2);
-    r.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
-    medications.push(r);
+    element.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
     
   });
 
@@ -1652,6 +1780,8 @@ module.exports = {
   createPrescription,
   updatePrescription,
   queryPrescriptions,
+  queryPrescriptionsByDate,
+  queryPrescriptionsByDateRange,
 
   updatePersonalInfo,
   updateDiagnosis,
