@@ -102,6 +102,8 @@ const PRESCRIPTION_STATUS = {
   MEDICATION: "medication",
   MEDCOUNT: "medcount",
   PURCHASED: "purchased",
+  ACTIVE: "active",
+  INACTIVE: "inactive",
 };
 const APPROVAL_STATUS = {
   APPROVED: "approved",

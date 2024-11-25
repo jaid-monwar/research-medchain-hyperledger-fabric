@@ -46,7 +46,7 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
         departmentType: user.departmentType,
         firstParty: prescriptionData.firstParty,
         secondParty: prescriptionData.secondParty,
-        status: PRESCRIPTION_STATUS.PERSONALINFO,
+        status: PRESCRIPTION_STATUS.ACTIVE,
         docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION,
         patient_email: user.email,
         createBy: user.email,
@@ -56,7 +56,6 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
         institutionType: prescriptionData.institutionType,
         location: prescriptionData.location,
         accessTime: 15 * 60 * 1000,
-        permissionType: PERMISSION_TYPE.WRITE,
         document: {
           ...fileMetadata,
           createBy: user.email,
