@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "533a2a90-beaf-4bfc-a8c3-272fc9183f6a",
+		"_postman_id": "8040e837-edf4-4320-97ea-cd132fcda4dd",
 		"name": "Medibloc",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "25486750"
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32169721",
+		"_collection_link": "https://crimson-space-266551.postman.co/workspace/New-Team-Workspace~487cf6c9-ea47-43db-bf68-a4b98a8ae732/collection/32169721-8040e837-edf4-4320-97ea-cd132fcda4dd?action=share&source=collection_link&creator=32169721"
 	},
 	"item": [
 		{
@@ -29,14 +30,23 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"admin50@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
+							"raw": "{\n    \"email\":\"admin201@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{url}}v1/auth/login"
+						"url": {
+							"raw": "{{url}}v1/auth/login",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
 					},
 					"response": []
 				}
@@ -67,14 +77,23 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"patient1@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
+							"raw": "{\n    \"email\":\"patient@gmail.com\",\n    \"password\":\"Admin@123\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{url}}v1/auth/login"
+						"url": {
+							"raw": "{{url}}v1/auth/login",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"auth",
+								"login"
+							]
+						}
 					},
 					"response": []
 				},
@@ -85,14 +104,23 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"email\":\"doctor1@gmail.com\",\n    \"name\":\"Jaid Doctor\",\n    \"password\":\"Admin@123\",\n    \"department\": \"doctor\",\n    \"orgId\": 1\n}",
+							"raw": "{\n    \"email\":\"pharmacist@gmail.com\",\n    \"name\":\"jaid\",\n    \"password\":\"Admin@123\",\n    \"department\": \"pharmacist\",\n    \"orgId\": 2\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{url}}v1/auth/register"
+						"url": {
+							"raw": "{{url}}v1/auth/register",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"auth",
+								"register"
+							]
+						}
 					},
 					"response": []
 				}
@@ -106,9 +134,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -121,7 +153,16 @@
 								}
 							}
 						},
-						"url": "{{url}}v1/users/670fbe7cfa01418dbd9278d9"
+						"url": {
+							"raw": "{{url}}v1/users/673392c2e6019923d899f9ed",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"users",
+								"673392c2e6019923d899f9ed"
+							]
+						}
 					},
 					"response": [
 						{
@@ -138,7 +179,19 @@
 										}
 									}
 								},
-								"url": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9"
+								"url": {
+									"raw": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"users",
+										"6537651fc7df8dbafa1e88d9"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -230,9 +283,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -386,9 +443,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -401,7 +462,17 @@
 								}
 							}
 						},
-						"url": "{{url}}v1/users/access/66ce327f484264958b29e5a8"
+						"url": {
+							"raw": "{{url}}v1/users/access/6731494ead82075d80e62be0",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"users",
+								"access",
+								"6731494ead82075d80e62be0"
+							]
+						}
 					},
 					"response": [
 						{
@@ -418,7 +489,19 @@
 										}
 									}
 								},
-								"url": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9"
+								"url": {
+									"raw": "http://localhost:3000/v1/users/6537651fc7df8dbafa1e88d9",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"users",
+										"6537651fc7df8dbafa1e88d9"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -510,9 +593,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -665,9 +752,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -825,9 +916,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -840,7 +935,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/personalinfo/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/personalinfo/cf40ab61-4b82-4a7a-ad9d-858775927a41",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"personalinfo",
+										"cf40ab61-4b82-4a7a-ad9d-858775927a41"
+									]
+								}
 							},
 							"response": [
 								{
@@ -857,7 +962,20 @@
 												}
 											}
 										},
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "Created",
 									"code": 201,
@@ -949,9 +1067,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
@@ -964,7 +1086,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/personalinfo/f0ea2f9d-e613-4cda-9f63-a382c3cfb290"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/personalinfo/f0ea2f9d-e613-4cda-9f63-a382c3cfb290",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"personalinfo",
+										"f0ea2f9d-e613-4cda-9f63-a382c3cfb290"
+									]
+								}
 							},
 							"response": [
 								{
@@ -972,7 +1104,20 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "OK",
 									"code": 200,
@@ -1061,9 +1206,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "PUT",
 								"header": [],
@@ -1076,7 +1225,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/personalinfos/0ad74b1e-172e-4460-b3ac-e8ee5a4d70cd"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/personalinfos/0ad74b1e-172e-4460-b3ac-e8ee5a4d70cd",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"personalinfos",
+										"0ad74b1e-172e-4460-b3ac-e8ee5a4d70cd"
+									]
+								}
 							},
 							"response": []
 						},
@@ -1085,9 +1244,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "DELETE",
 								"header": [],
@@ -1100,7 +1263,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/personalinfos/86054e59-50e3-4fb9-807f-189959052363"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/personalinfos/86054e59-50e3-4fb9-807f-189959052363",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"personalinfos",
+										"86054e59-50e3-4fb9-807f-189959052363"
+									]
+								}
 							},
 							"response": []
 						}
@@ -1114,22 +1287,36 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"assetType\":\"diagnosis\",\n    \"permissionType\":\"update\"\n}",
+									"raw": "{\n    \"assetType\":\"medcount\",\n    \"permissionType\":\"update\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/accessreq/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/accessreq/0b86a993-5301-47f6-be21-5bf4618eb9dd",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"accessreq",
+										"0b86a993-5301-47f6-be21-5bf4618eb9dd"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1146,7 +1333,20 @@
 												}
 											}
 										},
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "Created",
 									"code": 201,
@@ -1238,9 +1438,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
@@ -1253,7 +1457,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/accessreq/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/accessreq/2c7cb58b-c099-4aef-94c9-f0cf18e04d38",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"accessreq",
+										"2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1261,7 +1475,20 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "OK",
 									"code": 200,
@@ -1350,9 +1577,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "PUT",
 								"header": [],
@@ -1365,7 +1596,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/accessreqs/0fca951e-d5dc-4cc7-9d60-5b12eec27dd5"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/accessreqs/56bd15b0-f228-4887-adab-6f141a83b652",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"accessreqs",
+										"56bd15b0-f228-4887-adab-6f141a83b652"
+									]
+								}
 							},
 							"response": []
 						},
@@ -1374,9 +1615,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "DELETE",
 								"header": [],
@@ -1389,7 +1634,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/accessreqs/0fca951e-d5dc-4cc7-9d60-5b12eec27dd5"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/accessreqs/0fca951e-d5dc-4cc7-9d60-5b12eec27dd5",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"accessreqs",
+										"0fca951e-d5dc-4cc7-9d60-5b12eec27dd5"
+									]
+								}
 							},
 							"response": []
 						}
@@ -1403,9 +1658,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -1418,7 +1677,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/diagnosis/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/diagnosis/cf40ab61-4b82-4a7a-ad9d-858775927a41",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"diagnosis",
+										"cf40ab61-4b82-4a7a-ad9d-858775927a41"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1435,7 +1704,20 @@
 												}
 											}
 										},
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "Created",
 									"code": 201,
@@ -1527,9 +1809,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
@@ -1542,7 +1828,16 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/6fd3286f-0cde-4fa2-bb57-e0fd01c95428",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1550,7 +1845,20 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "OK",
 									"code": 200,
@@ -1644,22 +1952,36 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
 								"body": {
 									"mode": "raw",
-									"raw": "{\n    \"medname\":\"condom\",\n    \"meddosage\":\"2\",\n    \"medcount\":\"1\",\n    \"comment\": \"niceee\"\n}",
+									"raw": "{\n    \"medname\":\"napa\",\n    \"meddosage\":\"2\",\n    \"medcount\":\"1\",\n    \"comment\": \"niceee\"\n}",
 									"options": {
 										"raw": {
 											"language": "json"
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/medication/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/medication/0b86a993-5301-47f6-be21-5bf4618eb9dd",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"medication",
+										"0b86a993-5301-47f6-be21-5bf4618eb9dd"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1676,7 +1998,20 @@
 												}
 											}
 										},
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "Created",
 									"code": 201,
@@ -1768,9 +2103,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
@@ -1783,7 +2122,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/medication/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/medication/6fd3286f-0cde-4fa2-bb57-e0fd01c95428",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"medication",
+										"6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1791,7 +2140,20 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "OK",
 									"code": 200,
@@ -1881,13 +2243,17 @@
 					"name": "Med Count",
 					"item": [
 						{
-							"name": "Add Med Count to Prescription",
+							"name": "Add Med Count to medication",
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "POST",
 								"header": [],
@@ -1900,7 +2266,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/medcount/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/medcount/a4066a06-3ec1-411b-9ce4-09deb5f6c4bb",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"medcount",
+										"a4066a06-3ec1-411b-9ce4-09deb5f6c4bb"
+									]
+								}
 							},
 							"response": [
 								{
@@ -1917,7 +2293,20 @@
 												}
 											}
 										},
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "Created",
 									"code": 201,
@@ -2009,9 +2398,13 @@
 							"request": {
 								"auth": {
 									"type": "bearer",
-									"bearer": {
-										"token": "{{token}}"
-									}
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
 								},
 								"method": "GET",
 								"header": [],
@@ -2024,7 +2417,17 @@
 										}
 									}
 								},
-								"url": "{{url}}v1/prescriptions/medcount/6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+								"url": {
+									"raw": "{{url}}v1/prescriptions/medcount/6fd3286f-0cde-4fa2-bb57-e0fd01c95428",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"medcount",
+										"6fd3286f-0cde-4fa2-bb57-e0fd01c95428"
+									]
+								}
 							},
 							"response": [
 								{
@@ -2032,7 +2435,20 @@
 									"originalRequest": {
 										"method": "GET",
 										"header": [],
-										"url": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+										"url": {
+											"raw": "http://localhost:3000/v1/agreements/approvals/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+											"protocol": "http",
+											"host": [
+												"localhost"
+											],
+											"port": "3000",
+											"path": [
+												"v1",
+												"agreements",
+												"approvals",
+												"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+											]
+										}
 									},
 									"status": "OK",
 									"code": 200,
@@ -2123,9 +2539,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "POST",
 						"header": [],
@@ -2135,7 +2555,7 @@
 								{
 									"key": "agreement",
 									"type": "file",
-									"src": "Apache Server Configuration.pdf"
+									"src": "/home/seed/Downloads/my_sign.pdf"
 								},
 								{
 									"key": "typeOfContract",
@@ -2173,12 +2593,20 @@
 								},
 								{
 									"key": "comment",
-									"value": "second prescription",
+									"value": "first prescription",
 									"type": "text"
 								}
 							]
 						},
-						"url": "{{url}}v1/prescriptions"
+						"url": {
+							"raw": "{{url}}v1/prescriptions",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"prescriptions"
+							]
+						}
 					},
 					"response": [
 						{
@@ -2241,7 +2669,18 @@
 										}
 									}
 								},
-								"url": "http://localhost:3000/v1/agreements"
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements"
+									]
+								}
 							},
 							"status": "Created",
 							"code": 201,
@@ -2334,9 +2773,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "PUT",
 						"header": [],
@@ -2389,7 +2832,16 @@
 								}
 							]
 						},
-						"url": "{{url}}v1/prescriptions/4c18a0a3-5d93-47d6-9acb-4650f3e14a85"
+						"url": {
+							"raw": "{{url}}v1/prescriptions/4c18a0a3-5d93-47d6-9acb-4650f3e14a85",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"prescriptions",
+								"4c18a0a3-5d93-47d6-9acb-4650f3e14a85"
+							]
+						}
 					},
 					"response": [
 						{
@@ -2452,7 +2904,18 @@
 										}
 									}
 								},
-								"url": "http://localhost:3000/v1/agreements"
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements"
+									]
+								}
 							},
 							"status": "Created",
 							"code": 201,
@@ -2548,9 +3011,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -2716,9 +3183,13 @@
 					"request": {
 						"auth": {
 							"type": "bearer",
-							"bearer": {
-								"token": "{{token}}"
-							}
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
 						},
 						"method": "GET",
 						"header": [],
@@ -2731,7 +3202,16 @@
 								}
 							}
 						},
-						"url": "{{url}}v1/prescriptions/2c7cb58b-c099-4aef-94c9-f0cf18e04d38"
+						"url": {
+							"raw": "{{url}}v1/prescriptions/0b86a993-5301-47f6-be21-5bf4618eb9dd",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"prescriptions",
+								"0b86a993-5301-47f6-be21-5bf4618eb9dd"
+							]
+						}
 					},
 					"response": [
 						{
@@ -2739,7 +3219,19 @@
 							"originalRequest": {
 								"method": "GET",
 								"header": [],
-								"url": "http://localhost:3000/v1/agreements/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+								"url": {
+									"raw": "http://localhost:3000/v1/agreements/33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "3000",
+									"path": [
+										"v1",
+										"agreements",
+										"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f"
+									]
+								}
 							},
 							"status": "OK",
 							"code": 200,
@@ -2824,6 +3316,160 @@
 							],
 							"cookie": [],
 							"body": "{\n    \"success\": true,\n    \"message\": \"Agreement fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2023-10-25T03:12:30.743Z\",\n    \"payload\": {\n        \"comments\": [\n            \"500 Laptop Agreement created\"\n        ],\n        \"contract\": \"Laptop Contract\",\n        \"createAt\": \"2023-10-24T06:36:05.906Z\",\n        \"createBy\": \"admin50@gmail.com\",\n        \"department\": \"legal\",\n        \"docType\": \"agreement\",\n        \"document\": {\n            \"contentHash\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e\",\n            \"createAt\": \"2023-10-24T06:36:05.906Z\",\n            \"createBy\": \"admin50@gmail.com\",\n            \"id\": \"ff44e9c20a77d9195c71a868b705d7f059e91a8e-test pdf file.pdf\",\n            \"name\": \"test pdf file\",\n            \"orgName\": \"org1\",\n            \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n            \"updatedBy\": \"admin50@gmail.com\",\n            \"url\": \"https://e-agreements.s3.us-west-2.amazonaws.com/org1/ff44e9c20a77d9195c71a868b705d7f059e91a8e-test%20pdf%20file.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIAWKYUXK2DAENBPDCM%2F20231025%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20231025T031230Z&X-Amz-Expires=3600&X-Amz-Signature=ec6a9785c7f43da3cebfd7d3e6c5601adcc8ded4bd0f4b80cda7ca4bc06d7b6d&X-Amz-SignedHeaders=host\"\n        },\n        \"endDate\": 1662868248456,\n        \"firstParty\": \"IBM\",\n        \"id\": \"33ad27f2-52e1-4ab2-aa2b-8f7a5fa9e98f\",\n        \"orgId\": 1,\n        \"owner\": \"org1\",\n        \"secondParty\": \"Lenovo\",\n        \"startDate\": 1662868248456,\n        \"status\": \"inprogress\",\n        \"title\": \"Hardware Terms Agreement\",\n        \"typeOfContract\": \"Legal Agreement\",\n        \"updatedAt\": \"2023-10-24T06:36:05.906Z\",\n        \"updatedBy\": \"admin50@gmail.com\",\n        \"approvals\": []\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "get prescription by date",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"date\": \"2024-11-12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}v1/prescriptions/prescription/date/",
+							"host": [
+								"{{url}}v1"
+							],
+							"path": [
+								"prescriptions",
+								"prescription",
+								"date",
+								""
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "get prescription by date",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"date\": \"2024-11-12\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{url}}v1/prescriptions/prescription/date/",
+									"host": [
+										"{{url}}v1"
+									],
+									"path": [
+										"prescriptions",
+										"prescription",
+										"date",
+										""
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Security-Policy",
+									"value": "default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests"
+								},
+								{
+									"key": "X-DNS-Prefetch-Control",
+									"value": "off"
+								},
+								{
+									"key": "Expect-CT",
+									"value": "max-age=0"
+								},
+								{
+									"key": "X-Frame-Options",
+									"value": "SAMEORIGIN"
+								},
+								{
+									"key": "Strict-Transport-Security",
+									"value": "max-age=15552000; includeSubDomains"
+								},
+								{
+									"key": "X-Download-Options",
+									"value": "noopen"
+								},
+								{
+									"key": "X-Content-Type-Options",
+									"value": "nosniff"
+								},
+								{
+									"key": "X-Permitted-Cross-Domain-Policies",
+									"value": "none"
+								},
+								{
+									"key": "Referrer-Policy",
+									"value": "no-referrer"
+								},
+								{
+									"key": "X-XSS-Protection",
+									"value": "0"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "*"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"54d-jcMHBu7ENRhe4wSB0kdQK29lLYg\""
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip"
+								},
+								{
+									"key": "Date",
+									"value": "Tue, 12 Nov 2024 18:57:48 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"success\": true,\n    \"message\": \"Prescriptions fetched successfully\",\n    \"status\": 200,\n    \"timestamp\": \"2024-11-12T18:57:48.305Z\",\n    \"payload\": {\n        \"data\": [\n            {\n                \"createAt\": \"2024-11-12T17:14:18.991Z\",\n                \"createBy\": \"patient@gmail.com\",\n                \"department\": \"patient\",\n                \"docType\": \"prescription\",\n                \"document\": {\n                    \"contentHash\": \"7673b12e80bc55356af59d5c579ccd2ea3035f9c\",\n                    \"createAt\": \"2024-11-12T17:14:18.991Z\",\n                    \"createBy\": \"patient@gmail.com\",\n                    \"id\": \"7673b12e80bc55356af59d5c579ccd2ea3035f9c-my_sign.pdf\",\n                    \"name\": \"my_sign\",\n                    \"orgName\": \"org1\",\n                    \"updatedAt\": \"2024-11-12T17:14:18.991Z\",\n                    \"updatedBy\": \"patient@gmail.com\",\n                    \"url\": \"https://e-contract-management-test.s3.us-west-2.amazonaws.com/org1/7673b12e80bc55356af59d5c579ccd2ea3035f9c-my_sign.pdf?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=AKIA2UC27OJYO4RQ5JEJ%2F20241112%2Fus-west-2%2Fs3%2Faws4_request&X-Amz-Date=20241112T185748Z&X-Amz-Expires=3600&X-Amz-Signature=e9c5e3da158cf89b010e71ca573162cff2113a2d86aa8b5e9464a73b7397ec1e&X-Amz-SignedHeaders=host\"\n                },\n                \"firstParty\": \"Org1\",\n                \"id\": \"0b86a993-5301-47f6-be21-5bf4618eb9dd\",\n                \"orgId\": 1,\n                \"owner\": \"org1\",\n                \"secondParty\": \"Org2\",\n                \"status\": \"personalinfo\",\n                \"updatedAt\": \"2024-11-12T17:14:18.991Z\",\n                \"updatedBy\": \"patient@gmail.com\"\n            }\n        ],\n        \"metadata\": {\n            \"RecordsCount\": 1,\n            \"Bookmark\": \"g2wAAAACaAJkAA5zdGFydGtleV9kb2NpZG0AAAAkMGI4NmE5OTMtNTMwMS00N2Y2LWJlMjEtNWJmNDYxOGViOWRkaAJkAAhzdGFydGtleWwAAAABbQAAABgyMDI0LTExLTEyVDE3OjE0OjE4Ljk5MVpqag\"\n        }\n    }\n}"
 						}
 					]
 				}
