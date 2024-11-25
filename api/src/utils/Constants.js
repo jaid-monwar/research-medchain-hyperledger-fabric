@@ -18,6 +18,44 @@ const ORG_DEFAULT_USER = {
   ADMIN: "admin",
 };
 
+const DEPARTMENT = {
+  PATIENT: "patient",
+  DOCTOR: "doctor",
+  NURSE: "nurse",
+  PHARMACIST: "pharmacist",
+  ADMIN: "admin",
+}
+
+const DEPARTMENT_TYPE = {
+  ADMIN: "admin",
+  ONCOLOGY: "oncology",
+  PEDIATRICS: "pediatrics",
+  CARDIOLOGY: "cardiology",
+  DERMATOLOGY: "dermatology",
+  PHARMACIST: "pharmacist",
+  PATIENT: "patient",
+}
+
+const EXPERIENCE_LEVEL = {
+  ADMIN: "admin",
+  JUNIOR: "junior",
+  MID: "mid",
+  SENIOR: "senior",
+}
+
+const CLEARANCE_LEVEL = {
+  ADMIN: "admin",
+  GENERAL: "general",
+  RESTRICTED: "restricted",
+  CRITICAL: "critical",
+}
+
+const EMPLOYMENT_STATUS = {
+  ACTIVE: "active",
+  RETIRED: "retired",
+  ON_LEAVE: "on-leave",
+}
+
 const BLOCKCHAIN_DOC_TYPE = {
   PRESCRIPTION: "prescription",
   PERSONALINFO: "personalinfo",
@@ -45,7 +83,9 @@ const NETWORK_ARTIFACTS_DEFAULT = {
 const ORG_DEPARTMENT = {
   PATIENT: "patient",
   DOCTOR: "doctor",
+  NURSE: "nurse",
   PHARMACIST: "pharmacist",
+  ADMIN: "admin",
 };
 
 const CHAINCODE_METHODS = {
@@ -92,6 +132,11 @@ module.exports = {
   USER_ACCESS,
   USER_TYPE,
   ORG_DEPARTMENT,
+  DEPARTMENT,
+  DEPARTMENT_TYPE,
+  EXPERIENCE_LEVEL,
+  CLEARANCE_LEVEL,
+  EMPLOYMENT_STATUS,
   NETWORK_ARTIFACTS_DEFAULT,
   PERMISSION_TYPE,
   ACCESS_STATUS,
