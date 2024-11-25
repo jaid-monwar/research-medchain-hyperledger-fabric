@@ -71,7 +71,7 @@ const ingestBootstrapData = async () => {
             });
             try {
                 //Blockchain Registration and Enrollment call
-                let secret = await registerUser(`org${user.orgId}`, user.email);
+                let secret = await registerUser(`org${user.orgId}`, user.email, user.department, user.departmentType, user.experienceLevel, user.clearanceLevel, user.employmentStatus);
                 newUser.secret = secret
                 newUser.isVerified = true
             } catch (error) {
