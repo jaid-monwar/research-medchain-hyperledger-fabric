@@ -13,13 +13,14 @@ const createPrescription = Joi.object().keys({
   firstParty: Joi.string().required(),
   secondParty: Joi.string().required(),
   comment: Joi.string().required(),
+  institutionType: Joi.string().required(),
+  location: Joi.string().required(),
 });
 
 const updatePrescription = Joi.object().keys({
-  // id: Joi.string().required(),
-  firstParty: Joi.string().required(),
-  secondParty: Joi.string().required(),
-  comment: Joi.string().required(),
+  params: Joi.object().keys({
+    id: Joi.string().required(),
+  }),
 });
 
 const getPrescriptionsByDate = Joi.object().keys({

@@ -41,6 +41,7 @@ const EXPERIENCE_LEVEL = {
   JUNIOR: "junior",
   MID: "mid",
   SENIOR: "senior",
+  PATIENT: "patient",
 }
 
 const CLEARANCE_LEVEL = {
@@ -48,12 +49,14 @@ const CLEARANCE_LEVEL = {
   GENERAL: "general",
   RESTRICTED: "restricted",
   CRITICAL: "critical",
+  PATIENT: "patient",
 }
 
 const EMPLOYMENT_STATUS = {
   ACTIVE: "active",
   RETIRED: "retired",
   ON_LEAVE: "on-leave",
+  PATIENT: "patient",
 }
 
 const BLOCKCHAIN_DOC_TYPE = {

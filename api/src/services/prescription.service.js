@@ -97,12 +97,52 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
  * @param {Object} user
  * @returns {Promise<Object>}
  */
-const updatePrescription = async (prescriptionId, prescriptionData, user) => {
+const updatePrescription = async (prescriptionId, prescriptionData, oldPrescriptionData, user) => {
   let gateway;
   let client;
   try {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
+
+    if (!prescriptionData.owner) {
+      prescriptionData.owner = oldPrescriptionData.owner
+    }
+    if (!prescriptionData.department) {
+      prescriptionData.department = oldPrescriptionData.department
+    }
+    if (!prescriptionData.firstParty) {
+      prescriptionData.firstParty = oldPrescriptionData.firstParty
+    }
+    if (!prescriptionData.secondParty) {
+      prescriptionData.secondParty = oldPrescriptionData.secondParty
+    }
+    if (!prescriptionData.patient_email) {
+      prescriptionData.patient_email = oldPrescriptionData.patient_email
+    }
+    if (!prescriptionData.status) {
+      prescriptionData.status = oldPrescriptionData.status
+    }
+    if (!prescriptionData.createBy) {
+      prescriptionData.createBy = oldPrescriptionData.createBy
+    }
+    if (!prescriptionData.createAt) {
+      prescriptionData.createAt = oldPrescriptionData.createAt
+    }
+    if (!prescriptionData.institutionType) {
+      prescriptionData.institutionType = oldPrescriptionData.institutionType
+    }
+    if (!prescriptionData.location) {
+      prescriptionData.location = oldPrescriptionData.location
+    }
+    if (!prescriptionData.comment) {
+      prescriptionData.comment = oldPrescriptionData.comment
+    }
+
+
+
+
+
+
     prescriptionData = {
       fcn: "UpdatePrescription",
       data: {
@@ -112,6 +152,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
         department: prescriptionData.department,
         firstParty: prescriptionData.firstParty,
         secondParty: prescriptionData.secondParty,
+        patient_email: prescriptionData.patient_email,
         status: prescriptionData.status,
         docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION,
         createBy: prescriptionData.createBy,
@@ -119,7 +160,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
         createAt: prescriptionData.createAt,
         updatedAt: dateTime,
         document: {
-          ...prescriptionData.document,
+          ...oldPrescriptionData.document,
           updatedBy: user.email,
           updatedAt: dateTime,
         },
@@ -134,6 +175,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
       gateway,
       client
     );
+    console.log(prescriptionData.data)
     await contract.submitTransaction(
       prescriptionData.fcn,
       JSON.stringify(prescriptionData.data)

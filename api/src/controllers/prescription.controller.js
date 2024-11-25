@@ -43,9 +43,15 @@ const updatePrescription = catchAsync(async (req, res) => {
       "You are not authorized to update this prescription"
     );
   }
+  const oldPrescriptionData = await prescriptionService.queryPrescriptionById(
+    id,
+    user
+  );
+
   const result = await prescriptionService.updatePrescription(
     id,
     prescriptionData,
+    oldPrescriptionData,
     user
   );
   res
