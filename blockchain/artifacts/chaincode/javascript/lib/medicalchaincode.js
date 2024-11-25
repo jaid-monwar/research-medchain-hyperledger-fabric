@@ -18,6 +18,9 @@ class Agreement extends Contract {
 
   async CreatePrescription(ctx, prescriptionData) {
     try {
+
+      const access = new Access();
+      access.CreatePrescriptionAccess(ctx);
       let prescription = JSON.parse(prescriptionData);
       await ctx.stub.putState(prescription.id, prescriptionData);
       return ctx.stub.getTxID();
@@ -91,8 +94,13 @@ class Agreement extends Contract {
     }
   }
 
+
+
   async UpdatePrescription(ctx, prescriptionData) {
     try {
+      const access = new Access();
+      access.UpdatePrescriptionAccess(ctx,prescriptionData);
+
       let updatedprescription = JSON.parse(prescriptionData);
       await ctx.stub.putState(updatedprescription.id, prescriptionData);
       return ctx.stub.getTxID();

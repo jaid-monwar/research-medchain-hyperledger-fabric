@@ -18,7 +18,7 @@ router
   )
   .put(
     auth,
-    validate(prescriptionValidation.getPrescriptionById),
+    validate(prescriptionValidation.updatePrescription),
     prescriptionController.updatePrescription
   );
 

@@ -43,14 +43,19 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
         owner: orgName,
         orgId: parseInt(user.orgId),
         department: user.department,
+        departmentType: user.departmentType,
         firstParty: prescriptionData.firstParty,
         secondParty: prescriptionData.secondParty,
-        status: PRESCRIPTION_STATUS.PERSONALINFO,
+        status: PRESCRIPTION_STATUS.ACTIVE,
         docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION,
+        patient_email: user.email,
         createBy: user.email,
         updatedBy: user.email,
         createAt: dateTime,
         updatedAt: dateTime,
+        institutionType: prescriptionData.institutionType,
+        location: prescriptionData.location,
+        accessTime: 15 * 60 * 1000,
         document: {
           ...fileMetadata,
           createBy: user.email,
@@ -92,12 +97,52 @@ const createPrescription = async (prescriptionData, fileMetadata, user) => {
  * @param {Object} user
  * @returns {Promise<Object>}
  */
-const updatePrescription = async (prescriptionId, prescriptionData, user) => {
+const updatePrescription = async (prescriptionId, prescriptionData, oldPrescriptionData, user) => {
   let gateway;
   let client;
   try {
     let dateTime = new Date();
     let orgName = `org${user.orgId}`;
+
+    if (!prescriptionData.owner) {
+      prescriptionData.owner = oldPrescriptionData.owner
+    }
+    if (!prescriptionData.department) {
+      prescriptionData.department = oldPrescriptionData.department
+    }
+    if (!prescriptionData.firstParty) {
+      prescriptionData.firstParty = oldPrescriptionData.firstParty
+    }
+    if (!prescriptionData.secondParty) {
+      prescriptionData.secondParty = oldPrescriptionData.secondParty
+    }
+    if (!prescriptionData.patient_email) {
+      prescriptionData.patient_email = oldPrescriptionData.patient_email
+    }
+    if (!prescriptionData.status) {
+      prescriptionData.status = oldPrescriptionData.status
+    }
+    if (!prescriptionData.createBy) {
+      prescriptionData.createBy = oldPrescriptionData.createBy
+    }
+    if (!prescriptionData.createAt) {
+      prescriptionData.createAt = oldPrescriptionData.createAt
+    }
+    if (!prescriptionData.institutionType) {
+      prescriptionData.institutionType = oldPrescriptionData.institutionType
+    }
+    if (!prescriptionData.location) {
+      prescriptionData.location = oldPrescriptionData.location
+    }
+    if (!prescriptionData.comment) {
+      prescriptionData.comment = oldPrescriptionData.comment
+    }
+
+
+
+
+
+
     prescriptionData = {
       fcn: "UpdatePrescription",
       data: {
@@ -107,6 +152,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
         department: prescriptionData.department,
         firstParty: prescriptionData.firstParty,
         secondParty: prescriptionData.secondParty,
+        patient_email: prescriptionData.patient_email,
         status: prescriptionData.status,
         docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION,
         createBy: prescriptionData.createBy,
@@ -114,7 +160,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
         createAt: prescriptionData.createAt,
         updatedAt: dateTime,
         document: {
-          ...prescriptionData.document,
+          ...oldPrescriptionData.document,
           updatedBy: user.email,
           updatedAt: dateTime,
         },
@@ -129,6 +175,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, user) => {
       gateway,
       client
     );
+    console.log(prescriptionData.data)
     await contract.submitTransaction(
       prescriptionData.fcn,
       JSON.stringify(prescriptionData.data)
@@ -1146,7 +1193,7 @@ const deleteAccessReq = async (accessReqId, user) => {
   }
 
 };
-//"2024-11-12T17:14:18.991Z"
+
 
 /**
  * Query for users
@@ -1236,135 +1283,6 @@ const queryPrescriptions = async (filter) => {
   }
 };
 
-
-const queryPrescriptionsByDate = async (filter) => {
-  try {
-    // Validate the filter object
-    if (!filter || !filter.createAt) {
-      throw new Error("The 'createAt' filter is required.");
-    }
-
-    const selector = {
-      createAt: filter.createAt, // Assuming filter.updatedAt is a string in the exact format "YYYY-MM-DDTHH:mm:ss.sssZ"
-      docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION
-    };
-
-    const queryObject = {
-      selector: selector,
-      sort: [{ updatedAt: "desc" }],
-      use_index: ["_design/indexAssetTypeOrgIdTime", "orgId_docType_time_index"]
-    };
-
-    // Convert the query object to a JSON string
-    const query = JSON.stringify(queryObject);
-
-    console.log("Executing queryPrescriptionsByExactCreatedAt with filter:", filter);
-    console.log("Constructed Query:", query);
-
-    // Execute the query with pagination
-    let data = await getPrescriptionsWithPagination(
-      query,
-      filter.pageSize || 10,
-      filter.bookmark,
-      filter.orgName ,
-      filter.email,
-      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
-      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
-    );
-
-    let tempData = [];
-    for (let prescription of data?.data || []) {
-      if (prescription?.Record?.document?.id) {
-        try {
-          const signedUrl = await getSignedUrl(
-            prescription.Record.document.id,
-            `org${prescription.Record.orgId}`
-          );
-          prescription.Record.document.url = signedUrl;
-        } catch (urlError) {
-          console.error("Error generating signed URL:", urlError);
-          prescription.Record.document.url = null; // Or handle as needed
-        }
-      }
-      tempData.push(prescription);
-    }
-
-    // Replace the original data with the processed data
-    data.data = tempData;
-
-    return data;
-  } catch (error) {
-    console.error("Error in queryPrescriptionsByExactUpdatedAt:", error);
-    throw error; // Propagate the error to be handled by the caller
-  }
-};
-
-const queryPrescriptionsByDateRange = async (filter) => {
-  try {
-    const { startOfDay, endOfDay, pageSize, bookmark, orgName, email } = filter;
-
-    // Construct the selector for the CouchDB query with range for updatedAt
-    const selector = {
-      createAt: {
-        $gte: startOfDay,
-        $lte: endOfDay
-      },
-      docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION
-    };
-
-    // Construct the full query object
-    const queryObject = {
-      selector: selector,
-      sort: [{ updatedAt: "desc" }],
-      use_index: ["_design/indexAssetTypeOrgIdTime", "orgId_docType_time_index"]
-    };
-
-    // Convert the query object to a JSON string
-    const query = JSON.stringify(queryObject);
-
-    console.log("Executing queryPrescriptionsByDateRange with filter:", filter);
-    console.log("Constructed Query:", query);
-
-    // Execute the query with pagination
-    let data = await getPrescriptionsWithPagination(
-      query,
-      pageSize || 10, // Default pageSize to 10 if not provided
-      bookmark,
-      orgName,
-      email,
-      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
-      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
-    );
-
-    // Process the fetched data to include signed URLs
-    let tempData = [];
-    for (let prescription of data?.data || []) {
-      if (prescription?.Record?.document?.id) {
-        try {
-          const signedUrl = await getSignedUrl(
-            prescription.Record.document.id,
-            `org${prescription.Record.orgId}`
-          );
-          prescription.Record.document.url = signedUrl;
-        } catch (urlError) {
-          console.error("Error generating signed URL:", urlError);
-          prescription.Record.document.url = null; // Or handle as needed
-        }
-      }
-      tempData.push(prescription);
-    }
-
-    // Replace the original data with the processed data
-    data.data = tempData;
-
-    return data;
-  } catch (error) {
-    console.error("Error in queryPrescriptionsByDateRange:", error);
-    throw error; // Propagate the error to be handled by the caller
-  }
-};
-
-
 /**
  * Query for users
  * @param {Object} filter - Mongo filter
@@ -1428,7 +1346,7 @@ const queryMedicationsByPrescriptionId = async (filter) => {
   console.log(filter);
   let query = `{\"selector\":{\"prescriptionId\":\"${filter.prescriptionId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.MEDICATION}\"},  \"use_index\":[\"_design/indexDocTypePrescriptionId\", \"docType_prescriptiontId_index\"]}}`;
   // let query = `{\"selector\":{\"orgId\": ${filter.orgId}, \"agreementId\":\"${filter.agreementId}\", \"docType\": \"${BLOCKCHAIN_DOC_TYPE.APPROVAL}\"}}}`;
-  
+
   let data = await getPrescriptionsWithPagination(
     query,
     filter.pageSize,
@@ -1441,18 +1359,19 @@ const queryMedicationsByPrescriptionId = async (filter) => {
   );
   let medications = data?.data?.map((elm) => elm.Record) || [];
 
-  medications.forEach(async(element) => {
-    //let r=element;
+  medications.forEach(async (element) => {
+    let r = element;
     let filter2 = {
       pageSize: DEFAULT_MAX_RECORDS,
       bookmark: "",
-      orgName:filter.orgName,
+      orgName: filter.orgName,
       email: filter.email,
       medicationId: element.id,
     };
     let medcounts = await queryMedCountsByMedicationId(filter2);
-    element.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
-    
+    r.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
+    medications.push(r);
+
   });
 
   // let data = await getPrescriptionsWithPagination(
@@ -1664,7 +1583,7 @@ const queryMedicationById = async (id, user) => {
 
     let medcounts = await queryMedCountsByMedicationId(filter);
     result.medcounts = medcounts?.data?.map((elm) => elm.Record) || [];
- 
+
     return result;
   } catch (error) {
     console.log(error);
@@ -1780,8 +1699,6 @@ module.exports = {
   createPrescription,
   updatePrescription,
   queryPrescriptions,
-  queryPrescriptionsByDate,
-  queryPrescriptionsByDateRange,
 
   updatePersonalInfo,
   updateDiagnosis,
