@@ -40,6 +40,8 @@ const ingestBootstrapData = async () => {
             let o = new Organization({
                 id: org.id,
                 name: org.name,
+                insitutionType: org.institutionType,
+                location: org.location,
                 parentId: org.parentId,
             });
             await o.save();
@@ -62,6 +64,10 @@ const ingestBootstrapData = async () => {
                 status: USER_STATUS.ACTIVE,
                 type: USER_TYPE.ADMIN,
                 department: user.department,
+                departmentType: user.departmentType,
+                experienceLevel: user.experienceLevel,
+                clearanceLevel: user.clearanceLevel,
+                employmentStatus: user.employmentStatus,
             });
             try {
                 //Blockchain Registration and Enrollment call
