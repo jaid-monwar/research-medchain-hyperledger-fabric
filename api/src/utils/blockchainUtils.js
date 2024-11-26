@@ -96,7 +96,7 @@ const enrollAdmin = async (_ca, wallet, orgName, ccp) => {
     return true;
 };
 
-const registerUser = async (orgName, userName, department, departmentType, experienceLevel, clearanceLevel, employmentStatus) => {
+const registerUser = async (orgName, userName, department, departmentType, experienceLevel, clearanceLevel, employmentStatus, institutionType, location) => {
     const ccp = await getCCP(orgName);
     const caURL = await getCaUrl(orgName, ccp);
     const ca = new FabricCAServices(caURL);
@@ -135,6 +135,8 @@ const registerUser = async (orgName, userName, department, departmentType, exper
                 { name: "experienceLevel", value: experienceLevel, ecert: true },
                 { name: "clearanceLevel", value: clearanceLevel, ecert: true },
                 { name: "employmentStatus", value: employmentStatus, ecert: true },
+                { name: "institutionType", value: institutionType, ecert: true },
+                { name: "location", value: location, ecert: true },
             ],
         },
         adminUser
@@ -155,6 +157,8 @@ const registerUser = async (orgName, userName, department, departmentType, exper
             { name: "experienceLevel", optional: false },
             { name: "clearanceLevel", optional: false },
             { name: "employmentStatus", optional: false },
+            { name: "institutionType", optional: false },
+            { name: "location", optional: false },
         ],
     });
     // const enrollment = await ca.enroll({ enrollmentID: userName, enrollmentSecret: secret, attr_reqs: [{ name: 'role', optional: false }] });

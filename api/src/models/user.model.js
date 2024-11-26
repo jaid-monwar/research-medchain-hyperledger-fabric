@@ -25,7 +25,7 @@ const userSchema = mongoose.Schema(
                     throw new Error('Invalid email');
                 }
             },
-        }, 
+        },
         password: {
             type: String,
             required: true,
@@ -48,6 +48,8 @@ const userSchema = mongoose.Schema(
         experienceLevel: { type: String, required: true },
         clearanceLevel: { type: String, required: true },
         employmentStatus: { type: String, required: true },
+        institutionType: { type: String, required: true },
+        location: { type: String, required: true },
         secret: { type: String, required: false },
         isVerified: { type: Boolean, required: false, default: false },
     },

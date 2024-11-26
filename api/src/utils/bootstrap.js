@@ -20,6 +20,8 @@ const ingestBootstrapData = async () => {
             experienceLevel: EXPERIENCE_LEVEL.ADMIN,
             clearanceLevel: CLEARANCE_LEVEL.ADMIN,
             employmentStatus: EMPLOYMENT_STATUS.ACTIVE,
+            institutionType: 'Hospital',
+            location: 'Panthapath',
         },
         {
             name: 'jon',
@@ -31,6 +33,8 @@ const ingestBootstrapData = async () => {
             experienceLevel: EXPERIENCE_LEVEL.ADMIN,
             clearanceLevel: CLEARANCE_LEVEL.ADMIN,
             employmentStatus: EMPLOYMENT_STATUS.ACTIVE,
+            institutionType: 'Pharmacy',
+            location: 'Kala Bagan',
         },
     ];
     //org data
@@ -68,10 +72,12 @@ const ingestBootstrapData = async () => {
                 experienceLevel: user.experienceLevel,
                 clearanceLevel: user.clearanceLevel,
                 employmentStatus: user.employmentStatus,
+                institutionType: user.institutionType,
+                location: user.location,
             });
             try {
                 //Blockchain Registration and Enrollment call
-                let secret = await registerUser(`org${user.orgId}`, user.email, user.department, user.departmentType, user.experienceLevel, user.clearanceLevel, user.employmentStatus);
+                let secret = await registerUser(`org${user.orgId}`, user.email, user.department, user.departmentType, user.experienceLevel, user.clearanceLevel, user.employmentStatus, user.institutionType, user.location);
                 newUser.secret = secret
                 newUser.isVerified = true
             } catch (error) {
