@@ -136,7 +136,7 @@ class Access extends Contract {
       );
     }
     
-    if ( updatedprescription.updatedBy != updatedprescription.patient_email || updatedprescription.status != "active") {
+    if ( updatedprescription.updatedBy != updatedprescription.patient_email) {
       throw new Error(
         "You are not authorized to perform this operation"
       );

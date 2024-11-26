@@ -17,15 +17,22 @@ const createPrescription = Joi.object().keys({
   location: Joi.string().required(),
 });
 
-const updatePrescription = Joi.object().keys({
+const updatePrescription = {
   params: Joi.object().keys({
     id: Joi.string().required(),
   }),
-});
+};
 
 const getPrescriptionsByDate = Joi.object().keys({
   // id: Joi.string().required(),
   createAt: Joi.string().required(),
+  //secondParty: Joi.string().required(),
+  //comment: Joi.string().required(),
+});
+
+const getPrescriptionsByStatus = Joi.object().keys({
+  // id: Joi.string().required(),
+  //createAt: Joi.string().required(),
   //secondParty: Joi.string().required(),
   //comment: Joi.string().required(),
 });
@@ -154,8 +161,11 @@ module.exports = {
   updatePrescription,
   getPrescriptionById,
   getPrescriptionsByDate,
+  getPrescriptionsByStatus,
 
   getPrescriptionPersonalInfos,
+
+
   getPrescriptionDiagnoses,
   getPrescriptionMedications,
   getPrescriptionMedCounts,

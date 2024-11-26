@@ -134,9 +134,6 @@ const updatePrescription = async (prescriptionId, prescriptionData, oldPrescript
     if (!prescriptionData.location) {
       prescriptionData.location = oldPrescriptionData.location
     }
-    if (!prescriptionData.comment) {
-      prescriptionData.comment = oldPrescriptionData.comment
-    }
 
 
 
@@ -154,6 +151,8 @@ const updatePrescription = async (prescriptionId, prescriptionData, oldPrescript
         secondParty: prescriptionData.secondParty,
         patient_email: prescriptionData.patient_email,
         status: prescriptionData.status,
+        location: prescriptionData.location,
+        institutionType: prescriptionData.institutionType,
         docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION,
         createBy: prescriptionData.createBy,
         updatedBy: user.email,
@@ -175,7 +174,7 @@ const updatePrescription = async (prescriptionId, prescriptionData, oldPrescript
       gateway,
       client
     );
-    console.log(prescriptionData.data)
+    //console.log(prescriptionData.data)
     await contract.submitTransaction(
       prescriptionData.fcn,
       JSON.stringify(prescriptionData.data)
@@ -1521,9 +1520,14 @@ const queryPrescriptionById = async (id, user) => {
     let result = await contract.submitTransaction("getAssetById", id);
     console.timeEnd("Test");
     result = JSON.parse(utf8Decoder.decode(result));
+
+
+
+
     if (result) {
       result.document.url = await getSignedUrl(result?.document?.id, orgName);
     }
+    
     let filter = {
       pageSize: DEFAULT_MAX_RECORDS,
       bookmark: "",
@@ -1550,6 +1554,61 @@ const queryPrescriptionById = async (id, user) => {
     if (client) {
       client.close();
     }
+  }
+};
+
+
+const queryPrescriptionsByStatus = async (filter) => {
+  try {
+    // Validate the filter object
+    if (!filter || !filter.status) {
+      throw new Error("The 'status' filter is required.");
+    }
+    const selector = {
+      status: filter.status, // Assuming filter.status is a string"
+      docType: BLOCKCHAIN_DOC_TYPE.PRESCRIPTION
+    };
+    const queryObject = {
+      selector: selector,
+      sort: [{ updatedAt: "desc" }],
+      use_index: ["_design/indexAssetTypeOrgIdTime", "orgId_docType_time_index"]
+    };
+    // Convert the query object to a JSON string
+    const query = JSON.stringify(queryObject);
+    console.log("Executing queryPrescriptionsByStatus with filter:", filter);
+    console.log("Constructed Query:", query);
+    // Execute the query with pagination
+    let data = await getPrescriptionsWithPagination(
+      query,
+      filter.pageSize || 10,
+      filter.bookmark,
+      filter.orgName,
+      filter.email,
+      NETWORK_ARTIFACTS_DEFAULT.CHANNEL_NAME,
+      NETWORK_ARTIFACTS_DEFAULT.CHAINCODE_NAME
+    );
+    let tempData = [];
+    for (let prescription of data?.data || []) {
+      if (prescription?.Record?.document?.id) {
+        try {
+          const signedUrl = await getSignedUrl(
+            prescription.Record.document.id,
+            `org${prescription.Record.orgId}`
+          );
+          prescription.Record.document.url = signedUrl;
+        } catch (urlError) {
+          console.error("Error generating signed URL:", urlError);
+          prescription.Record.document.url = null; // Or handle as needed
+        }
+      }
+      tempData.push(prescription);
+    }
+    // Replace the original data with the processed data
+    data.data = tempData;
+    return data;
+  } catch (error) {
+    console.error("Error in queryPrescriptionsByStatus:", error);
+    throw error; // Propagate the error to be handled by the caller
   }
 };
 
@@ -1719,6 +1778,7 @@ module.exports = {
   deleteAccessReq,
 
   queryPrescriptionById,
+  queryPrescriptionsByStatus,
   queryMedicationById,
   querySubAssetById,
   getUserByEmail,

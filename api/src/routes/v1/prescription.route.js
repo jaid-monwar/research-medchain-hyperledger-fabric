@@ -18,7 +18,7 @@ router
   )
   .put(
     auth,
-    validate(prescriptionValidation.updatePrescription),
+    validate(prescriptionValidation.getPrescriptionById),
     prescriptionController.updatePrescription
   );
 
@@ -27,6 +27,12 @@ router
   .post(auth, uploadFileToS3, prescriptionController.createPrescription)
   .get(auth, prescriptionController.getPrescriptions);
 
+
+router
+  .route("/prescription/active/")
+  .get(auth, 
+    validate(prescriptionValidation.getPrescriptionsByStatus),
+    prescriptionController.getActivePrescriptions);
 
 router
   .route("/prescription/date/")

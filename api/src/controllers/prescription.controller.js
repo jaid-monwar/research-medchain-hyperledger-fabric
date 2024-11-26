@@ -37,16 +37,16 @@ const updatePrescription = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
   // let fileMetadata = req.body.fileMetadata;
   let prescriptionData = req.body;
+  console.log('Request Headers:', req.headers);
+  console.log('Request Body:', prescriptionData);
   if (user.department !== "patient") {
     throw new ApiError(
       httpStatus.UNAUTHORIZED,
       "You are not authorized to update this prescription"
     );
   }
-  const oldPrescriptionData = await prescriptionService.queryPrescriptionById(
-    id,
-    user
-  );
+
+  const oldPrescriptionData = await prescriptionService.queryPrescriptionById(id, user);
 
   const result = await prescriptionService.updatePrescription(
     id,
@@ -64,6 +64,7 @@ const updatePrescription = catchAsync(async (req, res) => {
       )
     );
 });
+
 
 const approveAgreement = catchAsync(async (req, res) => {
   let { user } = req.loggerInfo;
@@ -503,6 +504,37 @@ const getPrescriptions = catchAsync(async (req, res) => {
     );
 });
 
+const getActivePrescriptions = catchAsync(async (req, res) => {
+  const status = "active";
+
+  // Extract other pagination parameters if needed
+  const { pageSize, bookmark } = req.body;
+
+  // Extract user info from req.loggerInfo
+  let { orgId, email } = req.loggerInfo.user;
+  let orgName = `org${orgId}`;
+
+  // Construct the filter to pass to the service function
+  let filter = {
+    status,
+    pageSize: pageSize || 10, // Default pageSize to 10 if not provided
+    bookmark: bookmark || "", // Bookmark for pagination, if provided
+    orgName,
+    email
+  };
+
+  let data = await prescriptionService.queryPrescriptionsByStatus(filter);
+  if (data?.data) {
+    data.data = data.data.map((elm) => elm.Record);
+  }
+
+  res
+    .status(httpStatus.OK)
+    .send(
+      getSuccessResponse(httpStatus.OK, "Prescriptions fetched successfully", data)
+    );
+});
+
 const getPrescriptionsByDate = catchAsync(async (req, res) => {
   const { date } = req.body; // Only the date (YYYY-MM-DD) is expected in the request body
   console.log(date);
@@ -822,6 +854,7 @@ module.exports = {
   deleteAccessReq,
 
   getPrescriptions,
+  getActivePrescriptions,
   getPrescriptionsByDate,
   getUser,
   updateUser,
